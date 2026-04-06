@@ -1,0 +1,54 @@
+﻿docker :     static_layer:
+At line:1 char:1
++ docker logs --tail 20 frontend-proxy 2> proxy_logs.txt
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (    static_layer::S 
+   tring) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+      envoy:
+        resource_limits:
+          listener:
+            example_listener_name:
+              connection_limit: 10000
+[2026-04-03 21:13:54.616][8][info][main] 
+[source/server/server.cc:734] Starting admin HTTP server at 
+0.0.0.0:10000
+[2026-04-03 21:13:54.617][8][info][admin] 
+[source/server/admin/admin.cc:65] admin address: 0.0.0.0:10000
+[2026-04-03 21:13:54.619][8][info][config] 
+[source/server/configuration_impl.cc:173] loading tracing 
+configuration
+[2026-04-03 21:13:54.619][8][info][config] 
+[source/server/configuration_impl.cc:124] loading 0 static 
+secret(s)
+[2026-04-03 21:13:54.619][8][info][config] 
+[source/server/configuration_impl.cc:130] loading 9 cluster(s)
+[2026-04-03 21:13:54.706][8][info][config] 
+[source/server/configuration_impl.cc:140] loading 1 listener(s)
+[2026-04-03 21:13:54.726][8][info][tracing] 
+[source/common/tracing/tracer_manager_impl.cc:42] instantiating 
+a new tracer: envoy.tracers.opentelemetry
+[2026-04-03 21:13:54.730][8][info][config] 
+[source/server/configuration_impl.cc:156] loading stats 
+configuration
+[2026-04-03 21:13:54.734][8][warning][main] 
+[source/server/server.cc:970] There is no configured limit to 
+the number of allowed active downstream connections. Configure a 
+limit in 
+`envoy.resource_monitors.global_downstream_max_connections` 
+resource monitor.
+[2026-04-03 21:13:54.734][8][info][main] 
+[source/server/server.cc:1012] starting main dispatch loop
+[2026-04-03 21:14:06.838][8][info][runtime] 
+[source/common/runtime/runtime_impl.cc:555] RTDS has finished 
+initialization
+[2026-04-03 21:14:06.839][8][info][upstream] 
+[source/common/upstream/cluster_manager_impl.cc:264] cm init: 
+all clusters initialized
+[2026-04-03 21:14:06.841][8][info][main] 
+[source/server/server.cc:992] all clusters initialized. 
+initializing init manager
+[2026-04-03 21:14:06.843][8][info][config] 
+[source/common/listener_manager/listener_manager_impl.cc:948] 
+all dependencies initialized. starting workers

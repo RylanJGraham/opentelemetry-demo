@@ -1,0 +1,898 @@
+2026-04-04 00:49:33,335 | DEBUG    | asyncio | Using proactor: IocpProactor
+2026-04-04 00:49:33,382 | INFO     | explorer.server | 🌐 API server running at http://127.0.0.1:5100
+2026-04-04 00:49:33,395 | DEBUG    | aiosqlite | executing <function connect.<locals>.connector at 0x000002045AFA9BC0>
+2026-04-04 00:49:33,414 | DEBUG    | aiosqlite | operation <function connect.<locals>.connector at 0x000002045AFA9BC0> completed
+2026-04-04 00:49:33,425 | DEBUG    | aiosqlite | executing functools.partial(<built-in method executescript of sqlite3.Connection object at 0x000002045AF9CF40>, "\nCREATE TABLE IF NOT EXISTS screens (\n    id TEXT PRIMARY KEY,\n    name TEXT NOT NULL,\n    screen_type TEXT DEFAULT 'unknown',\n    description TEXT DEFAULT '',\n    screenshot_path TEXT,\n    element_count INTEGER DEFAULT 0,\n    first_seen REAL NOT NULL,\n    last_seen REAL NOT NULL,\n    visit_count INTEGER DEFAULT 1,\n    fully_explored INTEGER DEFAULT 0\n);\n\nCREATE TABLE IF NOT EXISTS elements (\n    id TEXT PRIMARY KEY,\n    screen_id TEXT NOT NULL,\n    element_type TEXT NOT NULL,\n    label TEXT DEFAULT '',\n    description TEXT DEFAULT '',\n    x INTEGER NOT NULL,\n    y INTEGER NOT NULL,\n    width INTEGER DEFAULT 0,\n    height INTEGER DEFAULT 0,\n    interacted INTEGER DEFAULT 0,\n    interaction_result TEXT DEFAULT '',\n    FOREIGN KEY (screen_id) REFERENCES screens(id)\n);\n\nCREATE TABLE IF NOT EXISTS transitions (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    from_screen_id TEXT NOT NULL,\n    element_id TEXT,\n    to_screen_id TEXT NOT NULL,\n    action_type TEXT NOT NULL,\n    action_detail TEXT DEFAULT '',\n    timestamp REAL NOT NULL,\n    FOREIGN KEY (from_screen_id) REFERENCES screens(id),\n    FOREIGN KEY (to_screen_id) REFERENCES screens(id)\n);\n\nCREATE TABLE IF NOT EXISTS exploration_log (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    action_type TEXT NOT NULL,\n    screen_id TEXT,\n    element_id TEXT,\n    detail TEXT DEFAULT '',\n    timestamp REAL NOT NULL\n);\n\nCREATE INDEX IF NOT EXISTS idx_elements_screen ON elements(screen_id);\nCREATE INDEX IF NOT EXISTS idx_transitions_from ON transitions(from_screen_id);\nCREATE INDEX IF NOT EXISTS idx_transitions_to ON transitions(to_screen_id);\n")
+2026-04-04 00:49:33,526 | DEBUG    | aiosqlite | operation functools.partial(<built-in method executescript of sqlite3.Connection object at 0x000002045AF9CF40>, "\nCREATE TABLE IF NOT EXISTS screens (\n    id TEXT PRIMARY KEY,\n    name TEXT NOT NULL,\n    screen_type TEXT DEFAULT 'unknown',\n    description TEXT DEFAULT '',\n    screenshot_path TEXT,\n    element_count INTEGER DEFAULT 0,\n    first_seen REAL NOT NULL,\n    last_seen REAL NOT NULL,\n    visit_count INTEGER DEFAULT 1,\n    fully_explored INTEGER DEFAULT 0\n);\n\nCREATE TABLE IF NOT EXISTS elements (\n    id TEXT PRIMARY KEY,\n    screen_id TEXT NOT NULL,\n    element_type TEXT NOT NULL,\n    label TEXT DEFAULT '',\n    description TEXT DEFAULT '',\n    x INTEGER NOT NULL,\n    y INTEGER NOT NULL,\n    width INTEGER DEFAULT 0,\n    height INTEGER DEFAULT 0,\n    interacted INTEGER DEFAULT 0,\n    interaction_result TEXT DEFAULT '',\n    FOREIGN KEY (screen_id) REFERENCES screens(id)\n);\n\nCREATE TABLE IF NOT EXISTS transitions (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    from_screen_id TEXT NOT NULL,\n    element_id TEXT,\n    to_screen_id TEXT NOT NULL,\n    action_type TEXT NOT NULL,\n    action_detail TEXT DEFAULT '',\n    timestamp REAL NOT NULL,\n    FOREIGN KEY (from_screen_id) REFERENCES screens(id),\n    FOREIGN KEY (to_screen_id) REFERENCES screens(id)\n);\n\nCREATE TABLE IF NOT EXISTS exploration_log (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    action_type TEXT NOT NULL,\n    screen_id TEXT,\n    element_id TEXT,\n    detail TEXT DEFAULT '',\n    timestamp REAL NOT NULL\n);\n\nCREATE INDEX IF NOT EXISTS idx_elements_screen ON elements(screen_id);\nCREATE INDEX IF NOT EXISTS idx_transitions_from ON transitions(from_screen_id);\nCREATE INDEX IF NOT EXISTS idx_transitions_to ON transitions(to_screen_id);\n") completed
+2026-04-04 00:49:33,539 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:49:33,546 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:49:33,551 | INFO     | explorer.mcp | 🔌 Connecting to Mobile MCP server...
+2026-04-04 00:49:33,798 | INFO     | explorer.server | 📡 WebSocket client connected (1 total)
+2026-04-04 00:49:37,134 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', [])
+2026-04-04 00:49:37,215 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', []) completed
+2026-04-04 00:49:37,241 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B027840>)
+2026-04-04 00:49:37,262 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B027840>) completed
+2026-04-04 00:49:37,304 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B027840>)
+2026-04-04 00:49:37,318 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B027840>) completed
+2026-04-04 00:49:37,329 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', [])
+2026-04-04 00:49:37,347 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', []) completed
+2026-04-04 00:49:37,359 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:37,387 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:37,407 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:37,424 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:37,431 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:49:37 +0200] "GET /api/graph HTTP/1.1" 200 283 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:49:46,367 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', [])
+2026-04-04 00:49:46,380 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', []) completed
+2026-04-04 00:49:46,392 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:46,403 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:46,415 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:46,430 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:46,438 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', [])
+2026-04-04 00:49:46,458 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', []) completed
+2026-04-04 00:49:46,470 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:46,482 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:46,495 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:46,507 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:46,515 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:49:46 +0200] "GET /api/graph HTTP/1.1" 200 283 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:49:49,008 | INFO     | explorer.mcp | ✅ Connected! Available tools: mobile_install_app, mobile_press_button, mobile_get_orientation, mobile_list_elements_on_screen, mobile_take_screenshot, mobile_list_apps, mobile_swipe_on_screen, mobile_open_url, mobile_terminate_app, mobile_type_keys, mobile_get_screen_size, mobile_click_on_screen_at_coordinates, mobile_start_screen_recording, mobile_uninstall_app, mobile_list_available_devices, mobile_stop_screen_recording, mobile_launch_app, mobile_save_screenshot, mobile_set_orientation, mobile_long_press_on_screen_at_coordinates, mobile_double_tap_on_screen
+2026-04-04 00:49:50,876 | DEBUG    | explorer.mcp | Device list response: {"devices":[{"id":"emulator-5554","name":"Pixel 4 API 35","platform":"android","type":"emulator","version":"15","state":"online"}]}
+2026-04-04 00:49:50,881 | INFO     | explorer.mcp | 📱 Using device: emulator-5554
+2026-04-04 00:49:50,891 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', [])
+2026-04-04 00:49:50,898 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', []) completed
+2026-04-04 00:49:50,910 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:50,923 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:50,931 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:50,938 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_take_screenshot({'device': 'emulator-5554'})
+2026-04-04 00:49:50,943 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:53,327 | DEBUG    | explorer.mcp |   Content item: type=image, attrs=['annotations', 'construct', 'copy', 'data', 'dict', 'from_orm', 'json', 'meta', 'mimeType', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:49:53,351 | DEBUG    | explorer.mcp | Screenshot result type: <class 'dict'>, preview: (dict/bytes)
+2026-04-04 00:49:53,360 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_list_elements_on_screen({'device': 'emulator-5554'})
+2026-04-04 00:49:56,366 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', [])
+2026-04-04 00:49:56,380 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', []) completed
+2026-04-04 00:49:56,392 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:56,400 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:56,407 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:56,415 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:56,423 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', [])
+2026-04-04 00:49:56,434 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', []) completed
+2026-04-04 00:49:56,442 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:56,453 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:56,470 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:56,478 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:56,486 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:49:56 +0200] "GET /api/graph HTTP/1.1" 200 283 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:49:58,259 | DEBUG    | explorer.mcp |   Content item: type=text, attrs=['annotations', 'construct', 'copy', 'dict', 'from_orm', 'json', 'meta', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'text', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:49:58,407 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:49:58,412 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:49:58,417 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:49:58,422 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:49:58,428 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:49:58,743 | DEBUG    | httpcore.connection | connect_tcp.started host='openrouter.ai' port=443 local_address=None timeout=60.0 socket_options=None
+2026-04-04 00:49:58,812 | DEBUG    | httpcore.connection | connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002045B086690>
+2026-04-04 00:49:58,818 | DEBUG    | httpcore.connection | start_tls.started ssl_context=<ssl.SSLContext object at 0x000002045AF719D0> server_hostname='openrouter.ai' timeout=60.0
+2026-04-04 00:49:58,870 | DEBUG    | httpcore.connection | start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002045AFB0650>
+2026-04-04 00:49:58,881 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:49:58,887 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:49:58,892 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:49:58,899 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:49:58,908 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:49:59,170 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:01 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba13df8ca28ef-MAD')])
+2026-04-04 00:49:59,184 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:49:59,192 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:49:59,197 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:49:59,205 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:49:59,210 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:49:59,217 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 2048 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:49:59,224 | ERROR    | explorer.vision | Screen analysis failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:49:59,234 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_004959_230288',))
+2026-04-04 00:49:59,241 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_004959_230288',)) completed
+2026-04-04 00:49:59,249 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:59,255 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:59,261 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:49:59,267 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:49:59,273 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO screens (id, name, screen_type, description, screenshot_path,\n                   element_count, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', ('20260404_004959_230288', 'Analysis Failed', 'error', "Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402", '20260404_004959_230288.png', 0, 1775256599.2336104, 1775256599.2336104))
+2026-04-04 00:49:59,285 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO screens (id, name, screen_type, description, screenshot_path,\n                   element_count, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', ('20260404_004959_230288', 'Analysis Failed', 'error', "Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402", '20260404_004959_230288.png', 0, 1775256599.2336104, 1775256599.2336104)) completed
+2026-04-04 00:49:59,294 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:49:59,304 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:49:59,311 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_004959_230288',))
+2026-04-04 00:49:59,324 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_004959_230288',)) completed
+2026-04-04 00:49:59,343 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A51C0>)
+2026-04-04 00:49:59,356 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A51C0>) completed
+2026-04-04 00:49:59,363 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A51C0>)
+2026-04-04 00:49:59,370 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A51C0>) completed
+2026-04-04 00:49:59,384 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', [])
+2026-04-04 00:49:59,395 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', []) completed
+2026-04-04 00:49:59,412 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:49:59,423 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:49:59,442 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:49:59,456 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:49:59,462 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? AND interacted = 0 ORDER BY y, x', ('20260404_004959_230288',))
+2026-04-04 00:49:59,477 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? AND interacted = 0 ORDER BY y, x', ('20260404_004959_230288',)) completed
+2026-04-04 00:49:59,489 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:49:59,498 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:49:59,509 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:49:59,518 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:49:59,526 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_004959_230288',))
+2026-04-04 00:49:59,536 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_004959_230288',)) completed
+2026-04-04 00:49:59,546 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:49:59,558 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:49:59,565 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:49:59,573 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:49:59,584 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_004959_230288',))
+2026-04-04 00:49:59,599 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_004959_230288',)) completed
+2026-04-04 00:49:59,607 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:49:59,613 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:49:59,620 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:49:59,631 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:49:59,638 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_swipe_on_screen({'startX': 540, 'startY': 1500, 'endX': 540, 'endY': 500, 'duration': 300, 'device': 'emulator-5554'})
+2026-04-04 00:49:59,668 | DEBUG    | explorer.mcp |   Content item: type=text, attrs=['annotations', 'construct', 'copy', 'dict', 'from_orm', 'json', 'meta', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'text', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:49:59,683 | DEBUG    | explorer.mcp | 👆 Swiped from (540,1500) to (540,500)
+2026-04-04 00:50:01,207 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO exploration_log (action_type, screen_id, element_id, detail, timestamp)\n               VALUES (?, ?, ?, ?, ?)', ('swipe', '20260404_004959_230288', '', 'No unexplored elements visible, scrolling to find more', 1775256601.2074857))
+2026-04-04 00:50:01,227 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO exploration_log (action_type, screen_id, element_id, detail, timestamp)\n               VALUES (?, ?, ?, ?, ?)', ('swipe', '20260404_004959_230288', '', 'No unexplored elements visible, scrolling to find more', 1775256601.2074857)) completed
+2026-04-04 00:50:01,241 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:50:01,284 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:50:01,329 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', [])
+2026-04-04 00:50:01,394 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', []) completed
+2026-04-04 00:50:01,524 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B071740>)
+2026-04-04 00:50:01,568 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B071740>) completed
+2026-04-04 00:50:01,610 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B071740>)
+2026-04-04 00:50:01,644 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B071740>) completed
+2026-04-04 00:50:01,649 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_take_screenshot({'device': 'emulator-5554'})
+2026-04-04 00:50:05,354 | DEBUG    | explorer.mcp |   Content item: type=image, attrs=['annotations', 'construct', 'copy', 'data', 'dict', 'from_orm', 'json', 'meta', 'mimeType', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:50:05,368 | DEBUG    | explorer.mcp | Screenshot result type: <class 'dict'>, preview: (dict/bytes)
+2026-04-04 00:50:05,377 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_list_elements_on_screen({'device': 'emulator-5554'})
+2026-04-04 00:50:06,367 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', [])
+2026-04-04 00:50:06,381 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', []) completed
+2026-04-04 00:50:06,400 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B071740>)
+2026-04-04 00:50:06,421 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B071740>) completed
+2026-04-04 00:50:06,430 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B071740>)
+2026-04-04 00:50:06,440 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B071740>) completed
+2026-04-04 00:50:06,450 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', [])
+2026-04-04 00:50:06,474 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', []) completed
+2026-04-04 00:50:06,490 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B071740>)
+2026-04-04 00:50:06,497 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B071740>) completed
+2026-04-04 00:50:06,512 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B071740>)
+2026-04-04 00:50:06,525 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B071740>) completed
+2026-04-04 00:50:06,535 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_004959_230288',))
+2026-04-04 00:50:06,547 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_004959_230288',)) completed
+2026-04-04 00:50:06,556 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B071740>)
+2026-04-04 00:50:06,567 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B071740>) completed
+2026-04-04 00:50:06,575 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B071740>)
+2026-04-04 00:50:06,589 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:06 +0200] "GET /api/graph HTTP/1.1" 200 757 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:06,597 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B071740>) completed
+2026-04-04 00:50:10,111 | DEBUG    | explorer.mcp |   Content item: type=text, attrs=['annotations', 'construct', 'copy', 'dict', 'from_orm', 'json', 'meta', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'text', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:50:10,125 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:10,140 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:10,150 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:10,158 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:10,167 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:10,423 | DEBUG    | httpcore.connection | close.started
+2026-04-04 00:50:10,436 | DEBUG    | httpcore.connection | close.complete
+2026-04-04 00:50:10,454 | DEBUG    | httpcore.connection | connect_tcp.started host='openrouter.ai' port=443 local_address=None timeout=60.0 socket_options=None
+2026-04-04 00:50:10,484 | DEBUG    | httpcore.connection | connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002045AD41B80>
+2026-04-04 00:50:10,492 | DEBUG    | httpcore.connection | start_tls.started ssl_context=<ssl.SSLContext object at 0x000002045AF719D0> server_hostname='openrouter.ai' timeout=60.0
+2026-04-04 00:50:10,532 | DEBUG    | httpcore.connection | start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002045B1876E0>
+2026-04-04 00:50:10,542 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:10,548 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:10,554 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:10,561 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:10,568 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:10,649 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:13 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba186cee77dd7-MAD')])
+2026-04-04 00:50:10,665 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:10,672 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:10,680 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:10,687 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:10,692 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:10,704 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 2048 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:10,712 | ERROR    | explorer.vision | Screen analysis failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:10,719 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:10,724 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:10,729 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:10,734 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:10,741 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:10,982 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:10,987 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:10,993 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:10,997 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:11,000 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:11,257 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:11,265 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:11,274 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:11,281 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:11,285 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:11,348 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:13 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba18b6aa97dd7-MAD')])
+2026-04-04 00:50:11,359 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:11,366 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:11,373 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:11,382 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:11,385 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:11,395 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 256 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:11,406 | ERROR    | explorer.vision | Screen comparison failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:11,422 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005011_415113',))
+2026-04-04 00:50:11,439 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005011_415113',)) completed
+2026-04-04 00:50:11,450 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:11,461 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:11,468 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:11,477 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:11,483 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO screens (id, name, screen_type, description, screenshot_path,\n                   element_count, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', ('20260404_005011_415113', 'Analysis Failed', 'error', "Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402", '20260404_005011_415113.png', 0, 1775256611.4211736, 1775256611.4211736))
+2026-04-04 00:50:11,495 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO screens (id, name, screen_type, description, screenshot_path,\n                   element_count, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', ('20260404_005011_415113', 'Analysis Failed', 'error', "Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402", '20260404_005011_415113.png', 0, 1775256611.4211736, 1775256611.4211736)) completed
+2026-04-04 00:50:11,505 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:50:11,519 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:50:11,526 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO transitions (from_screen_id, element_id, to_screen_id,\n               action_type, action_detail, timestamp) VALUES (?, ?, ?, ?, ?, ?)', ('20260404_004959_230288', None, '20260404_005011_415113', 'navigate', 'Discovered: Analysis Failed', 1775256611.5263193))
+2026-04-04 00:50:11,541 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO transitions (from_screen_id, element_id, to_screen_id,\n               action_type, action_detail, timestamp) VALUES (?, ?, ?, ?, ?, ?)', ('20260404_004959_230288', None, '20260404_005011_415113', 'navigate', 'Discovered: Analysis Failed', 1775256611.5263193)) completed
+2026-04-04 00:50:11,548 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:50:11,566 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:50:11,575 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005011_415113',))
+2026-04-04 00:50:11,584 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005011_415113',)) completed
+2026-04-04 00:50:11,594 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A7D40>)
+2026-04-04 00:50:11,602 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A7D40>) completed
+2026-04-04 00:50:11,610 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7D40>)
+2026-04-04 00:50:11,622 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7D40>) completed
+2026-04-04 00:50:11,637 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', [])
+2026-04-04 00:50:11,651 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', []) completed
+2026-04-04 00:50:11,661 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A7D40>)
+2026-04-04 00:50:11,671 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A7D40>) completed
+2026-04-04 00:50:11,678 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7D40>)
+2026-04-04 00:50:11,687 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7D40>) completed
+2026-04-04 00:50:11,698 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? AND interacted = 0 ORDER BY y, x', ('20260404_005011_415113',))
+2026-04-04 00:50:11,710 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? AND interacted = 0 ORDER BY y, x', ('20260404_005011_415113',)) completed
+2026-04-04 00:50:11,721 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:50:11,729 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:50:11,735 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:50:11,746 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:50:11,751 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005011_415113',))
+2026-04-04 00:50:11,762 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005011_415113',)) completed
+2026-04-04 00:50:11,769 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:11,774 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:11,782 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:11,790 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:11,796 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005011_415113',))
+2026-04-04 00:50:11,805 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005011_415113',)) completed
+2026-04-04 00:50:11,811 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A7D40>)
+2026-04-04 00:50:11,819 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A7D40>) completed
+2026-04-04 00:50:11,827 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7D40>)
+2026-04-04 00:50:11,835 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7D40>) completed
+2026-04-04 00:50:11,849 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_swipe_on_screen({'startX': 540, 'startY': 1500, 'endX': 540, 'endY': 500, 'duration': 300, 'device': 'emulator-5554'})
+2026-04-04 00:50:11,879 | DEBUG    | explorer.mcp |   Content item: type=text, attrs=['annotations', 'construct', 'copy', 'dict', 'from_orm', 'json', 'meta', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'text', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:50:11,895 | DEBUG    | explorer.mcp | 👆 Swiped from (540,1500) to (540,500)
+2026-04-04 00:50:13,424 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO exploration_log (action_type, screen_id, element_id, detail, timestamp)\n               VALUES (?, ?, ?, ?, ?)', ('swipe', '20260404_005011_415113', '', 'No unexplored elements visible, scrolling to find more', 1775256613.424748))
+2026-04-04 00:50:13,457 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO exploration_log (action_type, screen_id, element_id, detail, timestamp)\n               VALUES (?, ?, ?, ?, ?)', ('swipe', '20260404_005011_415113', '', 'No unexplored elements visible, scrolling to find more', 1775256613.424748)) completed
+2026-04-04 00:50:13,472 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:50:13,492 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:50:13,506 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', [])
+2026-04-04 00:50:13,521 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', []) completed
+2026-04-04 00:50:13,530 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A7D40>)
+2026-04-04 00:50:13,538 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A7D40>) completed
+2026-04-04 00:50:13,547 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7D40>)
+2026-04-04 00:50:13,556 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_take_screenshot({'device': 'emulator-5554'})
+2026-04-04 00:50:13,562 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7D40>) completed
+2026-04-04 00:50:16,359 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', [])
+2026-04-04 00:50:16,368 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', []) completed
+2026-04-04 00:50:16,374 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A7D40>)
+2026-04-04 00:50:16,381 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A7D40>) completed
+2026-04-04 00:50:16,388 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7D40>)
+2026-04-04 00:50:16,398 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7D40>) completed
+2026-04-04 00:50:16,407 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', [])
+2026-04-04 00:50:16,470 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', []) completed
+2026-04-04 00:50:16,498 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A7D40>)
+2026-04-04 00:50:16,515 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A7D40>) completed
+2026-04-04 00:50:16,546 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7D40>)
+2026-04-04 00:50:16,560 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7D40>) completed
+2026-04-04 00:50:16,572 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_004959_230288',))
+2026-04-04 00:50:16,588 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_004959_230288',)) completed
+2026-04-04 00:50:16,604 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:50:16,618 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:50:16,644 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:50:16,672 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:50:16,705 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005011_415113',))
+2026-04-04 00:50:16,721 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005011_415113',)) completed
+2026-04-04 00:50:16,746 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A7240>)
+2026-04-04 00:50:16,772 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A7240>) completed
+2026-04-04 00:50:16,806 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7240>)
+2026-04-04 00:50:16,838 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A7240>) completed
+2026-04-04 00:50:16,850 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:16 +0200] "GET /api/graph HTTP/1.1" 200 1443 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:17,388 | DEBUG    | explorer.mcp |   Content item: type=image, attrs=['annotations', 'construct', 'copy', 'data', 'dict', 'from_orm', 'json', 'meta', 'mimeType', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:50:17,396 | DEBUG    | explorer.mcp | Screenshot result type: <class 'dict'>, preview: (dict/bytes)
+2026-04-04 00:50:17,402 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_list_elements_on_screen({'device': 'emulator-5554'})
+2026-04-04 00:50:21,790 | DEBUG    | explorer.mcp |   Content item: type=text, attrs=['annotations', 'construct', 'copy', 'dict', 'from_orm', 'json', 'meta', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'text', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:50:21,798 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:21,803 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:21,815 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:21,820 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:21,827 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:22,069 | DEBUG    | httpcore.connection | close.started
+2026-04-04 00:50:22,074 | DEBUG    | httpcore.connection | close.complete
+2026-04-04 00:50:22,082 | DEBUG    | httpcore.connection | connect_tcp.started host='openrouter.ai' port=443 local_address=None timeout=60.0 socket_options=None
+2026-04-04 00:50:22,115 | DEBUG    | httpcore.connection | connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002045B1C2B70>
+2026-04-04 00:50:22,119 | DEBUG    | httpcore.connection | start_tls.started ssl_context=<ssl.SSLContext object at 0x000002045AF719D0> server_hostname='openrouter.ai' timeout=60.0
+2026-04-04 00:50:22,156 | DEBUG    | httpcore.connection | start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002045B087920>
+2026-04-04 00:50:22,166 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:22,172 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:22,178 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:22,186 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:22,194 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:22,295 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:24 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba1cf7b4986a3-MAD')])
+2026-04-04 00:50:22,305 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:22,309 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:22,314 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:22,322 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:22,325 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:22,335 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 2048 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:22,342 | ERROR    | explorer.vision | Screen analysis failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:22,350 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:22,354 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:22,360 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:22,366 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:22,369 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:22,644 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:22,650 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:22,657 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:22,663 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:22,671 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:22,950 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:22,958 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:22,964 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:22,974 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:22,978 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:23,049 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:25 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba1d48ab886a3-MAD')])
+2026-04-04 00:50:23,061 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:23,066 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:23,072 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:23,081 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:23,085 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:23,092 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 256 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:23,099 | ERROR    | explorer.vision | Screen comparison failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:23,104 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:23,109 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:23,115 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:23,121 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:23,124 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:23,362 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:23,366 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:23,374 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:23,379 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:23,387 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:23,745 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:23,755 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:23,768 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:23,778 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:23,784 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:23,823 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:26 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba1d97a3a86a3-MAD')])
+2026-04-04 00:50:23,832 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:23,837 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:23,842 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:23,848 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:23,851 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:23,859 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 256 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:23,863 | ERROR    | explorer.vision | Screen comparison failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:23,872 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005023_868059',))
+2026-04-04 00:50:23,883 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005023_868059',)) completed
+2026-04-04 00:50:23,893 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0705C0>)
+2026-04-04 00:50:23,901 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0705C0>) completed
+2026-04-04 00:50:23,909 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0705C0>)
+2026-04-04 00:50:23,915 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0705C0>) completed
+2026-04-04 00:50:23,924 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO screens (id, name, screen_type, description, screenshot_path,\n                   element_count, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', ('20260404_005023_868059', 'Analysis Failed', 'error', "Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402", '20260404_005023_868059.png', 0, 1775256623.8726797, 1775256623.8726797))
+2026-04-04 00:50:23,953 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO screens (id, name, screen_type, description, screenshot_path,\n                   element_count, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', ('20260404_005023_868059', 'Analysis Failed', 'error', "Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402", '20260404_005023_868059.png', 0, 1775256623.8726797, 1775256623.8726797)) completed
+2026-04-04 00:50:23,964 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:50:23,977 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:50:23,985 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO transitions (from_screen_id, element_id, to_screen_id,\n               action_type, action_detail, timestamp) VALUES (?, ?, ?, ?, ?, ?)', ('20260404_005011_415113', None, '20260404_005023_868059', 'navigate', 'Discovered: Analysis Failed', 1775256623.9845128))
+2026-04-04 00:50:23,999 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO transitions (from_screen_id, element_id, to_screen_id,\n               action_type, action_detail, timestamp) VALUES (?, ?, ?, ?, ?, ?)', ('20260404_005011_415113', None, '20260404_005023_868059', 'navigate', 'Discovered: Analysis Failed', 1775256623.9845128)) completed
+2026-04-04 00:50:24,011 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:50:24,024 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:50:24,031 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005023_868059',))
+2026-04-04 00:50:24,039 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005023_868059',)) completed
+2026-04-04 00:50:24,044 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:24,052 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:24,060 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:24,066 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:24,084 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', [])
+2026-04-04 00:50:24,099 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', []) completed
+2026-04-04 00:50:24,114 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:24,125 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:24,133 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:24,139 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:24,146 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? AND interacted = 0 ORDER BY y, x', ('20260404_005023_868059',))
+2026-04-04 00:50:24,153 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? AND interacted = 0 ORDER BY y, x', ('20260404_005023_868059',)) completed
+2026-04-04 00:50:24,164 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:24,174 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:24,179 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:24,186 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:24,196 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005023_868059',))
+2026-04-04 00:50:24,209 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005023_868059',)) completed
+2026-04-04 00:50:24,219 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:24,227 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:24,237 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:24,248 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:24,256 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005023_868059',))
+2026-04-04 00:50:24,264 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005023_868059',)) completed
+2026-04-04 00:50:24,274 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:24,283 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:24,292 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:24,300 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:24,317 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_swipe_on_screen({'startX': 540, 'startY': 1500, 'endX': 540, 'endY': 500, 'duration': 300, 'device': 'emulator-5554'})
+2026-04-04 00:50:24,351 | DEBUG    | explorer.mcp |   Content item: type=text, attrs=['annotations', 'construct', 'copy', 'dict', 'from_orm', 'json', 'meta', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'text', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:50:24,374 | DEBUG    | explorer.mcp | 👆 Swiped from (540,1500) to (540,500)
+2026-04-04 00:50:25,895 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO exploration_log (action_type, screen_id, element_id, detail, timestamp)\n               VALUES (?, ?, ?, ?, ?)', ('swipe', '20260404_005023_868059', '', 'No unexplored elements visible, scrolling to find more', 1775256625.895156))
+2026-04-04 00:50:25,928 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO exploration_log (action_type, screen_id, element_id, detail, timestamp)\n               VALUES (?, ?, ?, ?, ?)', ('swipe', '20260404_005023_868059', '', 'No unexplored elements visible, scrolling to find more', 1775256625.895156)) completed
+2026-04-04 00:50:25,937 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:50:25,956 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:50:25,963 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', [])
+2026-04-04 00:50:25,970 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', []) completed
+2026-04-04 00:50:25,978 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:25,985 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:25,992 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:25,998 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_take_screenshot({'device': 'emulator-5554'})
+2026-04-04 00:50:26,003 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:26,370 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', [])
+2026-04-04 00:50:26,389 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', []) completed
+2026-04-04 00:50:26,407 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:26,417 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:26,429 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:26,439 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:26,485 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', [])
+2026-04-04 00:50:26,549 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', []) completed
+2026-04-04 00:50:26,574 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:26,596 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:26,609 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:26,632 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:26,650 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_004959_230288',))
+2026-04-04 00:50:26,660 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_004959_230288',)) completed
+2026-04-04 00:50:26,672 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:26,681 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:26,691 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:26,700 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:26,706 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005011_415113',))
+2026-04-04 00:50:26,714 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005011_415113',)) completed
+2026-04-04 00:50:26,723 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:26,734 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:26,742 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:26,763 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:26,770 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005023_868059',))
+2026-04-04 00:50:26,784 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005023_868059',)) completed
+2026-04-04 00:50:26,791 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:26,804 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:26,810 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:26,826 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:26,839 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:26 +0200] "GET /api/graph HTTP/1.1" 200 2130 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:28,659 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005023_868059',))
+2026-04-04 00:50:28,674 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005023_868059',)) completed
+2026-04-04 00:50:28,684 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:28,692 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:28,699 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:28,709 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:28,721 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005023_868059',))
+2026-04-04 00:50:28,733 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005023_868059',)) completed
+2026-04-04 00:50:28,742 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:28,753 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:28,762 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:28,772 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:28,783 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions WHERE from_screen_id = ?', ('20260404_005023_868059',))
+2026-04-04 00:50:28,801 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions WHERE from_screen_id = ?', ('20260404_005023_868059',)) completed
+2026-04-04 00:50:28,820 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:28,833 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:28,843 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:28,854 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:28,865 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:28 +0200] "GET /api/screens/20260404_005023_868059 HTTP/1.1" 200 672 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:28,944 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:28 +0200] "GET /api/screenshots/20260404_005023_868059.png HTTP/1.1" 200 258 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:29,618 | DEBUG    | explorer.mcp |   Content item: type=image, attrs=['annotations', 'construct', 'copy', 'data', 'dict', 'from_orm', 'json', 'meta', 'mimeType', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:50:29,632 | DEBUG    | explorer.mcp | Screenshot result type: <class 'dict'>, preview: (dict/bytes)
+2026-04-04 00:50:29,647 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_list_elements_on_screen({'device': 'emulator-5554'})
+2026-04-04 00:50:33,255 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', [])
+2026-04-04 00:50:33,266 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', []) completed
+2026-04-04 00:50:33,277 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:33,309 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:33 +0200] "GET /api/screenshots/20260404_004635_828087.png HTTP/1.1" 404 218 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:33,329 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:33,338 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:33,353 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:33,364 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:33 +0200] "GET /api/screens HTTP/1.1" 200 1560 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:33,431 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:33 +0200] "GET /api/screenshots/20260404_004959_230288.png HTTP/1.1" 200 258 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:33,454 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:33 +0200] "GET /api/screenshots/20260404_005011_415113.png HTTP/1.1" 200 258 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:34,012 | DEBUG    | explorer.mcp |   Content item: type=text, attrs=['annotations', 'construct', 'copy', 'dict', 'from_orm', 'json', 'meta', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'text', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:50:34,025 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:34,030 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:34,033 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:34,042 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:34,047 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:34,316 | DEBUG    | httpcore.connection | close.started
+2026-04-04 00:50:34,327 | DEBUG    | httpcore.connection | close.complete
+2026-04-04 00:50:34,340 | DEBUG    | httpcore.connection | connect_tcp.started host='openrouter.ai' port=443 local_address=None timeout=60.0 socket_options=None
+2026-04-04 00:50:34,375 | DEBUG    | httpcore.connection | connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002045B1CB110>
+2026-04-04 00:50:34,414 | DEBUG    | httpcore.connection | start_tls.started ssl_context=<ssl.SSLContext object at 0x000002045AF719D0> server_hostname='openrouter.ai' timeout=60.0
+2026-04-04 00:50:34,447 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:34 +0200] "GET /api/stories HTTP/1.1" 200 179 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:34,502 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', [])
+2026-04-04 00:50:34,525 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', []) completed
+2026-04-04 00:50:34,548 | DEBUG    | httpcore.connection | start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002045B1CA7E0>
+2026-04-04 00:50:34,571 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:34,581 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:34,601 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:34,611 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:34,617 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:34,629 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:34,635 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:34,645 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:34,656 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:34,662 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:34 +0200] "GET /api/screens HTTP/1.1" 200 1560 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:34,731 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:37 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba21d2bbe0362-MAD')])
+2026-04-04 00:50:34,757 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:34,770 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:34,778 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:34,808 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:34,822 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:34,837 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 2048 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:34,853 | ERROR    | explorer.vision | Screen analysis failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:34,867 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:34,879 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:34,886 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:34,896 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:34,903 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:35,257 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:35,263 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:35,270 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:35,278 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:35,286 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:35,763 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:35,777 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:35,789 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:35,803 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:35,812 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:35,863 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:38 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba2248e0f0362-MAD')])
+2026-04-04 00:50:35,883 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:35,893 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:35,903 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:35,918 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:35,926 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:35,935 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 256 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:35,947 | ERROR    | explorer.vision | Screen comparison failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:35,954 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:35,962 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:35,966 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:35,973 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:35,980 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:36,296 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:36,300 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:36,306 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:36,312 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:36,316 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:36,623 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:36,629 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:36,632 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:36,641 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:36,647 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:36,678 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:39 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba229daed0362-MAD')])
+2026-04-04 00:50:36,692 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:36,698 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:36,705 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:36,715 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:36,721 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:36,729 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 256 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:36,738 | ERROR    | explorer.vision | Screen comparison failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:36,744 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:36,749 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:36,755 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:36,759 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:36,763 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:37,026 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:37,029 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:37,035 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:37,041 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:37,048 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:37,407 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:37,412 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:37,415 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:37,427 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:37,431 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:37,437 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', [])
+2026-04-04 00:50:37,443 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', []) completed
+2026-04-04 00:50:37,449 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:37,456 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:37,462 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>)
+2026-04-04 00:50:37,469 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:39 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba22ebe690362-MAD')])
+2026-04-04 00:50:37,491 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B073B40>) completed
+2026-04-04 00:50:37,520 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:37,559 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:37,582 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:37,596 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:37,604 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:37,618 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 256 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:37,631 | ERROR    | explorer.vision | Screen comparison failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:37,652 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005037_644989',))
+2026-04-04 00:50:37,664 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005037_644989',)) completed
+2026-04-04 00:50:37,687 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', [])
+2026-04-04 00:50:37,708 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', []) completed
+2026-04-04 00:50:37,731 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:37,746 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:37,760 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:37,783 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:37,798 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:37,819 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:37,832 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:37,850 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:37,866 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO screens (id, name, screen_type, description, screenshot_path,\n                   element_count, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', ('20260404_005037_644989', 'Analysis Failed', 'error', "Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402", '20260404_005037_644989.png', 0, 1775256637.6515796, 1775256637.6515796))
+2026-04-04 00:50:37,915 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO screens (id, name, screen_type, description, screenshot_path,\n                   element_count, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', ('20260404_005037_644989', 'Analysis Failed', 'error', "Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402", '20260404_005037_644989.png', 0, 1775256637.6515796, 1775256637.6515796)) completed
+2026-04-04 00:50:37,930 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_004959_230288',))
+2026-04-04 00:50:37,939 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_004959_230288',)) completed
+2026-04-04 00:50:37,945 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:50:37,956 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:50:37,962 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A4340>)
+2026-04-04 00:50:37,965 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A4340>) completed
+2026-04-04 00:50:37,972 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO transitions (from_screen_id, element_id, to_screen_id,\n               action_type, action_detail, timestamp) VALUES (?, ?, ?, ?, ?, ?)', ('20260404_005023_868059', None, '20260404_005037_644989', 'navigate', 'Discovered: Analysis Failed', 1775256637.9610164))
+2026-04-04 00:50:37,984 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO transitions (from_screen_id, element_id, to_screen_id,\n               action_type, action_detail, timestamp) VALUES (?, ?, ?, ?, ?, ?)', ('20260404_005023_868059', None, '20260404_005037_644989', 'navigate', 'Discovered: Analysis Failed', 1775256637.9610164)) completed
+2026-04-04 00:50:37,994 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A4340>)
+2026-04-04 00:50:38,000 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A4340>) completed
+2026-04-04 00:50:38,005 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:50:38,023 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:50:38,027 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005011_415113',))
+2026-04-04 00:50:38,033 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005011_415113',)) completed
+2026-04-04 00:50:38,044 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005037_644989',))
+2026-04-04 00:50:38,052 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005037_644989',)) completed
+2026-04-04 00:50:38,059 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:38,066 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:38,075 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A4340>)
+2026-04-04 00:50:38,083 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A4340>) completed
+2026-04-04 00:50:38,092 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:38,097 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:38,107 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A4340>)
+2026-04-04 00:50:38,116 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A4340>) completed
+2026-04-04 00:50:38,123 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005023_868059',))
+2026-04-04 00:50:38,132 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005023_868059',)) completed
+2026-04-04 00:50:38,151 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', [])
+2026-04-04 00:50:38,164 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', []) completed
+2026-04-04 00:50:38,170 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:38,178 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:38,184 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0721C0>)
+2026-04-04 00:50:38,192 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0721C0>) completed
+2026-04-04 00:50:38,196 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:38,203 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:38,210 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:37 +0200] "GET /api/graph HTTP/1.1" 200 2130 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:38,216 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0721C0>)
+2026-04-04 00:50:38,225 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0721C0>) completed
+2026-04-04 00:50:38,231 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? AND interacted = 0 ORDER BY y, x', ('20260404_005037_644989',))
+2026-04-04 00:50:38,240 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? AND interacted = 0 ORDER BY y, x', ('20260404_005037_644989',)) completed
+2026-04-04 00:50:38,248 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:38,255 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:38,263 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:38,272 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:38,279 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005037_644989',))
+2026-04-04 00:50:38,289 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005037_644989',)) completed
+2026-04-04 00:50:38,296 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:38,304 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:38,317 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:38,325 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:38,330 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005037_644989',))
+2026-04-04 00:50:38,338 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005037_644989',)) completed
+2026-04-04 00:50:38,346 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:38,353 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:38,362 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:38,371 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:38,382 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_swipe_on_screen({'startX': 540, 'startY': 1500, 'endX': 540, 'endY': 500, 'duration': 300, 'device': 'emulator-5554'})
+2026-04-04 00:50:38,399 | DEBUG    | explorer.mcp |   Content item: type=text, attrs=['annotations', 'construct', 'copy', 'dict', 'from_orm', 'json', 'meta', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'text', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:50:38,408 | DEBUG    | explorer.mcp | 👆 Swiped from (540,1500) to (540,500)
+2026-04-04 00:50:39,936 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO exploration_log (action_type, screen_id, element_id, detail, timestamp)\n               VALUES (?, ?, ?, ?, ?)', ('swipe', '20260404_005037_644989', '', 'No unexplored elements visible, scrolling to find more', 1775256639.9356053))
+2026-04-04 00:50:39,977 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO exploration_log (action_type, screen_id, element_id, detail, timestamp)\n               VALUES (?, ?, ?, ?, ?)', ('swipe', '20260404_005037_644989', '', 'No unexplored elements visible, scrolling to find more', 1775256639.9356053)) completed
+2026-04-04 00:50:40,006 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:50:40,033 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:50:40,044 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', [])
+2026-04-04 00:50:40,066 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', []) completed
+2026-04-04 00:50:40,096 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:40,129 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:40,143 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:40,161 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_take_screenshot({'device': 'emulator-5554'})
+2026-04-04 00:50:40,171 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:43,195 | DEBUG    | explorer.mcp |   Content item: type=image, attrs=['annotations', 'construct', 'copy', 'data', 'dict', 'from_orm', 'json', 'meta', 'mimeType', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:50:43,205 | DEBUG    | explorer.mcp | Screenshot result type: <class 'dict'>, preview: (dict/bytes)
+2026-04-04 00:50:43,213 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_list_elements_on_screen({'device': 'emulator-5554'})
+2026-04-04 00:50:46,365 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', [])
+2026-04-04 00:50:46,382 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens ORDER BY first_seen', []) completed
+2026-04-04 00:50:46,395 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:46,411 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:46,431 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:46,445 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:46,462 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', [])
+2026-04-04 00:50:46,484 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM transitions ORDER BY timestamp', []) completed
+2026-04-04 00:50:46,503 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:46,525 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:46,576 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:46,604 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:46,618 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_004959_230288',))
+2026-04-04 00:50:46,638 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_004959_230288',)) completed
+2026-04-04 00:50:46,651 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:46,666 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:46,680 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:46,697 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:46,714 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005011_415113',))
+2026-04-04 00:50:46,735 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005011_415113',)) completed
+2026-04-04 00:50:46,751 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:46,767 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:46,781 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:46,796 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:46,806 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005023_868059',))
+2026-04-04 00:50:46,816 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005023_868059',)) completed
+2026-04-04 00:50:46,826 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:46,837 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:46,852 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:46,864 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:46,872 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005037_644989',))
+2026-04-04 00:50:46,883 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005037_644989',)) completed
+2026-04-04 00:50:46,898 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:46,913 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:46,921 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>)
+2026-04-04 00:50:46,938 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A45C0>) completed
+2026-04-04 00:50:46,949 | INFO     | aiohttp.access | 127.0.0.1 [04/Apr/2026:00:50:46 +0200] "GET /api/graph HTTP/1.1" 200 2817 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-04 00:50:49,850 | DEBUG    | explorer.mcp |   Content item: type=text, attrs=['annotations', 'construct', 'copy', 'dict', 'from_orm', 'json', 'meta', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'text', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:50:49,871 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:49,882 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:49,895 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:49,903 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:49,916 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:50,340 | DEBUG    | httpcore.connection | close.started
+2026-04-04 00:50:50,350 | DEBUG    | httpcore.connection | close.complete
+2026-04-04 00:50:50,368 | DEBUG    | httpcore.connection | connect_tcp.started host='openrouter.ai' port=443 local_address=None timeout=60.0 socket_options=None
+2026-04-04 00:50:50,408 | DEBUG    | httpcore.connection | connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002045B0BAB10>
+2026-04-04 00:50:50,412 | DEBUG    | httpcore.connection | start_tls.started ssl_context=<ssl.SSLContext object at 0x000002045AF719D0> server_hostname='openrouter.ai' timeout=60.0
+2026-04-04 00:50:50,448 | DEBUG    | httpcore.connection | start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000002045B19BF80>
+2026-04-04 00:50:50,458 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:50,464 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:50,469 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:50,475 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:50,479 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:50,561 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:52 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba2804d1403d9-MAD')])
+2026-04-04 00:50:50,577 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:50,583 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:50,589 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:50,597 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:50,601 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:50,614 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 2048 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:50,624 | ERROR    | explorer.vision | Screen analysis failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:50,632 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:50,640 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:50,648 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:50,658 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:50,665 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:50,991 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:50,994 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:50,998 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:51,006 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:51,012 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:51,255 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:51,260 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:51,265 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:51,271 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:51,274 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:51,338 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:53 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba285683503d9-MAD')])
+2026-04-04 00:50:51,348 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:51,352 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:51,358 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:51,363 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:51,366 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:51,372 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 256 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:51,379 | ERROR    | explorer.vision | Screen comparison failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:51,383 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:51,388 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:51,393 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:51,398 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:51,402 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:51,679 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:51,682 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:51,689 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:51,695 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:51,701 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:52,030 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:52,036 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:52,039 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:52,048 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:52,056 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:52,102 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:54 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba28a3b6d03d9-MAD')])
+2026-04-04 00:50:52,112 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:52,118 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:52,124 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:52,133 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:52,143 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:52,156 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 256 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:52,164 | ERROR    | explorer.vision | Screen comparison failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:52,170 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:52,177 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:52,180 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:52,186 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:52,193 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:52,478 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:52,482 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:52,489 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:52,495 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:52,500 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:52,862 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:52,868 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:52,875 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:52,886 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:52,901 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:52,923 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:55 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba28f6e9b03d9-MAD')])
+2026-04-04 00:50:52,935 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:52,941 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:52,946 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:52,954 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:52,957 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:52,971 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 256 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:52,977 | ERROR    | explorer.vision | Screen comparison failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:52,984 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:52,991 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:52,996 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:52,999 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:53,007 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:53,257 | DEBUG    | PIL.PngImagePlugin | STREAM b'IHDR' 16 13
+2026-04-04 00:50:53,261 | DEBUG    | PIL.PngImagePlugin | STREAM b'sRGB' 41 1
+2026-04-04 00:50:53,266 | DEBUG    | PIL.PngImagePlugin | STREAM b'sBIT' 54 4
+2026-04-04 00:50:53,271 | DEBUG    | PIL.PngImagePlugin | b'sBIT' 54 4 (unknown)
+2026-04-04 00:50:53,278 | DEBUG    | PIL.PngImagePlugin | STREAM b'IDAT' 70 8192
+2026-04-04 00:50:53,567 | DEBUG    | httpcore.http11 | send_request_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:53,577 | DEBUG    | httpcore.http11 | send_request_headers.complete
+2026-04-04 00:50:53,589 | DEBUG    | httpcore.http11 | send_request_body.started request=<Request [b'POST']>
+2026-04-04 00:50:53,605 | DEBUG    | httpcore.http11 | send_request_body.complete
+2026-04-04 00:50:53,617 | DEBUG    | httpcore.http11 | receive_response_headers.started request=<Request [b'POST']>
+2026-04-04 00:50:53,642 | DEBUG    | httpcore.http11 | receive_response_headers.complete return_value=(b'HTTP/1.1', 402, b'Payment Required', [(b'Date', b'Fri, 03 Apr 2026 22:50:56 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Access-Control-Allow-Origin', b'*'), (b'Permissions-Policy', b'payment=(self "https://checkout.stripe.com" "https://connect-js.stripe.com" "https://js.stripe.com" "https://*.js.stripe.com" "https://hooks.stripe.com")'), (b'Referrer-Policy', b'no-referrer, strict-origin-when-cross-origin'), (b'X-Content-Type-Options', b'nosniff'), (b'Server', b'cloudflare'), (b'CF-RAY', b'9e6ba293e8fe03d9-MAD')])
+2026-04-04 00:50:53,654 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 402 Payment Required"
+2026-04-04 00:50:53,660 | DEBUG    | httpcore.http11 | receive_response_body.started request=<Request [b'POST']>
+2026-04-04 00:50:53,665 | DEBUG    | httpcore.http11 | receive_response_body.complete
+2026-04-04 00:50:53,676 | DEBUG    | httpcore.http11 | response_closed.started
+2026-04-04 00:50:53,680 | DEBUG    | httpcore.http11 | response_closed.complete
+2026-04-04 00:50:53,693 | ERROR    | explorer.vision | OpenRouter API error 402: {"error":{"message":"This request requires more credits, or fewer max_tokens. You requested up to 256 tokens, but can only afford 139. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit","code":402,"metadata":{"provider_name":null}},"user_id":"user_30Cm5dXo4bbS9kt5YkNUli4XMBN"}
+2026-04-04 00:50:53,705 | ERROR    | explorer.vision | Screen comparison failed: Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+2026-04-04 00:50:53,730 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005053_712882',))
+2026-04-04 00:50:53,741 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005053_712882',)) completed
+2026-04-04 00:50:53,751 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:53,761 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:53,768 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>)
+2026-04-04 00:50:53,776 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0256C0>) completed
+2026-04-04 00:50:53,782 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO screens (id, name, screen_type, description, screenshot_path,\n                   element_count, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', ('20260404_005053_712882', 'Analysis Failed', 'error', "Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402", '20260404_005053_712882.png', 0, 1775256653.7309806, 1775256653.7309806))
+2026-04-04 00:50:53,803 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO screens (id, name, screen_type, description, screenshot_path,\n                   element_count, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', ('20260404_005053_712882', 'Analysis Failed', 'error', "Client error '402 Payment Required' for url 'https://openrouter.ai/api/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402", '20260404_005053_712882.png', 0, 1775256653.7309806, 1775256653.7309806)) completed
+2026-04-04 00:50:53,812 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:50:53,831 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:50:53,841 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO transitions (from_screen_id, element_id, to_screen_id,\n               action_type, action_detail, timestamp) VALUES (?, ?, ?, ?, ?, ?)', ('20260404_005037_644989', None, '20260404_005053_712882', 'navigate', 'Discovered: Analysis Failed', 1775256653.8402352))
+2026-04-04 00:50:53,860 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'INSERT INTO transitions (from_screen_id, element_id, to_screen_id,\n               action_type, action_detail, timestamp) VALUES (?, ?, ?, ?, ?, ?)', ('20260404_005037_644989', None, '20260404_005053_712882', 'navigate', 'Discovered: Analysis Failed', 1775256653.8402352)) completed
+2026-04-04 00:50:53,872 | DEBUG    | aiosqlite | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>)
+2026-04-04 00:50:53,888 | DEBUG    | aiosqlite | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002045AF9CF40>) completed
+2026-04-04 00:50:53,898 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005053_712882',))
+2026-04-04 00:50:53,911 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005053_712882',)) completed
+2026-04-04 00:50:53,922 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A5140>)
+2026-04-04 00:50:53,938 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A5140>) completed
+2026-04-04 00:50:53,946 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A5140>)
+2026-04-04 00:50:53,956 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A5140>) completed
+2026-04-04 00:50:53,969 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', [])
+2026-04-04 00:50:53,984 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT COUNT(*) as cnt FROM screens', []) completed
+2026-04-04 00:50:53,999 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A5140>)
+2026-04-04 00:50:54,009 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0A5140>) completed
+2026-04-04 00:50:54,014 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A5140>)
+2026-04-04 00:50:54,027 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0A5140>) completed
+2026-04-04 00:50:54,038 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? AND interacted = 0 ORDER BY y, x', ('20260404_005053_712882',))
+2026-04-04 00:50:54,051 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? AND interacted = 0 ORDER BY y, x', ('20260404_005053_712882',)) completed
+2026-04-04 00:50:54,060 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:50:54,068 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:50:54,077 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:50:54,083 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:50:54,090 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005053_712882',))
+2026-04-04 00:50:54,100 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM elements WHERE screen_id = ? ORDER BY y, x', ('20260404_005053_712882',)) completed
+2026-04-04 00:50:54,106 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:50:54,115 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:50:54,125 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:50:54,131 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:50:54,137 | DEBUG    | aiosqlite | executing functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005053_712882',))
+2026-04-04 00:50:54,146 | DEBUG    | aiosqlite | operation functools.partial(<built-in method execute of sqlite3.Connection object at 0x000002045AF9CF40>, 'SELECT * FROM screens WHERE id = ?', ('20260404_005053_712882',)) completed
+2026-04-04 00:50:54,155 | DEBUG    | aiosqlite | executing functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:50:54,164 | DEBUG    | aiosqlite | operation functools.partial(<built-in method fetchone of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:50:54,172 | DEBUG    | aiosqlite | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>)
+2026-04-04 00:50:54,181 | DEBUG    | aiosqlite | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002045B0727C0>) completed
+2026-04-04 00:50:54,192 | DEBUG    | explorer.mcp | Calling MCP tool: mobile_swipe_on_screen({'startX': 540, 'startY': 1500, 'endX': 540, 'endY': 500, 'duration': 300, 'device': 'emulator-5554'})
+2026-04-04 00:50:54,208 | DEBUG    | explorer.mcp |   Content item: type=text, attrs=['annotations', 'construct', 'copy', 'dict', 'from_orm', 'json', 'meta', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'schema', 'schema_json', 'text', 'type', 'update_forward_refs', 'validate']
+2026-04-04 00:50:54,222 | DEBUG    | explorer.mcp | 👆 Swiped from (540,1500) to (540,500)

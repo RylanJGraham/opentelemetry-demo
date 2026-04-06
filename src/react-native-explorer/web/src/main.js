@@ -1,0 +1,200 @@
+/**
+ * Main entry point — App initialization, view routing, WebSocket handling.
+ */
+
+import { connectWebSocket, getStatus } from './api.js';
+import { initGraphView, refreshGraph, addNode, addEdge } from './graph-view.js';
+import { initGalleryView, refreshGallery, addScreenToGallery } from './gallery-view.js';
+import { initStoryBuilder, refreshStories, refreshPickerScreens } from './story-builder.js';
+
+// ── View routing ─────────────────────────────────────────────────────
+
+const views = ['graph', 'gallery', 'stories'];
+let currentView = 'graph';
+
+function switchView(viewName) {
+  if (!views.includes(viewName)) return;
+  currentView = viewName;
+
+  // Update tab states
+  document.querySelectorAll('.nav-tab').forEach((tab) => {
+    tab.classList.toggle('active', tab.dataset.view === viewName);
+  });
+
+  // Show/hide views
+  document.querySelectorAll('.view').forEach((view) => {
+    view.classList.toggle('active', view.id === `view-${viewName}`);
+  });
+
+  // Refresh data when switching
+  if (viewName === 'graph') refreshGraph();
+  if (viewName === 'gallery') refreshGallery();
+  if (viewName === 'stories') {
+    refreshStories();
+    refreshPickerScreens();
+  }
+}
+
+// ── Status updates ───────────────────────────────────────────────────
+
+function updateStatusUI(status) {
+  const dot = document.getElementById('status-dot');
+  const text = document.getElementById('status-text');
+
+  // Remove all state classes
+  dot.className = 'status-dot';
+
+  const state = status.state || 'idle';
+  dot.classList.add(state);
+  text.textContent = status.message || state;
+
+  // Update stats
+  if (status.total_screens !== undefined) {
+    document.getElementById('stat-screens').textContent = status.total_screens;
+  }
+  if (status.total_actions !== undefined) {
+    document.getElementById('stat-actions').textContent = status.total_actions;
+  }
+}
+
+// ── Activity feed ────────────────────────────────────────────────────
+
+const MAX_FEED_ITEMS = 50;
+
+function addFeedItem(type, message) {
+  const feed = document.getElementById('feed-items');
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('en-US', {
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+
+  const item = document.createElement('div');
+  item.className = `feed-item ${type}`;
+  item.innerHTML = `<span class="feed-item-time">${timeStr}</span> ${escapeHtml(message)}`;
+
+  feed.prepend(item);
+
+  // Trim old items
+  while (feed.children.length > MAX_FEED_ITEMS) {
+    feed.removeChild(feed.lastChild);
+  }
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ── WebSocket message handler ────────────────────────────────────────
+
+function handleWsMessage(msg) {
+  switch (msg.type) {
+    case 'ws_connected':
+      updateStatusUI({ state: 'connecting', message: 'Connected to server' });
+      addFeedItem('', '🔌 Connected to explorer server');
+      break;
+
+    case 'ws_disconnected':
+      updateStatusUI({ state: 'idle', message: 'Disconnected' });
+      addFeedItem('', '⚡ Disconnected from server');
+      break;
+
+    case 'status':
+      if (msg.data) {
+        updateStatusUI(msg.data);
+      }
+      break;
+
+    case 'new_screen':
+      if (msg.data) {
+        const name = msg.data.name || 'Unknown';
+        addFeedItem('new-screen', `📱 New screen: ${name}`);
+        addNode(msg.data);
+        addScreenToGallery(msg.data);
+        // Update transition count
+        const transEl = document.getElementById('stat-transitions');
+        transEl.textContent = parseInt(transEl.textContent || '0') + 1;
+      }
+      break;
+
+    case 'new_transition':
+      if (msg.data) {
+        addFeedItem('', `🔗 Transition: ${msg.data.from} → ${msg.data.to}`);
+        addEdge(msg.data);
+      }
+      break;
+
+    case 'action':
+      if (msg.data) {
+        const action = msg.data;
+        const actionIcons = {
+          tap: '👆',
+          back: '⬅️',
+          swipe: '📜',
+          type: '⌨️',
+          done: '✅',
+          skip: '⏭️',
+        };
+        const icon = actionIcons[action.action] || '▶️';
+        addFeedItem(
+          `action-${action.action}`,
+          `${icon} ${action.action.toUpperCase()}: ${action.reason || ''}`
+        );
+      }
+      break;
+
+    default:
+      console.log('[WS] Unknown message type:', msg.type);
+  }
+}
+
+// ── Feed toggle ──────────────────────────────────────────────────────
+
+function initFeedToggle() {
+  const feed = document.getElementById('activity-feed');
+  const toggle = document.getElementById('feed-toggle');
+  const header = document.querySelector('.feed-header');
+
+  header.addEventListener('click', () => {
+    feed.classList.toggle('collapsed');
+  });
+}
+
+// ── Initialization ───────────────────────────────────────────────────
+
+function init() {
+  // Setup view routing
+  document.querySelectorAll('.nav-tab').forEach((tab) => {
+    tab.addEventListener('click', () => switchView(tab.dataset.view));
+  });
+
+  // Initialize views
+  initGraphView();
+  initGalleryView();
+  initStoryBuilder();
+  initFeedToggle();
+
+  // Connect WebSocket for live updates
+  connectWebSocket(handleWsMessage);
+
+  // Poll status initially
+  getStatus()
+    .then(updateStatusUI)
+    .catch(() => {
+      updateStatusUI({ state: 'idle', message: 'Waiting for agent...' });
+    });
+
+  // Periodic graph refresh (every 10s)
+  setInterval(() => {
+    if (currentView === 'graph') refreshGraph();
+  }, 10000);
+
+  console.log('🔍 React Native Explorer UI initialized');
+}
+
+// Start
+document.addEventListener('DOMContentLoaded', init);

@@ -33,7 +33,14 @@ const request = async <T>({
 
   const responseText = await response.text();
 
-  if (!!responseText) return JSON.parse(responseText);
+  if (responseText) {
+    try {
+      return JSON.parse(responseText);
+    } catch (e) {
+      console.error(`Failed to parse backend response as JSON. Response: ${responseText}`);
+      throw new Error(`Invalid response from backend: ${responseText}`);
+    }
+  }
 
   return undefined as unknown as T;
 };

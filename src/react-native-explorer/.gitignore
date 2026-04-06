@@ -1,0 +1,19 @@
+# Environment
+.env
+venv/
+__pycache__/
+*.pyc
+
+# Storage (generated data)
+storage/screenshots/
+storage/graph.db
+storage/stories/
+storage/exploration_state.json
+
+# Web UI
+web/node_modules/
+web/dist/
+
+# IDE
+.vscode/
+.idea/

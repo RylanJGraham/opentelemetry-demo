@@ -1,0 +1,37 @@
+# React Native Explorer Agent Configuration
+
+app:
+  name: "React Native App"
+  platform: "android"
+
+exploration:
+  max_screens: 20
+  max_actions_per_screen: 15
+  explore_depth: "full"       # "full" or "shallow"
+  action_delay_ms: 1500       # pause between actions for UI to settle
+  screenshot_before_action: true
+  stuck_threshold: 3          # same screen N times → try back
+  max_back_presses: 3         # max consecutive back presses before stopping branch
+
+vision:
+  provider: "openrouter"
+  model: "google/gemini-2.0-flash-001"
+  api_base: "https://openrouter.ai/api/v1"
+  max_tokens: 2048
+  temperature: 0.1
+  screenshot_max_size: 1024   # resize screenshots to this max dimension for LLM
+
+storage:
+  screenshots_dir: "./storage/screenshots"
+  database: "./storage/graph.db"
+  stories_dir: "./storage/stories"
+  state_file: "./storage/exploration_state.json"
+
+server:
+  host: "127.0.0.1"
+  port: 5100
+  ws_port: 5101
+
+ui:
+  port: 3000
+  auto_open: true
