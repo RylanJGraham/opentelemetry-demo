@@ -1,0 +1,29 @@
+2026-04-06 20:43:09,251 | INFO     | explorer.server | 🌐 API server running at http://127.0.0.1:5100
+2026-04-06 20:43:09,312 | INFO     | explorer.mcp | 🔌 Connecting to Mobile MCP server...
+2026-04-06 20:43:12,216 | INFO     | explorer.server | 📡 WebSocket client connected (1 total)
+2026-04-06 20:43:15,808 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:20:43:15 +0200] "GET /api/graph HTTP/1.1" 200 283 "http://127.0.0.1:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 20:43:25,804 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:20:43:25 +0200] "GET /api/graph HTTP/1.1" 200 283 "http://127.0.0.1:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 20:43:28,365 | INFO     | explorer.mcp | ✅ Connected! Available tools: mobile_set_orientation, mobile_open_url, mobile_long_press_on_screen_at_coordinates, mobile_get_orientation, mobile_list_available_devices, mobile_take_screenshot, mobile_swipe_on_screen, mobile_start_screen_recording, mobile_launch_app, mobile_uninstall_app, mobile_get_screen_size, mobile_list_elements_on_screen, mobile_save_screenshot, mobile_double_tap_on_screen, mobile_install_app, mobile_type_keys, mobile_click_on_screen_at_coordinates, mobile_terminate_app, mobile_list_apps, mobile_stop_screen_recording, mobile_press_button
+2026-04-06 20:43:29,200 | INFO     | explorer.mcp | 📱 Using device: emulator-5554
+2026-04-06 20:43:35,804 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:20:43:35 +0200] "GET /api/graph HTTP/1.1" 200 283 "http://127.0.0.1:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 20:43:37,780 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-06 20:43:41,924 | INFO     | explorer.vision | 🔍 Analyzed screen: [explore]Product List[/explore] (10 elements)
+2026-04-06 20:43:45,705 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-06 20:43:45,809 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:20:43:45 +0200] "GET /api/graph HTTP/1.1" 200 3090 "http://127.0.0.1:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 20:43:51,052 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-06 20:43:54,009 | INFO     | explorer.vision | 🔍 Analyzed screen: [explore]Profile Screen[/explore] (7 elements)
+2026-04-06 20:43:55,404 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-06 20:43:55,810 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:20:43:55 +0200] "GET /api/graph HTTP/1.1" 200 5421 "http://127.0.0.1:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 20:43:59,500 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-06 20:44:03,815 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:20:44:03 +0200] "GET /api/screens/20260406_204355_630801 HTTP/1.1" 200 2320 "http://127.0.0.1:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 20:44:03,823 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:20:44:03 +0200] "GET /api/screenshots/20260406_204355_630801.png HTTP/1.1" 200 260 "http://127.0.0.1:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 20:44:05,807 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:20:44:05 +0200] "GET /api/graph HTTP/1.1" 200 5421 "http://127.0.0.1:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 20:44:05,973 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-06 20:44:08,869 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:20:44:08 +0200] "GET /api/screens/20260406_204355_630801 HTTP/1.1" 200 2320 "http://127.0.0.1:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 20:44:10,197 | INFO     | explorer.vision | 🔍 Analyzed screen: [explore]Product List[/explore] (10 elements)
+2026-04-06 20:44:12,736 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-06 20:44:15,804 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:20:44:15 +0200] "GET /api/graph HTTP/1.1" 200 5427 "http://127.0.0.1:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 20:44:16,838 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-06 20:44:17,164 | INFO     | explorer.mcp | 🔌 Disconnected from Mobile MCP server
+2026-04-06 20:44:25,806 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:20:44:25 +0200] "GET /api/graph HTTP/1.1" 200 5427 "http://127.0.0.1:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 20:44:35,805 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:20:44:35 +0200] "GET /api/graph HTTP/1.1" 200 5427 "http://127.0.0.1:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"

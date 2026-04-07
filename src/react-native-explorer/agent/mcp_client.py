@@ -7,11 +7,14 @@ import asyncio
 import base64
 import json
 import logging
+import shutil
+import os
 from contextlib import AsyncExitStack
 from typing import Any, Optional
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
+from .utils import ensure_adb_on_path
 
 logger = logging.getLogger("explorer.mcp")
 
@@ -31,24 +34,54 @@ class MobileMCPClient:
 
     async def connect(self):
         """Spawn the Mobile MCP server and establish a session."""
-        logger.info("🔌 Connecting to Mobile MCP server...")
+        import asyncio
+        
+        print("[EXPLORER] MCP: Initializing environment...", flush=True)
+        # 🔧 Ensure ADB is available
+        ensure_adb_on_path()
+
+        logger.info("MCP: Starting connection...")
+        print("[EXPLORER] MCP: Starting connection...", flush=True)
+
+        # 🔧 On Windows, npx is a .cmd script, not an executable
+        # Absolute path is required for reliability in asyncio subprocesses
+        raw_cmd = "npx.cmd" if os.name == "nt" else "npx"
+        npx_path = shutil.which(raw_cmd)
+        
+        if not npx_path:
+            logger.error(f"Node tool '{raw_cmd}' not found on PATH")
+            raise RuntimeError(f"Could not find '{raw_cmd}'. Is Node.js installed and on your PATH?")
 
         server_params = StdioServerParameters(
-            command="npx",
+            command=npx_path,
             args=["-y", "@mobilenext/mobile-mcp@latest"],
             env=None,
         )
+        print("[EXPLORER] MCP: Creating exit stack...", flush=True)
 
         self._exit_stack = AsyncExitStack()
-        read, write = await self._exit_stack.enter_async_context(
-            stdio_client(server_params)
-        )
+        print("[EXPLORER] MCP: Entering stdio context (this may take 30s on first run)...", flush=True)
+        
+        # Add timeout for npx download on first run
+        try:
+            read, write = await asyncio.wait_for(
+                self._exit_stack.enter_async_context(stdio_client(server_params)),
+                timeout=60.0
+            )
+        except asyncio.TimeoutError:
+            print("[EXPLORER] MCP: Timeout connecting to MCP server (npx download too slow)", flush=True)
+            raise RuntimeError("MCP connection timeout - npx may be downloading packages")
+            
+        print("[EXPLORER] MCP: Creating client session...", flush=True)
         self._session = await self._exit_stack.enter_async_context(
             ClientSession(read, write)
         )
+        print("[EXPLORER] MCP: Initializing session...", flush=True)
         await self._session.initialize()
+        print("[EXPLORER] MCP: Session initialized", flush=True)
 
         # Discover available tools
+        print("[EXPLORER] MCP: Listing tools...", flush=True)
         tools_result = await self._session.list_tools()
         self._tools = [
             {"name": t.name, "description": t.description}
@@ -56,10 +89,13 @@ class MobileMCPClient:
         ]
         self._tool_names = {t["name"] for t in self._tools}
 
-        logger.info(f"✅ Connected! Available tools: {', '.join(self._tool_names)}")
+        logger.info(f"MCP: Tools discovered: {', '.join(self._tool_names)}")
+        print(f"[EXPLORER] MCP: Tools discovered: {', '.join(self._tool_names)}", flush=True)
 
         # Auto-discover device
+        print("[EXPLORER] MCP: Discovering device...", flush=True)
         await self._discover_device()
+        print("[EXPLORER] MCP: Device discovery complete", flush=True)
 
         return self._tools
 
@@ -117,10 +153,17 @@ class MobileMCPClient:
     async def disconnect(self):
         """Close the MCP session and stop the server process."""
         if self._exit_stack:
-            await self._exit_stack.aclose()
-            self._session = None
-            self._exit_stack = None
-            logger.info("🔌 Disconnected from Mobile MCP server")
+            try:
+                # 🔧 Fix for Windows/AnyIO: Catch cancel-scope errors during shutdown
+                await self._exit_stack.aclose()
+            except RuntimeError as e:
+                # Log quietly if it's just a context mismatch during cancellation
+                if "cancel scope" not in str(e):
+                    logger.warning(f"MCP disconnect error: {e}")
+            finally:
+                self._session = None
+                self._exit_stack = None
+                logger.info("🔌 Disconnected from Mobile MCP server")
 
     async def _call_tool(self, tool_name: str, arguments: dict = None) -> Any:
         """Call an MCP tool and return the result."""
@@ -241,6 +284,41 @@ class MobileMCPClient:
         except Exception as e:
             logger.error(f"Failed to take screenshot: {e}")
             return None
+
+    async def execute_action(self, action: dict) -> bool:
+        """Execute a general exploration action.
+        The action dictionary should contain 'action_type' and either 'x','y' or 'element_id'.
+        """
+        action_type = action.get("action_type") or action.get("action", "tap")
+        
+        try:
+            if action_type == "tap":
+                x = action.get("x")
+                y = action.get("y")
+                if x is not None and y is not None:
+                    return await self.tap(int(x), int(y))
+                else:
+                    logger.error(f"Cannot tap: coordinates missing in {action}")
+                    return False
+                    
+            elif action_type == "type":
+                text = action.get("text") or action.get("value", "")
+                return await self.type_text(text)
+                
+            elif action_type == "swipe":
+                x1, y1 = action.get("x1", 0), action.get("y1", 0)
+                x2, y2 = action.get("x2", 0), action.get("y2", 0)
+                return await self.swipe(x1, y1, x2, y2)
+                
+            elif action_type == "back":
+                return await self.press_back()
+                
+            else:
+                logger.warning(f"Unknown action type: {action_type}")
+                return False
+        except Exception as e:
+            logger.error(f"Failed to execute action {action}: {e}")
+            return False
 
     async def list_elements(self) -> list[dict]:
         """Get the accessibility tree / element list from the current screen.

@@ -1,6 +1,6 @@
 """
-REST API + WebSocket server for the Explorer Web UI.
-Serves exploration data and provides real-time updates.
+Enhanced REST API + WebSocket server for the Explorer Web UI.
+Serves exploration data, story management, and provides real-time updates.
 """
 
 import asyncio
@@ -39,8 +39,12 @@ class ExplorerServer:
             "current_screen": None,
             "total_screens": 0,
             "total_actions": 0,
-            "message": "Waiting to start",
+            "message": "📡 Agent Ready - Press Play to Start Exploration",
+            "stats": {},
         }
+        
+        # Linked explorer instance for direct control
+        self.explorer = None
 
     async def start(self):
         """Start the HTTP server."""
@@ -56,35 +60,81 @@ class ExplorerServer:
             )
         })
 
-        # Register routes — group by path so each resource is created once
+        # Register routes
         routes = [
+            # Graph & Screens
             ("GET", "/api/graph", self._handle_graph),
+            ("GET", "/api/graph/stats", self._handle_graph_stats),
             ("GET", "/api/screens", self._handle_screens),
             ("GET", "/api/screens/{screen_id}", self._handle_screen_detail),
+            ("GET", "/api/screens/{screen_id}/path/{target_id}", self._handle_screen_path),
+            ("GET", "/api/screens/search", self._handle_screen_search),
+            
+            # Gallery
+            ("GET", "/api/gallery", self._handle_gallery),
+            ("GET", "/api/gallery/clusters", self._handle_gallery_clusters),
+            ("GET", "/api/gallery/by-type/{screen_type}", self._handle_gallery_by_type),
+            
+            # Screenshots
             ("GET", "/api/screenshots/{filename}", self._handle_screenshot),
+            
+            # Stories
             ("GET", "/api/stories", self._handle_list_stories),
             ("POST", "/api/stories", self._handle_create_story),
+            ("GET", "/api/stories/{story_id}", self._handle_get_story),
+            ("PUT", "/api/stories/{story_id}", self._handle_update_story),
             ("DELETE", "/api/stories/{story_id}", self._handle_delete_story),
+            ("POST", "/api/stories/{story_id}/steps", self._handle_add_story_step),
+            ("POST", "/api/stories/{story_id}/export/{format}", self._handle_export_story),
+            ("POST", "/api/stories/generate-from-path", self._handle_generate_story_from_path),
+            
+            # Exports
+            ("GET", "/api/export/detox", self._handle_export_detox),
+            ("GET", "/api/export/maestro", self._handle_export_maestro),
+            ("GET", "/api/export/appium", self._handle_export_appium),
+            ("GET", "/api/export/full", self._handle_export_full),
+            
+            # Storage Management
+            ("DELETE", "/api/storage", self._handle_clear_storage),
+            ("GET", "/api/export/zip", self._handle_export_zip),
+            
+            # Agent Control
+            ("POST", "/api/agent/start", self._handle_agent_start),
+            ("POST", "/api/agent/pause", self._handle_agent_pause),
+            ("POST", "/api/agent/stop", self._handle_agent_stop),
+            ("GET", "/api/agent/logs", self._handle_agent_logs),
             ("GET", "/api/status", self._handle_status),
+            
+            # WebSocket
             ("GET", "/ws/live", self._handle_websocket),
         ]
 
-        # Group routes by path to avoid duplicate resource registration
+        # Group routes by path
         resources: dict[str, object] = {}
         for method, path, handler in routes:
             if path not in resources:
                 resources[path] = cors.add(self._app.router.add_resource(path))
             cors.add(resources[path].add_route(method, handler))
 
+        # Setup static file serving for UI (AFTER API routes)
+        # 🔧 Fix: Serve the built UI from the root-level 'ui' folder
+        ui_dir = Path(self.config.ui.get("static_dir", "./ui")).resolve()
+        if ui_dir.exists():
+            # Add static files
+            self._app.router.add_static('/', ui_dir, show_index=True)
+            logger.info(f"UI static files served from: {ui_dir}")
+        else:
+            logger.warning(f"UI directory not found: {ui_dir}")
+
         self._runner = web.AppRunner(self._app)
         await self._runner.setup()
         site = web.TCPSite(self._runner, self.host, self.port)
         await site.start()
-        logger.info(f"🌐 API server running at http://{self.host}:{self.port}")
+        print(f"\n[EXPLORER SERVER] 🚀 SERVER READY: Listening on http://{self.host}:{self.port}\n", flush=True)
+        logger.info(f"API server running at http://{self.host}:{self.port}")
 
     async def stop(self):
         """Stop the HTTP server."""
-        # Close all WebSocket connections
         for ws in self._ws_clients:
             await ws.close()
         self._ws_clients.clear()
@@ -146,9 +196,29 @@ class ExplorerServer:
         graph_data = await self.graph.export_graph_json()
         return web.json_response(graph_data)
 
+    async def _handle_graph_stats(self, request: web.Request) -> web.Response:
+        """GET /api/graph/stats — Graph statistics."""
+        screen_count = await self.graph.get_screen_count()
+        transitions = await self.graph.get_all_transitions()
+        clusters = await self.graph.get_clusters()
+        
+        return web.json_response({
+            "total_screens": screen_count,
+            "total_transitions": len(transitions),
+            "total_clusters": len(clusters),
+            "screens_by_type": {},  # Could be populated from DB
+        })
+
     async def _handle_screens(self, request: web.Request) -> web.Response:
-        """GET /api/screens — List all screens."""
-        screens = await self.graph.get_all_screens()
+        """GET /api/screens — List all screens with optional filtering."""
+        cluster_id = request.query.get("cluster")
+        screen_type = request.query.get("type")
+        
+        screens = await self.graph.get_all_screens(cluster_id=cluster_id)
+        
+        if screen_type:
+            screens = [s for s in screens if s.get("screen_type") == screen_type]
+        
         return web.json_response(screens)
 
     async def _handle_screen_detail(self, request: web.Request) -> web.Response:
@@ -160,9 +230,91 @@ class ExplorerServer:
 
         elements = await self.graph.get_elements_for_screen(screen_id)
         transitions = await self.graph.get_transitions_from(screen_id)
+        features = await self.graph.get_screen_features(screen_id)
+        
         screen["elements"] = elements
         screen["transitions"] = transitions
+        screen["features"] = features
         return web.json_response(screen)
+
+    async def _handle_screen_path(self, request: web.Request) -> web.Response:
+        """GET /api/screens/:screen_id/path/:target_id — Shortest path."""
+        from_id = request.match_info["screen_id"]
+        to_id = request.match_info["target_id"]
+        
+        path = await self.graph.get_shortest_path(from_id, to_id)
+        if not path:
+            return web.json_response({"error": "No path found"}, status=404)
+        
+        # Get full screen details for path
+        path_details = []
+        for screen_id in path:
+            screen = await self.graph.get_screen(screen_id)
+            if screen:
+                path_details.append(screen)
+        
+        return web.json_response({
+            "path": path,
+            "screens": path_details,
+        })
+
+    async def _handle_screen_search(self, request: web.Request) -> web.Response:
+        """GET /api/screens/search?q=query — Search screens."""
+        query = request.query.get("q", "")
+        if not query:
+            return web.json_response({"error": "Query parameter 'q' required"}, status=400)
+        
+        screens = await self.graph.search_screens(query)
+        return web.json_response(screens)
+
+    # ── Gallery endpoints ────────────────────────────────────────────
+
+    async def _handle_gallery(self, request: web.Request) -> web.Response:
+        """GET /api/gallery — Get all screens for gallery view."""
+        screens = await self.graph.get_all_screens()
+        
+        # Group by screen type
+        by_type: dict[str, list] = {}
+        for screen in screens:
+            screen_type = screen.get("screen_type", "unknown")
+            if screen_type not in by_type:
+                by_type[screen_type] = []
+            by_type[screen_type].append(screen)
+        
+        return web.json_response({
+            "total": len(screens),
+            "by_type": by_type,
+            "screens": screens,
+        })
+
+    async def _handle_gallery_clusters(self, request: web.Request) -> web.Response:
+        """GET /api/gallery/clusters — Get clustered screen gallery."""
+        clusters = await self.graph.get_clusters()
+        
+        result = []
+        for cluster in clusters:
+            screens = await self.graph.get_all_screens(cluster_id=cluster["id"])
+            result.append({
+                **cluster,
+                "screens": screens,
+                "screen_count": len(screens),
+            })
+        
+        return web.json_response(result)
+
+    async def _handle_gallery_by_type(self, request: web.Request) -> web.Response:
+        """GET /api/gallery/by-type/:screen_type — Get screens of specific type."""
+        screen_type = request.match_info["screen_type"]
+        screens = await self.graph.get_all_screens()
+        
+        filtered = [s for s in screens if s.get("screen_type") == screen_type]
+        return web.json_response({
+            "type": screen_type,
+            "count": len(filtered),
+            "screens": filtered,
+        })
+
+    # ── Screenshots ──────────────────────────────────────────────────
 
     async def _handle_screenshot(self, request: web.Request) -> web.Response:
         """GET /api/screenshots/:filename — Serve a screenshot file."""
@@ -172,45 +324,289 @@ class ExplorerServer:
             return web.json_response({"error": "Screenshot not found"}, status=404)
         return web.FileResponse(filepath)
 
+    # ── Stories ──────────────────────────────────────────────────────
+
     async def _handle_list_stories(self, request: web.Request) -> web.Response:
         """GET /api/stories — List all saved stories."""
-        stories = []
-        if self.stories_dir.exists():
-            for f in self.stories_dir.glob("*.json"):
-                try:
-                    with open(f) as fh:
-                        story = json.load(fh)
-                        story["id"] = f.stem
-                        stories.append(story)
-                except Exception:
-                    pass
+        stories = await self.graph.get_stories()
         return web.json_response(stories)
 
     async def _handle_create_story(self, request: web.Request) -> web.Response:
         """POST /api/stories — Save a new story."""
         try:
             data = await request.json()
-            import time
-            story_id = f"story_{int(time.time())}"
-            filepath = self.stories_dir / f"{story_id}.json"
-            with open(filepath, "w") as f:
-                json.dump(data, f, indent=2)
+            from .utils import generate_story_id
+            
+            story_id = generate_story_id()
+            await self.graph.create_story(
+                story_id=story_id,
+                name=data.get("name", "Untitled Story"),
+                description=data.get("description", ""),
+                tags=data.get("tags", []),
+                priority=data.get("priority", "medium"),
+            )
+            
+            # Add steps if provided
+            for i, step in enumerate(data.get("steps", [])):
+                await self.graph.add_story_step(
+                    story_id=story_id,
+                    step_number=i + 1,
+                    action_type=step.get("action_type", "tap"),
+                    screen_id=step.get("screen_id"),
+                    element_id=step.get("element_id"),
+                    coordinates=step.get("coordinates"),
+                    data=step.get("data"),
+                    assertion=step.get("assertion", ""),
+                )
+            
             return web.json_response({"id": story_id, "status": "created"}, status=201)
+        except Exception as e:
+            logger.exception("Failed to create story")
+            return web.json_response({"error": str(e)}, status=400)
+
+    async def _handle_get_story(self, request: web.Request) -> web.Response:
+        """GET /api/stories/:story_id — Get story with all steps."""
+        story_id = request.match_info["story_id"]
+        story = await self.graph.get_story(story_id)
+        if not story:
+            return web.json_response({"error": "Story not found"}, status=404)
+        return web.json_response(story)
+
+    async def _handle_update_story(self, request: web.Request) -> web.Response:
+        """PUT /api/stories/:story_id — Update story."""
+        story_id = request.match_info["story_id"]
+        try:
+            data = await request.json()
+            # For now, delete and recreate
+            await self.graph.delete_story(story_id)
+            await self.graph.create_story(
+                story_id=story_id,
+                name=data.get("name", "Untitled"),
+                description=data.get("description", ""),
+                tags=data.get("tags", []),
+                priority=data.get("priority", "medium"),
+            )
+            return web.json_response({"status": "updated"})
         except Exception as e:
             return web.json_response({"error": str(e)}, status=400)
 
     async def _handle_delete_story(self, request: web.Request) -> web.Response:
         """DELETE /api/stories/:story_id — Delete a story."""
         story_id = request.match_info["story_id"]
-        filepath = self.stories_dir / f"{story_id}.json"
-        if filepath.exists():
-            filepath.unlink()
-            return web.json_response({"status": "deleted"})
-        return web.json_response({"error": "Story not found"}, status=404)
+        await self.graph.delete_story(story_id)
+        return web.json_response({"status": "deleted"})
+
+    async def _handle_add_story_step(self, request: web.Request) -> web.Response:
+        """POST /api/stories/:story_id/steps — Add a step to a story."""
+        story_id = request.match_info["story_id"]
+        try:
+            data = await request.json()
+            
+            # Get current step count
+            story = await self.graph.get_story(story_id)
+            if not story:
+                return web.json_response({"error": "Story not found"}, status=404)
+            
+            step_number = len(story.get("steps", [])) + 1
+            
+            step_id = await self.graph.add_story_step(
+                story_id=story_id,
+                step_number=step_number,
+                action_type=data.get("action_type", "tap"),
+                screen_id=data.get("screen_id"),
+                element_id=data.get("element_id"),
+                coordinates=data.get("coordinates"),
+                data=data.get("data"),
+                assertion=data.get("assertion", ""),
+            )
+            
+            return web.json_response({"id": step_id, "status": "added"}, status=201)
+        except Exception as e:
+            return web.json_response({"error": str(e)}, status=400)
+
+    async def _handle_generate_story_from_path(self, request: web.Request) -> web.Response:
+        """POST /api/stories/generate-from-path — Auto-generate story from path."""
+        try:
+            data = await request.json()
+            screen_ids = data.get("screen_ids", [])
+            name = data.get("name", "Generated Story")
+            
+            if not screen_ids:
+                return web.json_response({"error": "screen_ids required"}, status=400)
+            
+            if hasattr(self, 'explorer'):
+                story_id = await self.explorer.create_story_from_path(screen_ids, name)
+                return web.json_response({"id": story_id, "status": "created"}, status=201)
+            
+            return web.json_response({"error": "Explorer not linked"}, status=500)
+        except Exception as e:
+            logger.exception("Failed to generate story")
+            return web.json_response({"error": str(e)}, status=400)
+
+    # ── Export handlers ──────────────────────────────────────────────
+
+    async def _handle_export_story(self, request: web.Request) -> web.Response:
+        """POST /api/stories/:story_id/export/:format — Export story to E2E format."""
+        story_id = request.match_info["story_id"]
+        format_name = request.match_info["format"]
+        
+        story = await self.graph.get_story(story_id)
+        if not story:
+            return web.json_response({"error": "Story not found"}, status=404)
+        
+        # Export based on format
+        from .exporters import export_story
+        try:
+            exported = export_story(story, format_name)
+            await self.graph.update_story_export(story_id, format_name)
+            
+            return web.json_response({
+                "format": format_name,
+                "content": exported,
+                "filename": f"{story['name']}.{format_name}",
+            })
+        except ValueError as e:
+            return web.json_response({"error": str(e)}, status=400)
+
+    async def _handle_export_detox(self, request: web.Request) -> web.Response:
+        """GET /api/export/detox — Export all stories as Detox tests."""
+        stories = await self.graph.get_stories()
+        from .exporters import export_to_detox
+        
+        content = export_to_detox(stories)
+        return web.json_response({
+            "format": "detox",
+            "content": content,
+            "filename": "e2e.test.js",
+        })
+
+    async def _handle_export_maestro(self, request: web.Request) -> web.Response:
+        """GET /api/export/maestro — Export all stories as Maestro flows."""
+        stories = await self.graph.get_stories()
+        from .exporters import export_to_maestro
+        
+        flows = export_to_maestro(stories)
+        return web.json_response({
+            "format": "maestro",
+            "flows": flows,
+        })
+
+    async def _handle_export_appium(self, request: web.Request) -> web.Response:
+        """GET /api/export/appium — Export all stories as Appium tests."""
+        stories = await self.graph.get_stories()
+        from .exporters import export_to_appium
+        
+        content = export_to_appium(stories)
+        return web.json_response({
+            "format": "appium",
+            "content": content,
+            "filename": "test_appium.py",
+        })
+
+    async def _handle_export_full(self, request: web.Request) -> web.Response:
+        """GET /api/export/full — Export complete exploration data."""
+        data = await self.graph.export_for_e2e()
+        return web.json_response(data)
+
+    async def _handle_export_zip(self, request: web.Request) -> web.Response:
+        """GET /api/export/zip — Export all data as ZIP."""
+        import zipfile
+        import io
+        import time
+        
+        # Create in-memory ZIP
+        zip_buffer = io.BytesIO()
+        
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            # Add graph data
+            graph_data = await self.graph.export_graph_json()
+            zip_file.writestr('graph.json', json.dumps(graph_data, indent=2))
+            
+            # Add stories
+            stories = await self.graph.get_stories()
+            zip_file.writestr('stories.json', json.dumps(stories, indent=2))
+            
+            # Add screenshots
+            for screenshot_file in self.screenshots_dir.glob('*.png'):
+                zip_file.write(screenshot_file, f'screenshots/{screenshot_file.name}')
+        
+        zip_buffer.seek(0)
+        
+        return web.Response(
+            body=zip_buffer.read(),
+            headers={
+                'Content-Type': 'application/zip',
+                'Content-Disposition': f'attachment; filename="exploration_export_{int(time.time())}.zip"',
+            }
+        )
+
+    # ── Storage Management ───────────────────────────────────────────
+
+    async def _handle_clear_storage(self, request: web.Request) -> web.Response:
+        """DELETE /api/storage — Clear all data."""
+        if self.screenshots_dir.exists():
+            for child in self.screenshots_dir.iterdir():
+                if child.is_file():
+                    child.unlink()
+        if self.stories_dir.exists():
+            for child in self.stories_dir.iterdir():
+                if child.is_file():
+                    child.unlink()
+        await self.graph.clear()
+        
+        self._exploration_status = {
+            "state": "idle",
+            "current_screen": None,
+            "total_screens": 0,
+            "total_actions": 0,
+            "message": "Storage cleared",
+        }
+        await self._broadcast({"type": "status", "data": self._exploration_status})
+        
+        return web.json_response({"status": "cleared"})
+
+    # ── Agent Control ────────────────────────────────────────────────
+
+    async def _handle_agent_start(self, request: web.Request) -> web.Response:
+        """POST /api/agent/start — Start or resume exploration."""
+        if self.explorer:
+            self.explorer.pause_event.set()
+            self.explorer.paused = False
+            self._exploration_status["state"] = "exploring"
+            return web.json_response({"status": "started", "message": "Agent resumed"})
+        
+        return web.json_response({"error": "Explorer instance not found in server"}, status=500)
+
+    async def _handle_agent_pause(self, request: web.Request) -> web.Response:
+        """POST /api/agent/pause — Pause exploration."""
+        if self.explorer:
+            self.explorer.pause_event.clear()
+            self.explorer.paused = True
+            self._exploration_status["state"] = "paused"
+            return web.json_response({"status": "paused"})
+        
+        return web.json_response({"error": "Explorer not available"}, status=500)
+    async def _handle_agent_stop(self, request: web.Request) -> web.Response:
+        """POST /api/agent/stop — Stop exploration."""
+        if hasattr(self, 'explorer') and self.explorer:
+            self.explorer.running = False
+            self.explorer.pause_event.set()
+            self._exploration_status["state"] = "idle"
+            return web.json_response({"status": "stopped"})
+        
+        return web.json_response({"error": "Explorer not available"}, status=500)
+
+    async def _handle_agent_logs(self, request: web.Request) -> web.Response:
+        """GET /api/agent/logs — Get recent explorer logs."""
+        # For unified mode, we can just return an empty list or implement in-memory logs
+        return web.json_response({"logs": []})
 
     async def _handle_status(self, request: web.Request) -> web.Response:
         """GET /api/status — Current exploration status."""
-        return web.json_response(self._exploration_status)
+        # Status is updated directly by explorer via update_status()
+        status = dict(self._exploration_status)
+        status["managed_mode"] = False
+        return web.json_response(status)
 
     async def _handle_websocket(self, request: web.Request) -> web.WebSocketResponse:
         """WebSocket endpoint for real-time exploration updates."""
@@ -219,7 +615,6 @@ class ExplorerServer:
         self._ws_clients.append(ws)
         logger.info(f"📡 WebSocket client connected ({len(self._ws_clients)} total)")
 
-        # Send current state on connect
         await ws.send_str(json.dumps({
             "type": "status",
             "data": self._exploration_status,

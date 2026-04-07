@@ -2,7 +2,7 @@
  * Main entry point — App initialization, view routing, WebSocket handling.
  */
 
-import { connectWebSocket, getStatus } from './api.js';
+import { connectWebSocket, getStatus, clearStorage, agentStart, agentPause, agentStop } from './api.js';
 import { initGraphView, refreshGraph, addNode, addEdge } from './graph-view.js';
 import { initGalleryView, refreshGallery, addScreenToGallery } from './gallery-view.js';
 import { initStoryBuilder, refreshStories, refreshPickerScreens } from './story-builder.js';
@@ -27,7 +27,12 @@ function switchView(viewName) {
   });
 
   // Refresh data when switching
-  if (viewName === 'graph') refreshGraph();
+  if (viewName === 'graph') {
+    refreshGraph();
+    // Auto-open sidebar on graph view
+    const sidebar = document.getElementById('activity-sidebar');
+    if (sidebar) sidebar.classList.remove('collapsed');
+  }
   if (viewName === 'gallery') refreshGallery();
   if (viewName === 'stories') {
     refreshStories();
@@ -41,19 +46,28 @@ function updateStatusUI(status) {
   const dot = document.getElementById('status-dot');
   const text = document.getElementById('status-text');
 
-  // Remove all state classes
-  dot.className = 'status-dot';
-
   const state = status.state || 'idle';
-  dot.classList.add(state);
+  dot.className = `status-dot ${state}`;
   text.textContent = status.message || state;
+
+  // Update control buttons active state
+  const btnStart = document.getElementById('btn-agent-start');
+  const btnPause = document.getElementById('btn-agent-pause');
+  const btnStop = document.getElementById('btn-agent-stop');
+
+  if (btnStart) btnStart.classList.toggle('active', state === 'exploring');
+  if (btnPause) btnPause.classList.toggle('active', state === 'paused');
+  if (btnStop) btnStop.disabled = (state === 'idle');
 
   // Update stats
   if (status.total_screens !== undefined) {
-    document.getElementById('stat-screens').textContent = status.total_screens;
+    document.getElementById('stat-screens').textContent = status.total_screens || '0';
+  }
+  if (status.total_transitions !== undefined) {
+    document.getElementById('stat-transitions').textContent = status.total_transitions || '0';
   }
   if (status.total_actions !== undefined) {
-    document.getElementById('stat-actions').textContent = status.total_actions;
+    document.getElementById('stat-actions').textContent = status.total_actions || '0';
   }
 }
 
@@ -115,9 +129,14 @@ function handleWsMessage(msg) {
         addFeedItem('new-screen', `📱 New screen: ${name}`);
         addNode(msg.data);
         addScreenToGallery(msg.data);
+
+        // 🔧 Force UI re-render
+        if (currentView === 'graph') refreshGraph();
+        if (currentView === 'gallery') refreshGallery();
+
         // Update transition count
-        const transEl = document.getElementById('stat-transitions');
-        transEl.textContent = parseInt(transEl.textContent || '0') + 1;
+        const transEl = document.getElementById('stat-screens'); // Fix: link to screens stat
+        if (transEl) transEl.textContent = parseInt(transEl.textContent || '0') + 1;
       }
       break;
 
@@ -125,6 +144,13 @@ function handleWsMessage(msg) {
       if (msg.data) {
         addFeedItem('', `🔗 Transition: ${msg.data.from} → ${msg.data.to}`);
         addEdge(msg.data);
+
+        // 🔧 Force Graph re-render
+        if (currentView === 'graph') refreshGraph();
+
+        // Update transition count
+        const transEl = document.getElementById('stat-transitions');
+        if (transEl) transEl.textContent = parseInt(transEl.textContent || '0') + 1;
       }
       break;
 
@@ -154,13 +180,13 @@ function handleWsMessage(msg) {
 
 // ── Feed toggle ──────────────────────────────────────────────────────
 
-function initFeedToggle() {
-  const feed = document.getElementById('activity-feed');
-  const toggle = document.getElementById('feed-toggle');
-  const header = document.querySelector('.feed-header');
+function initSidebarToggle() {
+  const sidebar = document.getElementById('activity-sidebar');
+  const toggle = document.getElementById('sidebar-toggle');
 
-  header.addEventListener('click', () => {
-    feed.classList.toggle('collapsed');
+  toggle?.addEventListener('click', () => {
+    const isCollapsed = sidebar.classList.toggle('collapsed');
+    toggle.textContent = isCollapsed ? '▶' : '◀';
   });
 }
 
@@ -176,7 +202,33 @@ function init() {
   initGraphView();
   initGalleryView();
   initStoryBuilder();
-  initFeedToggle();
+  initSidebarToggle();
+
+  // Button Listeners
+  // Agent Control Listeners
+  document.getElementById('btn-agent-start')?.addEventListener('click', async () => {
+    await agentStart();
+    updateStatusUI({ state: 'exploring', message: 'Resuming...' });
+  });
+
+  document.getElementById('btn-agent-pause')?.addEventListener('click', async () => {
+    await agentPause();
+    updateStatusUI({ state: 'paused', message: 'Pausing...' });
+  });
+
+  document.getElementById('btn-agent-stop')?.addEventListener('click', async () => {
+    if (confirm('Stop the agent exploration?')) {
+      await agentStop();
+      updateStatusUI({ state: 'idle', message: 'Stopped' });
+    }
+  });
+
+  document.getElementById('btn-clear-storage')?.addEventListener('click', async () => {
+    if (confirm('Are you sure you want to completely clear the UI storage and graph database?')) {
+      await clearStorage();
+      window.location.reload();
+    }
+  });
 
   // Connect WebSocket for live updates
   connectWebSocket(handleWsMessage);

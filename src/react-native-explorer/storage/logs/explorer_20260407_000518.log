@@ -1,0 +1,75 @@
+2026-04-07 00:05:19,013 | INFO     | explorer.server | UI static files served from: C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\ui
+2026-04-07 00:05:19,014 | INFO     | explorer.server | API server running at http://127.0.0.1:5100
+2026-04-07 00:05:19,225 | INFO     | explorer.mcp | MCP: Starting connection...
+2026-04-07 00:05:19,284 | INFO     | explorer.server | 📡 WebSocket client connected (1 total)
+2026-04-07 00:05:21,968 | INFO     | explorer.server | 📡 WebSocket client disconnected (0 remaining)
+2026-04-07 00:05:21,971 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:19 +0200] "GET /ws/live HTTP/1.1" 101 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:05:28,516 | INFO     | explorer.mcp | MCP: Tools discovered: mobile_swipe_on_screen, mobile_press_button, mobile_get_screen_size, mobile_open_url, mobile_list_apps, mobile_get_orientation, mobile_install_app, mobile_double_tap_on_screen, mobile_list_available_devices, mobile_click_on_screen_at_coordinates, mobile_terminate_app, mobile_stop_screen_recording, mobile_start_screen_recording, mobile_save_screenshot, mobile_set_orientation, mobile_list_elements_on_screen, mobile_take_screenshot, mobile_launch_app, mobile_uninstall_app, mobile_long_press_on_screen_at_coordinates, mobile_type_keys
+2026-04-07 00:05:29,032 | INFO     | explorer.mcp | 📱 Using device: emulator-5554
+2026-04-07 00:05:40,117 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:40 +0200] "GET / HTTP/1.1" 200 341 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:05:42,809 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:42 +0200] "GET /index.html HTTP/1.1" 304 179 "http://127.0.0.1:5100/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:05:42,831 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:42 +0200] "GET /assets/index-CR3pGX5j.css HTTP/1.1" 304 179 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:05:42,835 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:42 +0200] "GET /assets/index-DsWwc_nl.js HTTP/1.1" 304 180 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:05:42,936 | INFO     | explorer.server | 📡 WebSocket client connected (1 total)
+2026-04-07 00:05:42,939 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:42 +0200] "GET /api/status HTTP/1.1" 200 350 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:05:42,942 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:42 +0200] "GET /api/screens HTTP/1.1" 200 748 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:05:42,945 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:42 +0200] "GET /api/stories HTTP/1.1" 200 160 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:05:42,951 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:42 +0200] "GET /api/screens HTTP/1.1" 200 748 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:05:42,959 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:42 +0200] "GET /api/graph HTTP/1.1" 200 4307 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:05:50,269 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:50 +0200] "POST /api/agent/start HTTP/1.1" 200 359 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:05:52,941 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:52 +0200] "GET /api/graph HTTP/1.1" 200 4307 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:05:56,515 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-07 00:06:02,354 | INFO     | explorer.vision | [ai]🔍 Analyzed screen: Product List[/ai] (10 elements)
+2026-04-07 00:06:02,485 | ERROR    | explorer | Exploration error: 'ScreenGraph' object has no attribute 'get_untried_actions'
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 178, in start_managed
+    await self._exploration_loop_managed()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 259, in _exploration_loop_managed
+    await self._execute_strategy_on_screen_managed(screen_id)
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 266, in _execute_strategy_on_screen_managed
+    await self._bfs_explore_managed()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 275, in _bfs_explore_managed
+    actions = await self.graph.get_untried_actions(self.current_screen_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ScreenGraph' object has no attribute 'get_untried_actions'
+2026-04-07 00:06:02,690 | ERROR    | asyncio | Task exception was never retrieved
+future: <Task finished name='Task-4' coro=<Explorer.start_managed() done, defined at C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py:138> exception=RuntimeError('Attempted to exit cancel scope in a different task than it was entered in')>
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 185, in start_managed
+    await self._finish_managed()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 356, in _finish_managed
+    await self.mcp.disconnect()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\mcp_client.py", line 156, in disconnect
+    await self._exit_stack.aclose()
+  File "C:\Program Files\Python311\Lib\contextlib.py", line 687, in aclose
+    await self.__aexit__(None, None, None)
+  File "C:\Program Files\Python311\Lib\contextlib.py", line 745, in __aexit__
+    raise exc_details[1]
+  File "C:\Program Files\Python311\Lib\contextlib.py", line 728, in __aexit__
+    cb_suppress = await cb(*exc_details)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\contextlib.py", line 217, in __aexit__
+    await anext(self.gen)
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\mcp\client\stdio\__init__.py", line 182, in stdio_client
+    async with (
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 810, in __aexit__
+    return self.cancel_scope.__exit__(exc_type, exc_val, exc_tb)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 455, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2026-04-07 00:06:03,033 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:06:03 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:08,359 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:06:08 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:08,369 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:06:08 +0200] "GET /api/screenshots/20260407_000602_356486.png HTTP/1.1" 200 241 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:10,111 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:06:10 +0200] "GET /api/stories HTTP/1.1" 200 160 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:10,112 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:06:10 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:10,746 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:06:10 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:11,130 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:06:11 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:12,940 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:06:12 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:22,943 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:06:22 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:32,944 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:06:32 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:42,942 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:06:42 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:52,942 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:06:52 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://127.0.0.1:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:57,573 | INFO     | explorer.server | 📡 WebSocket client disconnected (0 remaining)
+2026-04-07 00:06:57,574 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:05:42 +0200] "GET /ws/live HTTP/1.1" 101 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:06:57,576 | INFO     | explorer.server | 🌐 API server stopped

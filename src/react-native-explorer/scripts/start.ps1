@@ -1,50 +1,39 @@
-# React Native Explorer — Start Script
-# Starts both the Web UI and the Python exploration agent
+# React Native Explorer Start Script
+# Starts both the Vite Web UI (port 3000) and Python API (port 5100)
 
-Write-Host "`n🚀 React Native Explorer Agent" -ForegroundColor Cyan
+Write-Host "`n React Native Explorer Agent" -ForegroundColor Cyan
 Write-Host "================================`n"
 
 $ErrorActionPreference = "Stop"
 $rootDir = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 Set-Location $rootDir
 
-# ── Check venv exists ─────────────────────────────────────────────
-
+# Check venv exists 
 if (-not (Test-Path "venv\Scripts\python.exe")) {
-    Write-Host "⚠️  Virtual environment not found. Running setup first..." -ForegroundColor Yellow
+    Write-Host "  Virtual environment not found. Running setup first..." -ForegroundColor Yellow
     & ".\scripts\setup.ps1"
 }
 
-# ── Start Web UI in background ────────────────────────────────────
+# 🔧 Cleanup any old processes on Port 3000 or 5100 (zombies)
+Write-Host " Checking for zombie processes on ports 3000 and 5100..." -ForegroundColor Yellow
+$ports = @(3000, 5100)
+foreach ($port in $ports) {
+    $procId = (Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue).OwningProcess
+    if ($procId) {
+        Write-Host "   Killing process $procId on port $port..." -ForegroundColor Yellow
+        Stop-Process -Id $procId -Force -ErrorAction SilentlyContinue
+    }
+}
 
-Write-Host "🌐 Starting Web UI at http://localhost:3000..." -ForegroundColor Yellow
-
-$webJob = Start-Job -ScriptBlock {
-    param($rootDir)
-    Set-Location "$rootDir\web"
-    & npx vite --port 3000 --host 127.0.0.1
-} -ArgumentList $rootDir
-
-Write-Host "  ✅ Web UI started (Job ID: $($webJob.Id))" -ForegroundColor Green
-
-# ── Wait a moment for web server to start ─────────────────────────
-
-Start-Sleep -Seconds 3
-
-# ── Start the Python agent ────────────────────────────────────────
-
-Write-Host "`n🔍 Starting exploration agent..." -ForegroundColor Yellow
-Write-Host "   (Press Ctrl+C to stop)`n"
+# 1. Start the Unified Explorer process
+Write-Host " Starting Unified Explorer (UI + Agent)..." -ForegroundColor Yellow
+Write-Host "   Open http://localhost:5100 in your browser`n" -ForegroundColor Cyan
 
 try {
-    & ".\venv\Scripts\python.exe" -m agent.explorer @args
-} catch {
-    Write-Host "`n⚠️  Agent stopped: $_" -ForegroundColor Yellow
+    # 🔧 Run the unified server in the foreground. 
+    # It now serves the UI built in the previous step.
+    & ".\venv\Scripts\python.exe" -m agent --ui-only
 } finally {
-    # ── Cleanup ───────────────────────────────────────────────────
-
-    Write-Host "`n🧹 Cleaning up..." -ForegroundColor Yellow
-    Stop-Job -Job $webJob -ErrorAction SilentlyContinue
-    Remove-Job -Job $webJob -Force -ErrorAction SilentlyContinue
-    Write-Host "✅ All processes stopped.`n" -ForegroundColor Green
+    Write-Host "`n Cleaning up..." -ForegroundColor Yellow
+    Write-Host " All processes stopped.`n" -ForegroundColor Green
 }

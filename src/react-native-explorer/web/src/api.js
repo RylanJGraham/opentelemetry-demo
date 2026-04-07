@@ -65,6 +65,22 @@ export async function deleteStory(storyId) {
   return deleteReq(`/stories/${storyId}`);
 }
 
+export async function clearStorage() {
+  return deleteReq('/storage');
+}
+
+export async function agentStart() {
+  return postJSON('/agent/start', {});
+}
+
+export async function agentPause() {
+  return postJSON('/agent/pause', {});
+}
+
+export async function agentStop() {
+  return postJSON('/agent/stop', {});
+}
+
 // ── WebSocket ────────────────────────────────────────────────────────
 
 export function connectWebSocket(onMessage) {

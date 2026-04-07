@@ -1,0 +1,757 @@
+2026-04-06 23:52:23,846 | INFO     | explorer.server | UI static files served from: ui
+2026-04-06 23:52:23,848 | INFO     | explorer.server | API server running at http://127.0.0.1:5100
+2026-04-06 23:52:24,043 | INFO     | explorer.server | 📡 WebSocket client connected (1 total)
+2026-04-06 23:52:24,060 | INFO     | explorer.mcp | MCP: Starting connection...
+2026-04-06 23:52:24,123 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:24,344 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:24 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:24,349 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:24 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:24,353 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:24 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:24,360 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:24 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:25,207 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:25,416 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:25 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:27,198 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:27,344 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:27 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:29,204 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:29,374 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:29 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:29,379 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:29,532 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:29 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:29,535 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:29 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:29,538 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:29 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:29,544 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:29 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:31,206 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:31,389 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:31 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:32,855 | INFO     | explorer.mcp | MCP: Tools discovered: mobile_take_screenshot, mobile_press_button, mobile_list_available_devices, mobile_swipe_on_screen, mobile_install_app, mobile_uninstall_app, mobile_open_url, mobile_save_screenshot, mobile_list_elements_on_screen, mobile_type_keys, mobile_double_tap_on_screen, mobile_start_screen_recording, mobile_click_on_screen_at_coordinates, mobile_launch_app, mobile_set_orientation, mobile_get_screen_size, mobile_long_press_on_screen_at_coordinates, mobile_list_apps, mobile_get_orientation, mobile_stop_screen_recording, mobile_terminate_app
+2026-04-06 23:52:33,204 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:33,348 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:33 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:33,351 | INFO     | explorer.mcp | 📱 Using device: emulator-5554
+2026-04-06 23:52:34,204 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:34,358 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:34 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:34,363 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:34 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:34,365 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:34 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:34,370 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:34 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:35,194 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:35,400 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:35 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:37,194 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:37,370 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:37 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:39,209 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:39,352 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:39 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:39,355 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:39,507 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:39 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:39,510 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:39 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:39,512 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:39 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:39,518 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:39 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:41,199 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:41,411 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:41 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:43,201 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:43,352 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:43 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:44,197 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:44,362 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:44 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:44,368 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:44 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:44,370 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:44 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:44,374 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:44 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:45,203 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:45,415 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:45 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:47,202 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:47,341 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:47 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:49,208 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:49,346 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:49 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:49,349 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:49,497 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:49 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:49,501 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:49 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:49,503 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:49 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:49,506 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:49 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:51,203 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:51,348 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:51 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:53,202 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:53,336 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:53 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:54,199 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:54,332 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:54 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:54,336 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:54 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:54,339 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:54 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:54,344 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:54 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:55,197 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:55,358 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:55 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:57,200 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:57,333 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:57 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:59,195 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:59,329 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:59 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:59,331 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:52:59,472 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:59 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:59,475 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:59 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:59,477 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:59 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:52:59,480 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:52:59 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:01,194 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:01,332 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:01 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:03,196 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:03,328 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:03 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:04,203 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:04,348 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:04 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:04,351 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:04 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:04,353 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:04 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:04,357 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:04 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:05,202 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:05,372 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:05 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:07,206 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:07,366 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:07 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:07,825 | INFO     | explorer.server | 📡 WebSocket client connected (2 total)
+2026-04-06 23:53:07,828 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:07,997 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:07 +0200] "GET /api/status HTTP/1.1" 500 408 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:08,000 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:08 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:08,001 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:08 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:08,005 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:08 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:09,206 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:09,344 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:09 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:09,347 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:09,494 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:09 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:09,497 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:09 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:09,500 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:09 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:09,504 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:09 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:09,835 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:10,027 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:09 +0200] "GET /api/status HTTP/1.1" 500 408 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:11,193 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:11,329 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:11 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:11,831 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:11,992 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:11 +0200] "GET /api/status HTTP/1.1" 500 408 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:12,839 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:12,976 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:12 +0200] "GET /api/status HTTP/1.1" 500 408 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:12,980 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:12 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:12,982 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:12 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:12,987 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:12 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:13,197 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:13,345 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:13 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:13,832 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:13,971 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:13 +0200] "GET /api/status HTTP/1.1" 500 408 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:14,206 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:14,340 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:14 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:14,343 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:14 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:14,345 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:14 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:14,349 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:14 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:15,201 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:15,333 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:15 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:15,836 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:15,969 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:15 +0200] "GET /api/status HTTP/1.1" 500 408 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:17,200 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:17,371 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:17 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:17,836 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:17,970 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:17 +0200] "GET /api/status HTTP/1.1" 500 408 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:17,973 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:18,158 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:17 +0200] "GET /api/status HTTP/1.1" 500 408 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:18,164 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:17 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:18,169 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:17 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:18,178 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:17 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:19,206 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:19,339 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:19 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:19,341 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:19,481 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:19 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:19,483 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:19 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:19,485 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:19 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:19,489 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:19 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:19,828 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:19,994 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:19 +0200] "GET /api/status HTTP/1.1" 500 408 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:21,205 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:21,338 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:21 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:21,839 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:22,021 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:21 +0200] "GET /api/status HTTP/1.1" 500 408 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:22,831 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:22,970 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:22 +0200] "GET /api/status HTTP/1.1" 500 408 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:22,972 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:22 +0200] "GET /api/screens HTTP/1.1" 200 899 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:22,975 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:22 +0200] "GET /api/stories HTTP/1.1" 200 311 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:22,979 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:22 +0200] "GET /api/graph HTTP/1.1" 200 4458 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-06 23:53:23,202 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:23,348 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:23 +0200] "GET /api/status HTTP/1.1" 500 408 "http://127.0.0.1:3000/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36"
+2026-04-06 23:53:23,828 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 610, in _handle_status
+    if self._managed_explorer:
+       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ExplorerServer' object has no attribute '_managed_explorer'
+2026-04-06 23:53:23,975 | INFO     | aiohttp.access | 127.0.0.1 [06/Apr/2026:23:53:23 +0200] "GET /api/status HTTP/1.1" 500 408 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"

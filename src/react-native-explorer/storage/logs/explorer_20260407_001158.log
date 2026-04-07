@@ -1,0 +1,116 @@
+2026-04-07 00:11:59,298 | INFO     | explorer.server | UI static files served from: C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\ui
+2026-04-07 00:11:59,300 | INFO     | explorer.server | API server running at http://127.0.0.1:5100
+2026-04-07 00:11:59,481 | INFO     | explorer.mcp | MCP: Starting connection...
+2026-04-07 00:11:59,891 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:11:59 +0200] "GET / HTTP/1.1" 200 341 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:11:59,921 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:11:59 +0200] "GET /favicon.ico HTTP/1.1" 404 172 "http://localhost:5100/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:04,728 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:04 +0200] "GET /index.html HTTP/1.1" 200 238 "http://localhost:5100/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:04,752 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:04 +0200] "GET /assets/index-CR3pGX5j.css HTTP/1.1" 200 238 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:04,764 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:04 +0200] "GET /assets/index-Ds-ZND23.js HTTP/1.1" 200 253 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:04,905 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:04 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:04,910 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:04 +0200] "GET /api/stories HTTP/1.1" 200 160 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:04,913 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:04 +0200] "GET /api/status HTTP/1.1" 200 350 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:04,917 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:04 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:04,923 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:04 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:05,209 | INFO     | explorer.server | 📡 WebSocket client connected (1 total)
+2026-04-07 00:12:08,310 | INFO     | explorer.mcp | MCP: Tools discovered: mobile_save_screenshot, mobile_stop_screen_recording, mobile_uninstall_app, mobile_list_elements_on_screen, mobile_long_press_on_screen_at_coordinates, mobile_get_orientation, mobile_get_screen_size, mobile_type_keys, mobile_set_orientation, mobile_launch_app, mobile_install_app, mobile_click_on_screen_at_coordinates, mobile_swipe_on_screen, mobile_list_available_devices, mobile_press_button, mobile_terminate_app, mobile_list_apps, mobile_start_screen_recording, mobile_double_tap_on_screen, mobile_take_screenshot, mobile_open_url
+2026-04-07 00:12:08,834 | INFO     | explorer.mcp | 📱 Using device: emulator-5554
+2026-04-07 00:12:14,542 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:14 +0200] "POST /api/agent/start HTTP/1.1" 200 359 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:14,901 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:14 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:17,798 | ERROR    | explorer | Action execution error: 'MobileMCPClient' object has no attribute 'execute_action'
+2026-04-07 00:12:20,898 | ERROR    | explorer | Action execution error: 'MobileMCPClient' object has no attribute 'execute_action'
+2026-04-07 00:12:23,996 | ERROR    | explorer | Action execution error: 'MobileMCPClient' object has no attribute 'execute_action'
+2026-04-07 00:12:24,906 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:24 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:26,992 | ERROR    | explorer | Action execution error: 'MobileMCPClient' object has no attribute 'execute_action'
+2026-04-07 00:12:28,273 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:28 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:28,293 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:28 +0200] "GET /api/screenshots/20260406_234747_927398.png HTTP/1.1" 200 241 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:28,294 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:28 +0200] "GET /api/screenshots/20260407_000602_356486.png HTTP/1.1" 200 241 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:28,896 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:28 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:30,139 | ERROR    | explorer | Action execution error: 'MobileMCPClient' object has no attribute 'execute_action'
+2026-04-07 00:12:32,505 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:32 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:33,248 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:33 +0200] "GET /api/stories HTTP/1.1" 200 160 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:33,250 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:33 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:33,438 | ERROR    | explorer | Action execution error: 'MobileMCPClient' object has no attribute 'execute_action'
+2026-04-07 00:12:33,996 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:33 +0200] "GET /api/stories HTTP/1.1" 200 160 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:33,999 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:33 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:34,447 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:34 +0200] "GET /api/stories HTTP/1.1" 200 160 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:34,449 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:34 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:34,999 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:34 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:35,252 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:35 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:35,573 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:35 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:35,731 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:35 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:36,528 | ERROR    | explorer | Action execution error: 'MobileMCPClient' object has no attribute 'execute_action'
+2026-04-07 00:12:38,214 | INFO     | explorer.server | 📡 WebSocket client disconnected (0 remaining)
+2026-04-07 00:12:38,216 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:12:05 +0200] "GET /ws/live HTTP/1.1" 101 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:12:38,218 | INFO     | explorer.server | 🌐 API server stopped
+2026-04-07 00:12:38,221 | ERROR    | asyncio | unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-4' coro=<Explorer.start_managed() done, defined at C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py:138> exception=AttributeError("'NoneType' object has no attribute 'execute'")>
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\anyio\streams\memory.py", line 117, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\anyio\streams\memory.py", line 112, in receive_nowait
+    raise WouldBlock
+anyio.WouldBlock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 178, in start_managed
+    await self._exploration_loop_managed()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 219, in _exploration_loop_managed
+    elements_raw = await self.mcp.list_elements()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\mcp_client.py", line 292, in list_elements
+    result = await self._call_tool("mobile_list_elements_on_screen")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\mcp_client.py", line 189, in _call_tool
+    result = await self._session.call_tool(tool_name, arguments=args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\mcp\client\session.py", line 383, in call_tool
+    result = await self.send_request(
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\mcp\shared\session.py", line 292, in send_request
+    response_or_error = await response_stream_reader.receive()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\anyio\streams\memory.py", line 125, in receive
+    await receive_event.wait()
+  File "C:\Program Files\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 187, in start_managed
+    await self._finish_managed()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 363, in _finish_managed
+    screen_count = await self.graph.get_screen_count()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 300, in get_screen_count
+    async with self._db.execute("SELECT COUNT(*) as cnt FROM screens") as cursor:
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:12:40,145 | ERROR    | asyncio | an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x0000023AB429FCA0>
+asyncgen: <async_generator object stdio_client at 0x0000023AB429FCA0>
+  + Exception Group Traceback (most recent call last):
+  |   File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 799, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\mcp\client\stdio\__init__.py", line 189, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\mcp\client\stdio\__init__.py", line 182, in stdio_client
+    async with (
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 805, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 455, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in

@@ -63,6 +63,24 @@ export function initGraphView() {
 export async function refreshGraph() {
   try {
     const data = await getGraph();
+    const container = document.getElementById('graph-container');
+    const w = container.clientWidth || 800, h = container.clientHeight || 600;
+    const oldNodes = new Map(currentData.nodes.map(n => [n.id, n]));
+    
+    data.nodes.forEach(n => {
+       const old = oldNodes.get(n.id);
+       if (old && old.x !== undefined && old.y !== undefined) {
+           n.x = old.x;
+           n.y = old.y;
+           n.vx = old.vx;
+           n.vy = old.vy;
+           n.fx = old.fx;
+           n.fy = old.fy;
+       } else {
+           n.x = (w/2) + (Math.random() - 0.5) * w * 0.8;
+           n.y = (h/2) + (Math.random() - 0.5) * h * 0.8;
+       }
+    });
     currentData = data;
     renderGraph(data);
   } catch (e) {
@@ -73,6 +91,11 @@ export async function refreshGraph() {
 /** Add a single node/edge without full refresh. */
 export function addNode(screen) {
   if (currentData.nodes.find((n) => n.id === screen.id)) return;
+  const container = document.getElementById('graph-container');
+  const w = container.clientWidth || 800, h = container.clientHeight || 600;
+  // Offset slightly from center to prevent perfect Z-stacking
+  screen.x = (w/2) + (Math.random() - 0.5) * 100;
+  screen.y = (h/2) + (Math.random() - 0.5) * 100;
   currentData.nodes.push(screen);
   renderGraph(currentData);
 }
@@ -181,8 +204,11 @@ function renderGraph(data) {
     .text((d) => d.element_count ? `${d.element_count} el` : '');
 
   // Update simulation
+  const validIds = new Set(nodes.map(n => n.id));
+  const validEdges = edges.filter(e => validIds.has(e.source) && validIds.has(e.target));
+
   simulation.nodes(nodes);
-  simulation.force('link').links(edges.map((e) => ({
+  simulation.force('link').links(validEdges.map((e) => ({
     source: e.source,
     target: e.target,
   })));

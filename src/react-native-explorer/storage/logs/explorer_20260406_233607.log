@@ -1,0 +1,16 @@
+2026-04-06 23:36:08,100 | INFO     | explorer.mcp | MCP: Starting connection...
+2026-04-06 23:36:17,810 | INFO     | explorer.mcp | MCP: Tools discovered: mobile_press_button, mobile_swipe_on_screen, mobile_save_screenshot, mobile_stop_screen_recording, mobile_type_keys, mobile_double_tap_on_screen, mobile_get_screen_size, mobile_take_screenshot, mobile_list_elements_on_screen, mobile_get_orientation, mobile_list_apps, mobile_open_url, mobile_start_screen_recording, mobile_terminate_app, mobile_launch_app, mobile_set_orientation, mobile_list_available_devices, mobile_install_app, mobile_uninstall_app, mobile_long_press_on_screen_at_coordinates, mobile_click_on_screen_at_coordinates
+2026-04-06 23:36:18,439 | INFO     | explorer.mcp | 📱 Using device: emulator-5554
+2026-04-06 23:36:21,812 | ERROR    | explorer | Exploration error: 'ScreenGraph' object has no attribute 'get_untried_actions'
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 175, in start_managed
+    await self._exploration_loop_managed()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 232, in _exploration_loop_managed
+    await self._execute_strategy_on_screen_managed(screen_id)
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 263, in _execute_strategy_on_screen_managed
+    await self._bfs_explore_managed()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 272, in _bfs_explore_managed
+    actions = await self.graph.get_untried_actions(self.current_screen_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ScreenGraph' object has no attribute 'get_untried_actions'
+2026-04-06 23:36:22,188 | INFO     | explorer.mcp | 🔌 Disconnected from Mobile MCP server

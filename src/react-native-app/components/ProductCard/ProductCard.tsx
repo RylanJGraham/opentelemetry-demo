@@ -10,6 +10,7 @@ import { Image, Pressable, StyleSheet } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import getFrontendProxyURL from "@/utils/Settings";
+import { router } from "expo-router";
 
 interface IProps {
   product: Product;
@@ -23,6 +24,7 @@ async function getImageURL(picture: string) {
 
 const ProductCard = ({
   product: {
+    id,
     picture,
     name,
     priceUsd = {
@@ -49,23 +51,25 @@ const ProductCard = ({
   const price = (priceUsd?.units + priceUsd?.nanos / 100000000).toFixed(2);
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedView>
-        {imageSrc && <Image style={styles.image} source={{ uri: imageSrc }} />}
+    <Pressable onPress={() => router.push(`/product/${id}`)}>
+      <ThemedView style={styles.container}>
+        <ThemedView>
+          {imageSrc && <Image style={styles.image} source={{ uri: imageSrc }} />}
+        </ThemedView>
+        <ThemedView style={styles.productInfo}>
+          <ThemedText style={styles.name}>{name}</ThemedText>
+          <ThemedText style={styles.price}>$ {price}</ThemedText>
+          <Pressable style={styles.add} onPress={onClickAdd}>
+            <ThemedText style={styles.addText}>Add to Cart</ThemedText>
+          </Pressable>
+        </ThemedView>
       </ThemedView>
-      <ThemedView style={styles.productInfo}>
-        <ThemedText style={styles.name}>{name}</ThemedText>
-        <ThemedText style={styles.price}>$ {price}</ThemedText>
-        <Pressable style={styles.add} onPress={onClickAdd}>
-          <ThemedText style={styles.addText}>Add to Cart</ThemedText>
-        </Pressable>
-      </ThemedView>
-    </ThemedView>
+    </Pressable>
   );
 };
 
-const getStyles = (tint: string) =>
-  StyleSheet.create({
+function getStyles(tint: string) {
+  return StyleSheet.create({
     container: {
       display: "flex",
       flexDirection: "row",
@@ -98,5 +102,6 @@ const getStyles = (tint: string) =>
       color: "white",
     },
   });
+}
 
 export default ProductCard;

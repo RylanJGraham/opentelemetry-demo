@@ -1,0 +1,710 @@
+2026-04-07 00:15:03,814 | INFO     | explorer.server | UI static files served from: C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\ui
+2026-04-07 00:15:03,817 | INFO     | explorer.server | API server running at http://127.0.0.1:5100
+2026-04-07 00:15:04,011 | INFO     | explorer.mcp | MCP: Starting connection...
+2026-04-07 00:15:04,421 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:04 +0200] "GET / HTTP/1.1" 200 341 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:06,212 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:06 +0200] "GET /index.html HTTP/1.1" 200 238 "http://localhost:5100/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:06,237 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:06 +0200] "GET /assets/index-wYYBW68i.js HTTP/1.1" 200 253 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:06,239 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:06 +0200] "GET /assets/index-CR3pGX5j.css HTTP/1.1" 200 238 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:06,342 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:06 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:06,347 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:06 +0200] "GET /api/stories HTTP/1.1" 200 160 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:06,350 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:06 +0200] "GET /api/status HTTP/1.1" 200 350 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:06,353 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:06 +0200] "GET /api/screens HTTP/1.1" 200 1360 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:06,358 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:06 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:06,656 | INFO     | explorer.server | 📡 WebSocket client connected (1 total)
+2026-04-07 00:15:12,473 | INFO     | explorer.mcp | MCP: Tools discovered: mobile_stop_screen_recording, mobile_start_screen_recording, mobile_open_url, mobile_uninstall_app, mobile_click_on_screen_at_coordinates, mobile_list_apps, mobile_list_elements_on_screen, mobile_double_tap_on_screen, mobile_save_screenshot, mobile_launch_app, mobile_set_orientation, mobile_swipe_on_screen, mobile_press_button, mobile_get_orientation, mobile_type_keys, mobile_install_app, mobile_list_available_devices, mobile_long_press_on_screen_at_coordinates, mobile_terminate_app, mobile_get_screen_size, mobile_take_screenshot
+2026-04-07 00:15:12,948 | INFO     | explorer.mcp | 📱 Using device: emulator-5554
+2026-04-07 00:15:16,346 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:16 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:17,753 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:17 +0200] "POST /api/agent/start HTTP/1.1" 200 359 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:21,181 | ERROR    | explorer | Action execution error: Error binding parameter 3: type 'dict' is not supported
+2026-04-07 00:15:24,664 | ERROR    | explorer | Action execution error: Error binding parameter 3: type 'dict' is not supported
+2026-04-07 00:15:26,347 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:26 +0200] "GET /api/graph HTTP/1.1" 200 8181 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:29,610 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-07 00:15:32,689 | WARNING  | explorer.vision | Failed to parse JSON response: {
+  "screen_name": "Empty Cart",
+  "screen_type": "empty_state",
+  "description": "This screen displays an empty shopping cart with a message indicating that no items have been added yet.",
+  "main_pu...
+2026-04-07 00:15:32,690 | INFO     | explorer.vision | [ai]🔍 Analyzed screen: Unknown Screen[/ai] (0 elements)
+2026-04-07 00:15:32,747 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:32 +0200] "GET /api/graph HTTP/1.1" 200 8912 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:32,761 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:32 +0200] "GET /api/graph HTTP/1.1" 200 8912 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:36,347 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:36 +0200] "GET /api/graph HTTP/1.1" 200 8912 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:38,270 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-07 00:15:40,134 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:40 +0200] "GET /api/screens HTTP/1.1" 200 1852 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:40,144 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:40 +0200] "GET /api/screenshots/20260406_234747_927398.png HTTP/1.1" 304 180 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:40,146 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:40 +0200] "GET /api/screenshots/20260407_000602_356486.png HTTP/1.1" 304 180 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:40,148 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:40 +0200] "GET /api/screenshots/20260407_001532_692218.png HTTP/1.1" 200 239 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:40,850 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:40 +0200] "GET /api/graph HTTP/1.1" 200 8912 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:42,235 | INFO     | explorer.vision | [ai]🔍 Analyzed screen: Profile Screen[/ai] (7 elements)
+2026-04-07 00:15:42,406 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:42 +0200] "GET /api/graph HTTP/1.1" 200 11997 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:42,417 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:42 +0200] "GET /api/graph HTTP/1.1" 200 11997 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:42,664 | ERROR    | explorer | Action execution error: Error binding parameter 3: type 'dict' is not supported
+2026-04-07 00:15:46,349 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:46 +0200] "GET /api/graph HTTP/1.1" 200 11997 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:48,136 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-07 00:15:51,905 | INFO     | explorer.vision | [ai]🔍 Analyzed screen: Profile Screen[/ai] (7 elements)
+2026-04-07 00:15:52,025 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:52 +0200] "GET /api/graph HTTP/1.1" 200 15127 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:52,036 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:52 +0200] "GET /api/graph HTTP/1.1" 200 15127 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:52,197 | ERROR    | explorer | Action execution error: Error binding parameter 3: type 'dict' is not supported
+2026-04-07 00:15:55,171 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:55 +0200] "POST /api/agent/start HTTP/1.1" 200 359 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:55,380 | ERROR    | explorer | Action execution error: Error binding parameter 3: type 'dict' is not supported
+2026-04-07 00:15:56,348 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:56 +0200] "GET /api/graph HTTP/1.1" 200 15127 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:15:56,778 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:15:56 +0200] "POST /api/agent/pause HTTP/1.1" 200 330 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:16:00,020 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-07 00:16:03,574 | INFO     | explorer.vision | [ai]🔍 Analyzed screen: Profile Screen[/ai] (7 elements)
+2026-04-07 00:16:03,703 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:16:03 +0200] "GET /api/graph HTTP/1.1" 200 18260 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:16:03,715 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:16:03 +0200] "GET /api/graph HTTP/1.1" 200 18260 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:16:03,879 | ERROR    | explorer | Action execution error: Error binding parameter 3: type 'dict' is not supported
+2026-04-07 00:16:06,350 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:16:06 +0200] "GET /api/graph HTTP/1.1" 200 18260 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:16:09,646 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:16:09 +0200] "POST /api/agent/stop HTTP/1.1" 200 331 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:16:09,709 | INFO     | explorer.mcp | 🔌 Disconnected from Mobile MCP server
+2026-04-07 00:16:11,108 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 555, in _handle_clear_storage
+    await self.graph.clear()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 209, in clear
+    await self._db.execute("DELETE FROM exploration_log")
+          ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:16:11,401 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:16:11 +0200] "DELETE /api/storage HTTP/1.1" 500 408 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:16:17,201 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:16:17,442 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:16:17 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:16:27,197 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:16:27,387 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:16:27 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:16:36,657 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:16:36,830 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:16:36 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:16:46,353 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:16:46,513 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:16:46 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:16:56,658 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:16:56,820 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:16:56 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:06,352 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:06,544 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:06 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:16,666 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:16,827 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:16 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:26,353 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:26,515 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:26 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:36,660 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:36,819 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:36 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:45,111 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 217, in _handle_screens
+    screens = await self.graph.get_all_screens(cluster_id=cluster_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:45,234 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:45 +0200] "GET /api/screens HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:45,417 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:45 +0200] "GET /api/screenshots/20260407_001542_236640.png HTTP/1.1" 404 199 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:45,420 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:45 +0200] "GET /api/screenshots/20260407_001551_906789.png HTTP/1.1" 404 199 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:45,422 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:45 +0200] "GET /api/screenshots/20260407_001603_576309.png HTTP/1.1" 404 199 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:45,550 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 331, in _handle_list_stories
+    stories = await self.graph.get_stories()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 550, in get_stories
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:45,705 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:45 +0200] "GET /api/stories HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:45,707 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 217, in _handle_screens
+    screens = await self.graph.get_all_screens(cluster_id=cluster_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:45,888 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:45 +0200] "GET /api/screens HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:46,402 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:46,575 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:46 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:47,204 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 217, in _handle_screens
+    screens = await self.graph.get_all_screens(cluster_id=cluster_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:47,374 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:47 +0200] "GET /api/screens HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:47,468 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 331, in _handle_list_stories
+    stories = await self.graph.get_stories()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 550, in get_stories
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:47,623 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:47 +0200] "GET /api/stories HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:47,626 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 217, in _handle_screens
+    screens = await self.graph.get_all_screens(cluster_id=cluster_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:47,776 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:47 +0200] "GET /api/screens HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:47,888 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:48,107 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:47 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:17:56,656 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:17:56,822 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:17:56 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:18:06,355 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:18:06,539 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:18:06 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:18:16,662 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:18:16,824 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:18:16 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:18:26,356 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:18:26,517 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:18:26 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:18:36,656 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:18:36,817 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:18:36 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:18:46,356 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:18:46,517 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:18:46 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:18:56,655 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:18:56,881 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:18:56 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:19:06,350 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:19:06,513 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:19:06 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:19:16,661 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:19:16,840 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:19:16 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:19:26,349 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:19:26,508 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:19:26 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:19:36,659 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+    screens = await self.get_all_screens()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:19:36,840 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:19:36 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:19:46,353 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:19:46,535 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:19:46 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:19:56,656 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:19:56,858 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:19:56 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:20:06,353 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:20:06,512 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:20:06 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:20:16,666 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:20:16,830 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:20:16 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:20:26,342 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:20:26,502 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:20:26 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:20:36,659 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:20:36,819 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:20:36 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:20:46,353 | ERROR    | aiohttp.server | Error handling request from 127.0.0.1
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_protocol.py", line 517, in _handle_request
+    resp = await request_handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\aiohttp\web_app.py", line 569, in _handle
+    return await handler(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\server.py", line 196, in _handle_graph
+    graph_data = await self.graph.export_graph_json()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 671, in export_graph_json
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 292, in get_all_screens
+    async with self._db.execute(
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2026-04-07 00:20:46,539 | INFO     | aiohttp.access | 127.0.0.1 [07/Apr/2026:00:20:46 +0200] "GET /api/graph HTTP/1.1" 500 246 "http://localhost:5100/index.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-07 00:20:55,388 | INFO     | explorer.server | 📡 WebSocket client disconnected (0 remaining)

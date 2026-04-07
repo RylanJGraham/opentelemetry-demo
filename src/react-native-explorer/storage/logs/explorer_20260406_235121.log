@@ -1,0 +1,2 @@
+2026-04-06 23:51:22,278 | INFO     | explorer.server | UI static files served from: ui
+2026-04-06 23:51:22,280 | INFO     | explorer.server | API server running at http://127.0.0.1:5100

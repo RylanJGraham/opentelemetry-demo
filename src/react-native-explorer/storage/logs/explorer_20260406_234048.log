@@ -1,0 +1,32 @@
+2026-04-06 23:40:48,966 | INFO     | explorer.mcp | MCP: Starting connection...
+2026-04-06 23:40:57,595 | INFO     | explorer.mcp | MCP: Tools discovered: mobile_list_available_devices, mobile_take_screenshot, mobile_long_press_on_screen_at_coordinates, mobile_get_orientation, mobile_click_on_screen_at_coordinates, mobile_type_keys, mobile_set_orientation, mobile_stop_screen_recording, mobile_swipe_on_screen, mobile_press_button, mobile_double_tap_on_screen, mobile_start_screen_recording, mobile_terminate_app, mobile_get_screen_size, mobile_launch_app, mobile_uninstall_app, mobile_install_app, mobile_list_elements_on_screen, mobile_list_apps, mobile_open_url, mobile_save_screenshot
+2026-04-06 23:40:58,128 | INFO     | explorer.mcp | 📱 Using device: emulator-5554
+2026-04-06 23:41:03,576 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-06 23:41:08,730 | INFO     | explorer.vision | [ai]🔍 Analyzed screen: Product List[/ai] (10 elements)
+2026-04-06 23:41:09,018 | ERROR    | explorer | Exploration error: 'charmap' codec can't encode character '\U0001f4f1' in position 18: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 182, in start_managed
+    await self._exploration_loop_managed()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 254, in _exploration_loop_managed
+    screen_id = await self._create_screen(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 549, in _create_screen
+    console.print(
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\rich\console.py", line 1697, in print
+    with self:
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\rich\console.py", line 870, in __exit__
+    self._exit_buffer()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\rich\console.py", line 826, in _exit_buffer
+    self._check_buffer()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\rich\console.py", line 2042, in _check_buffer
+    self._write_buffer()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\rich\console.py", line 2078, in _write_buffer
+    legacy_windows_render(buffer, LegacyWindowsTerm(self.file))
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\rich\_windows_renderer.py", line 19, in legacy_windows_render
+    term.write_text(text)
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\venv\Lib\site-packages\rich\_win32_console.py", line 402, in write_text
+    self.write(text)
+  File "C:\Program Files\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f4f1' in position 18: character maps to <undefined>

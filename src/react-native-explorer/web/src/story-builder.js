@@ -14,6 +14,12 @@ export function initStoryBuilder() {
   document.getElementById('btn-save-story').addEventListener('click', saveCurrentStory);
   document.getElementById('btn-export-story').addEventListener('click', exportCurrentStory);
 
+  const commandInput = document.getElementById('story-command');
+  if (commandInput) {
+    commandInput.addEventListener('input', handleCommandInput);
+    commandInput.addEventListener('keydown', handleCommandKeydown);
+  }
+
   refreshStories();
   refreshPickerScreens();
 }
@@ -211,4 +217,137 @@ function renderPicker() {
       renderCanvas();
     });
   });
+}
+
+/** Handle typing in the command console. */
+let suggestionIdx = -1;
+let filteredSuggestions = [];
+
+function handleCommandInput(e) {
+  const text = e.target.value;
+  const cursor = e.target.selectionStart;
+  const lastAt = text.lastIndexOf('@', cursor - 1);
+  const suggestionsBox = document.getElementById('suggestions');
+
+  if (lastAt !== -1 && !/\s/.test(text.slice(lastAt + 1, cursor))) {
+    const query = text.slice(lastAt + 1, cursor).toLowerCase();
+    
+    // Generate suggestions: screens + elements from last screen in story
+    const lastScreenId = currentStory.steps.length > 0 ? currentStory.steps[currentStory.steps.length-1].screenId : null;
+    let pool = availableScreens.map(s => ({ name: s.name, id: s.id, type: 'screen' }));
+    
+    if (lastScreenId) {
+       const screen = availableScreens.find(s => s.id === lastScreenId);
+       if (screen && screen.elements) {
+         pool = [...pool, ...screen.elements.map(el => ({ name: el.label || el.type, id: el.id, type: 'element' }))];
+       }
+    }
+
+    filteredSuggestions = pool.filter(p => p.name.toLowerCase().includes(query)).slice(0, 8);
+
+    if (filteredSuggestions.length > 0) {
+      renderSuggestions(filteredSuggestions, lastAt);
+      return;
+    }
+  }
+  suggestionsBox.style.display = 'none';
+  suggestionIdx = -1;
+}
+
+function renderSuggestions(list, atPos) {
+  const box = document.getElementById('suggestions');
+  box.innerHTML = list.map((item, i) => `
+    <div class="suggestion-item ${i === suggestionIdx ? 'active' : ''}" data-idx="${i}">
+       <span>@${item.name}</span>
+       <span class="suggestion-item-type">${item.type}</span>
+    </div>
+  `).join('');
+  box.style.display = 'block';
+
+  box.querySelectorAll('.suggestion-item').forEach(el => {
+    el.addEventListener('click', () => applySuggestion(list[el.dataset.idx], atPos));
+  });
+}
+
+function handleCommandKeydown(e) {
+  const box = document.getElementById('suggestions');
+  if (box.style.display === 'block') {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      suggestionIdx = (suggestionIdx + 1) % filteredSuggestions.length;
+      renderSuggestions(filteredSuggestions);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      suggestionIdx = (suggestionIdx - 1 + filteredSuggestions.length) % filteredSuggestions.length;
+      renderSuggestions(filteredSuggestions);
+    } else if (e.key === 'Enter' || e.key === 'Tab') {
+      e.preventDefault();
+      if (suggestionIdx >= 0) applySuggestion(filteredSuggestions[suggestionIdx]);
+    } else if (e.key === 'Escape') {
+      box.style.display = 'none';
+    }
+  } else if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    parseCommand(e.target.value);
+    e.target.value = '';
+  }
+}
+
+function applySuggestion(item) {
+  const input = document.getElementById('story-command');
+  const text = input.value;
+  const cursor = input.selectionStart;
+  const lastAt = text.lastIndexOf('@', cursor - 1);
+  
+  const before = text.slice(0, lastAt);
+  const after = text.slice(cursor);
+  input.value = before + '@' + item.name + ' ' + after;
+  input.focus();
+  document.getElementById('suggestions').style.display = 'none';
+  
+  // If it's a screen, add to story
+  if (item.type === 'screen') {
+    if (!currentStory.steps) currentStory.steps = [];
+    currentStory.steps.push({ screenId: item.id, annotation: '' });
+    renderCanvas();
+  }
+}
+
+function parseCommand(cmd) {
+  // Enhanced parser: "@Home tap @Settings"
+  const screenMatches = cmd.match(/@([\w\s]+)/g);
+  if (!screenMatches) return;
+
+  const steps = [];
+  let currentStep = null;
+
+  // Split by words/tags and iterate
+  const tokens = cmd.split(/\s+/);
+  let lastAction = 'tap';
+
+  tokens.forEach(token => {
+    if (token.startsWith('@')) {
+      const name = token.slice(1).replace(/[,.;]$/, '');
+      
+      // Check if it's a known screen
+      const screen = availableScreens.find(s => s.name.toLowerCase() === name.toLowerCase());
+      if (screen) {
+        currentStep = { screenId: screen.id, annotation: cmd, actions: [] };
+        steps.push(currentStep);
+      } else if (currentStep) {
+        // Assume it's an element on the current screen
+        // In a real app we'd find the element ID here
+        currentStep.actions.push({ type: lastAction, elementLabel: name });
+        currentStep.annotation += ` [${lastAction} ${name}]`;
+      }
+    } else if (['tap', 'click', 'press', 'type', 'swipe'].includes(token.toLowerCase())) {
+      lastAction = token.toLowerCase();
+    }
+  });
+
+  if (steps.length > 0) {
+    if (!currentStory.steps) currentStory.steps = [];
+    currentStory.steps.push(...steps);
+    renderCanvas();
+  }
 }

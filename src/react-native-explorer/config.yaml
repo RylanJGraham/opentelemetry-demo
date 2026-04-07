@@ -3,28 +3,33 @@
 app:
   name: "React Native App"
   platform: "android"
+  package_name: "io.opentelemetry.reactnativeapp"  # Your app's package name
 
 exploration:
-  max_screens: 20
-  max_actions_per_screen: 15
-  explore_depth: "full"       # "full" or "shallow"
-  action_delay_ms: 1500       # pause between actions for UI to settle
+  max_screens: 50                    # Maximum screens to discover
+  max_actions_per_screen: 15         # Actions to try per screen
+  explore_depth: "full"              # "full" or "shallow"
+  action_delay_ms: 1500              # Pause between actions for UI to settle
   screenshot_before_action: true
-  stuck_threshold: 3          # same screen N times → try back
-  max_back_presses: 3         # max consecutive back presses before stopping branch
+  stuck_threshold: 3                 # Same screen N times → try back
+  max_back_presses: 3                # Max consecutive back presses before stopping branch
+  enable_clustering: true            # Auto-group similar screens
 
 vision:
   provider: "openrouter"
   model: "google/gemini-2.0-flash-001"
+  api_key_env: "OPENROUTER_API_KEY"  # Environment variable name
   api_base: "https://openrouter.ai/api/v1"
   max_tokens: 2048
   temperature: 0.1
-  screenshot_max_size: 1024   # resize screenshots to this max dimension for LLM
+  screenshot_max_size: 1024          # Resize screenshots for LLM
+  batch_analysis: true               # Enable batch screen analysis
 
 storage:
   screenshots_dir: "./storage/screenshots"
   database: "./storage/graph.db"
   stories_dir: "./storage/stories"
+  cache_dir: "./storage/cache"
   state_file: "./storage/exploration_state.json"
 
 server:
@@ -35,3 +40,4 @@ server:
 ui:
   port: 3000
   auto_open: true
+  static_dir: "./ui"                 # Path to UI files

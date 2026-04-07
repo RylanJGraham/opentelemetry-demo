@@ -28,32 +28,49 @@
         <button class="nav-tab" data-view="stories" id="tab-stories">
           <span class="tab-icon">📋</span> Stories
         </button>
+        <button class="nav-tab" style="color: #ff5555;" id="btn-clear-storage">
+          <span class="tab-icon">🗑️</span> Clear Setup
+        </button>
       </nav>
     </div>
-    <div class="header-right">
-      <div class="status-indicator" id="status-indicator">
-        <span class="status-dot" id="status-dot"></span>
-        <span class="status-text" id="status-text">Connecting...</span>
+      <div class="header-right">
+        <div class="agent-controls">
+          <button class="btn-control" id="btn-agent-start" title="Start/Resume Agent">▶</button>
+          <button class="btn-control" id="btn-agent-pause" title="Pause Agent">⏸</button>
+          <button class="btn-control btn-stop" id="btn-agent-stop" title="Stop Agent">⏹</button>
+        </div>
+        <div class="status-indicator" id="status-indicator">
+          <span class="status-dot" id="status-dot"></span>
+          <span class="status-text" id="status-text">Connecting...</span>
+        </div>
+        <div class="stats-bar" id="stats-bar">
+          <div class="stat">
+            <span class="stat-value" id="stat-screens">0</span>
+            <span class="stat-label">Screens</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-transitions">0</span>
+            <span class="stat-label">Transitions</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-actions">0</span>
+            <span class="stat-label">Actions</span>
+          </div>
+        </div>
       </div>
-      <div class="stats-bar" id="stats-bar">
-        <div class="stat">
-          <span class="stat-value" id="stat-screens">0</span>
-          <span class="stat-label">Screens</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value" id="stat-transitions">0</span>
-          <span class="stat-label">Transitions</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value" id="stat-actions">0</span>
-          <span class="stat-label">Actions</span>
-        </div>
-      </div>
-    </div>
   </header>
 
   <!-- Main Content Area -->
   <main id="app-main">
+    <!-- Activity Sidebar (Left) -->
+    <aside class="activity-sidebar" id="activity-sidebar">
+      <button class="sidebar-toggle" id="sidebar-toggle">◀</button>
+      <div class="activity-header">
+        <span>Live Activity</span>
+      </div>
+      <div class="feed-items" id="feed-items"></div>
+    </aside>
+
     <!-- Graph View -->
     <section class="view active" id="view-graph">
       <div class="graph-container" id="graph-container">
@@ -103,8 +120,18 @@
               <button class="btn btn-outline" id="btn-export-story">📤 Export</button>
             </div>
           </div>
+          <div class="story-command-wrapper">
+             <h4>Command Console</h4>
+             <div style="position: relative;">
+               <textarea class="command-console" id="story-command" placeholder="Enter story commands... e.g. @Home tap @Settings"></textarea>
+               <div id="suggestions" class="suggestions-dropdown"></div>
+             </div>
+             <div class="command-hints">
+               Tip: use <code>@</code> to tag screens and elements.
+             </div>
+          </div>
           <div class="story-canvas" id="story-canvas">
-            <p class="empty-state">Drag screens from the gallery below to build a story</p>
+            <p class="empty-state">Drag screens or type commands to build a story</p>
           </div>
           <div class="story-screen-picker" id="story-screen-picker">
             <h4>Available Screens</h4>
@@ -115,14 +142,7 @@
     </section>
   </main>
 
-  <!-- Live Activity Feed (floating) -->
-  <div class="activity-feed" id="activity-feed">
-    <div class="feed-header">
-      <span>Live Activity</span>
-      <button class="feed-toggle" id="feed-toggle">▼</button>
-    </div>
-    <div class="feed-items" id="feed-items"></div>
-  </div>
+
 
   <script type="module" src="/src/main.js"></script>
 </body>
