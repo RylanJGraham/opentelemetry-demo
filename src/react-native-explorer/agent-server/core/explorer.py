@@ -1,14 +1,16 @@
-"""Exploration engine - the brain of the agent."""
+"""Exploration engine - systematic BFS-based exploration."""
 import asyncio
 import json
 import time
 import logging
 from pathlib import Path
-from typing import Optional, Dict, List, Any
-from dataclasses import dataclass, field
+from typing import Optional, Dict, List, Any, Callable, Set
+from dataclasses import dataclass
 from enum import Enum
 
 from core.database import db
+from core.utils import ImageHasher
+from core.vision import VisionAnalyzer
 from mcp_client.client import MCPClient
 
 logger = logging.getLogger("agent.explorer")
@@ -24,53 +26,58 @@ class ExplorationState(Enum):
 
 
 @dataclass
-class ExplorationStats:
-    screens_found: int = 0
-    transitions_found: int = 0
-    actions_taken: int = 0
-    start_time: Optional[float] = None
-    end_time: Optional[float] = None
-    
-    @property
-    def duration_seconds(self) -> float:
-        if self.start_time is None:
-            return 0
-        end = self.end_time or time.time()
-        return end - self.start_time
+class ExplorationConfig:
+    """Configuration for exploration."""
+    max_screens: int = 20
+    max_depth: int = 15
+    action_delay_ms: int = 3000
+    max_duration_seconds: float = 900
+    use_ai_vision: bool = True
 
 
-@dataclass 
-class Screen:
+@dataclass
+class ScreenInfo:
+    """Info about a discovered screen."""
     id: str
     name: str
     screen_type: str
-    description: str
-    screenshot_path: str
-    elements: List[Dict] = field(default_factory=list)
-    metadata: Dict = field(default_factory=dict)
+    elements: List[Dict]
+    tapped_elements: Set[int]  # Element indices already tapped
+    visited_count: int = 0
 
 
 class ExplorationEngine:
-    """Main exploration engine."""
+    """Systematic exploration using BFS strategy."""
     
-    def __init__(self, config: Any):
+    def __init__(self, config: ExplorationConfig, vision_analyzer: Optional[VisionAnalyzer] = None):
         self.config = config
         self.mcp = MCPClient()
+        self.vision = vision_analyzer
+        
         self.state = ExplorationState.IDLE
-        self.stats = ExplorationStats()
         self.current_screen_id: Optional[str] = None
+        
+        # Screen tracking using element structure hash (not screenshot hash)
+        self._known_screens: Dict[str, ScreenInfo] = {}  # structure_hash -> ScreenInfo
+        
+        # Navigation for backtracking
+        self._navigation_stack: List[str] = []  # Stack of screen structure hashes
+        
         self._task: Optional[asyncio.Task] = None
         self._pause_event = asyncio.Event()
-        self._pause_event.set()  # Start unpaused
+        self._pause_event.set()
         self._stop_event = asyncio.Event()
-        self._callbacks: List[callable] = []
+        self._callbacks: List[Callable] = []
+        
+        # Stats
+        self._screens_found = 0
+        self._actions_taken = 0
+        self._start_time: Optional[float] = None
     
-    def on_state_change(self, callback: callable):
-        """Register state change callback."""
+    def on_state_change(self, callback: Callable):
         self._callbacks.append(callback)
     
     def _notify(self, event: str, data: Any = None):
-        """Notify all callbacks."""
         for cb in self._callbacks:
             try:
                 asyncio.create_task(cb(event, data))
@@ -78,23 +85,25 @@ class ExplorationEngine:
                 pass
     
     async def start(self):
-        """Start exploration."""
         if self.state == ExplorationState.EXPLORING:
             return {"status": "already_running"}
         
         self.state = ExplorationState.CONNECTING
         self._notify("state_change", {"state": self.state.value})
         
-        # Connect to MCP
         connected = await self.mcp.connect()
         if not connected:
             self.state = ExplorationState.ERROR
-            self._notify("state_change", {"state": self.state.value, "error": "MCP connection failed"})
-            return {"status": "error", "message": "Failed to connect to MCP"}
+            return {"status": "error", "message": "MCP connection failed"}
         
-        # Start exploration loop
+        # Reset state
+        self._known_screens = {}
+        self._navigation_stack = []
+        self._screens_found = 0
+        self._actions_taken = 0
+        self._start_time = time.time()
+        
         self.state = ExplorationState.EXPLORING
-        self.stats.start_time = time.time()
         self._stop_event.clear()
         self._pause_event.set()
         self._task = asyncio.create_task(self._exploration_loop())
@@ -102,210 +111,317 @@ class ExplorationEngine:
         self._notify("state_change", {"state": self.state.value})
         return {"status": "started"}
     
-    async def pause(self):
-        """Pause exploration."""
-        if self.state == ExplorationState.EXPLORING:
-            self._pause_event.clear()
-            self.state = ExplorationState.PAUSED
-            self._notify("state_change", {"state": self.state.value})
-        return {"status": "paused"}
-    
-    async def resume(self):
-        """Resume exploration."""
-        if self.state == ExplorationState.PAUSED:
-            self._pause_event.set()
-            self.state = ExplorationState.EXPLORING
-            self._notify("state_change", {"state": self.state.value})
-        return {"status": "resumed"}
-    
     async def stop(self):
-        """Stop exploration."""
         self._stop_event.set()
-        self._pause_event.set()  # Ensure loop can exit
-        
+        self._pause_event.set()
         if self._task:
             self._task.cancel()
             try:
                 await self._task
             except asyncio.CancelledError:
                 pass
-        
         await self.mcp.disconnect()
-        
         self.state = ExplorationState.IDLE
-        self.stats.end_time = time.time()
         self._notify("state_change", {"state": self.state.value})
         return {"status": "stopped"}
     
     async def _exploration_loop(self):
-        """Main exploration loop."""
         try:
+            consecutive_errors = 0
+            
             while not self._stop_event.is_set():
-                # Check pause
                 if not self._pause_event.is_set():
                     await self._pause_event.wait()
                     if self._stop_event.is_set():
                         break
                 
-                # Check screen limit
-                if self.stats.screens_found >= self.config.max_screens:
-                    logger.info(f"Reached max screens limit: {self.config.max_screens}")
+                # Check limits
+                if self._screens_found >= self.config.max_screens:
+                    logger.info(f"Reached max screens: {self.config.max_screens}")
+                    break
+                if time.time() - self._start_time > self.config.max_duration_seconds:
+                    logger.info("Reached time limit")
                     break
                 
-                # Capture screen
-                await self._explore_step()
+                try:
+                    success = await self._explore_step()
+                    if success:
+                        consecutive_errors = 0
+                    else:
+                        consecutive_errors += 1
+                        if consecutive_errors >= 5:
+                            logger.warning("Too many errors, stopping")
+                            break
+                except Exception as e:
+                    logger.exception("Exploration step error")
+                    consecutive_errors += 1
+                    if consecutive_errors >= 5:
+                        break
                 
-                # Small delay between actions
                 await asyncio.sleep(self.config.action_delay_ms / 1000)
                 
         except asyncio.CancelledError:
-            logger.info("Exploration loop cancelled")
+            pass
         except Exception as e:
             logger.exception("Exploration error")
             self.state = ExplorationState.ERROR
-            self._notify("state_change", {"state": self.state.value, "error": str(e)})
         finally:
-            self.stats.end_time = time.time()
             if self.state != ExplorationState.ERROR:
                 self.state = ExplorationState.COMPLETE
-            self._notify("exploration_complete", {"stats": self._stats_dict()})
+            self._notify("exploration_complete", {"stats": self._get_stats()})
     
-    async def _explore_step(self):
-        """Single exploration step."""
+    def _get_structure_hash(self, elements: List[Dict]) -> str:
+        """Create a hash based on the structure of elements (not screenshot pixels)."""
+        # Hash based on element types and their relative positions
+        # This is more stable than screenshot hash (which changes with content)
+        structure_parts = []
+        for el in elements[:20]:  # Top 20 elements
+            el_type = el.get('type', 'unknown')[:20]
+            x = el.get('x', 0) // 50  # Bucket positions (50px buckets)
+            y = el.get('y', 0) // 50
+            w = el.get('width', 0) // 50
+            h = el.get('height', 0) // 50
+            structure_parts.append(f"{el_type}:{x}:{y}:{w}:{h}")
+        
+        import hashlib
+        structure_str = "|".join(structure_parts)
+        return hashlib.md5(structure_str.encode()).hexdigest()[:16]
+    
+    def _find_interactive_elements(self, elements: List[Dict]) -> List[int]:
+        """Find indices of truly interactive elements (buttons, inputs, etc)."""
+        interactive = []
+        
+        for i, el in enumerate(elements):
+            el_type = el.get('type', '').lower()
+            label = (el.get('label', '') or el.get('text', '')).lower()
+            clickable = el.get('clickable', False)
+            
+            x = el.get('x', 0)
+            y = el.get('y', 0)
+            w = el.get('width', 0)
+            h = el.get('height', 0)
+            
+            # STRICT: Only include known interactive types OR explicitly clickable
+            interactive_types = {
+                'button', 'imagebutton', 'switch', 'checkbox', 'radiobutton',
+                'togglebutton', 'floatingactionbutton',
+                'edittext', 'autocompletetextview', 'textinput',
+                'spinner', 'dropdown', 'picker',
+            }
+            
+            is_interactive_type = any(t in el_type for t in interactive_types)
+            
+            # Action keywords in label
+            action_keywords = ['add', 'buy', 'cart', 'checkout', 'submit', 'save',
+                             'edit', 'delete', 'back', 'next', 'continue', 'pay',
+                             'order', 'search', 'menu', 'close', 'confirm', 'cancel']
+            has_action_label = any(kw in label for kw in action_keywords)
+            
+            # Must be explicitly clickable OR interactive type
+            is_interactive = (clickable is True) or (is_interactive_type and has_action_label)
+            
+            # Size and position checks
+            valid_size = w >= 50 and h >= 40
+            valid_position = y > 100 and y < 2200 and x > 10
+            
+            # NAVBAR BACK BUTTON DETECTION
+            # Back buttons are typically:
+            # - Small square icons (40-70px) in top-left area
+            # - ImageView or View types
+            # - y between 100-250 (below status bar, in header)
+            # - x between 0-150 (left side)
+            is_navbar_back = (
+                40 <= w <= 100 and 40 <= h <= 100 and  # Small square-ish
+                100 <= y <= 250 and 0 <= x <= 150 and   # Top-left area
+                (el_type in ['imageview', 'view', 'image'] or 'button' in el_type)
+            )
+            
+            if (is_interactive or is_navbar_back) and valid_size and valid_position:
+                interactive.append(i)
+                if is_navbar_back:
+                    logger.debug(f"Found navbar back button: {el_type} at ({x},{y})")
+        
+        return interactive
+    
+    async def _explore_step(self) -> bool:
+        """One exploration step: discover screen, decide action, execute."""
         # Take screenshot
         screenshot = await self.mcp.take_screenshot()
         if not screenshot:
-            logger.warning("Failed to capture screenshot")
-            return
+            return False
         
-        # Get elements
+        # Get elements from screen
         elements = await self.mcp.list_elements()
         
-        # Generate screen ID from screenshot hash
-        import hashlib
-        screen_id = f"screen_{hashlib.md5(screenshot).hexdigest()[:12]}"
+        # Use STRUCTURE hash for screen identity (not screenshot hash)
+        structure_hash = self._get_structure_hash(elements)
+        self.current_screen_id = structure_hash
         
-        # Check if screen already exists
-        existing = await db.fetchone("SELECT * FROM screens WHERE id = ?", (screen_id,))
+        # Check if we've seen this screen structure before
+        is_new_screen = structure_hash not in self._known_screens
         
-        if existing:
-            # Update visit count
-            await db.execute(
-                "UPDATE screens SET visit_count = visit_count + 1, last_seen = ? WHERE id = ?",
-                (time.time(), screen_id)
-            )
-            await db.commit()
-        else:
+        if is_new_screen:
+            # This is a new screen - analyze it
+            logger.info(f"New screen detected (structure: {structure_hash[:8]})")
+            
+            # Find interactive elements on this new screen
+            interactive_indices = self._find_interactive_elements(elements)
+            
+            # Get AI name for this screen
+            screen_name = "Unknown Screen"
+            screen_type = "unknown"
+            
+            if self.vision and self.config.use_ai_vision:
+                try:
+                    analysis = await self.vision.analyze_screen(
+                        screenshot, structure_hash, elements
+                    )
+                    screen_name = analysis.name
+                    screen_type = analysis.screen_type
+                except Exception as e:
+                    logger.warning(f"AI analysis failed: {e}")
+            
             # Save screenshot
-            screenshot_path = f"{screen_id}.png"
-            screenshot_dir = Path(self.config.screenshots_dir)
+            screenshot_path = f"screen_{structure_hash}.png"
+            screenshot_dir = Path("./storage/screenshots")
             screenshot_dir.mkdir(parents=True, exist_ok=True)
             (screenshot_dir / screenshot_path).write_bytes(screenshot)
             
-            # Analyze with AI (placeholder - would call vision model here)
-            screen_name = f"Screen {self.stats.screens_found + 1}"
-            screen_type = "unknown"
+            # Create screen info
+            screen_info = ScreenInfo(
+                id=structure_hash,
+                name=screen_name,
+                screen_type=screen_type,
+                elements=elements,
+                tapped_elements=set(),
+                visited_count=1
+            )
+            self._known_screens[structure_hash] = screen_info
             
-            # Insert new screen
-            await db.execute(
-                """INSERT INTO screens (id, name, screen_type, description, screenshot_path, 
-                   element_count, first_seen, last_seen, metadata)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                (screen_id, screen_name, screen_type, "", screenshot_path, 
-                 len(elements), time.time(), time.time(), json.dumps({}))
+            # Save to DB
+            content_hash = ImageHasher.content_hash(screenshot)
+            await self._save_screen_to_db(structure_hash, screen_name, screen_type,
+                                          elements, screenshot_path, content_hash)
+            
+            self._screens_found += 1
+            self._notify("new_screen", {
+                "id": structure_hash,
+                "name": screen_name,
+                "type": screen_type,
+                "elements": len(elements),
+                "interactive": len(interactive_indices)
+            })
+            
+            logger.info(f"New screen: {screen_name} ({len(interactive_indices)} interactive)")
+        else:
+            # Known screen - increment visit count
+            self._known_screens[structure_hash].visited_count += 1
+            await db.update_screen_visit(structure_hash)
+            self._notify("screen_visited", {"id": structure_hash})
+            interactive_indices = self._find_interactive_elements(elements)
+        
+        # Get current screen info
+        screen_info = self._known_screens[structure_hash]
+        
+        # Find untapped interactive elements
+        untapped = [idx for idx in interactive_indices if idx not in screen_info.tapped_elements]
+        
+        if untapped:
+            # Tap the first untapped element
+            element_idx = untapped[0]
+            element = elements[element_idx]
+            
+            x = element.get('x', 0) + element.get('width', 0) // 2
+            y = element.get('y', 0) + element.get('height', 0) // 2
+            label = element.get('label', '') or element.get('text', '')
+            
+            logger.info(f"Tapping element {element_idx}: {label[:30] or 'unnamed'} at ({x}, {y})")
+            
+            # Record transition before tap
+            await db.record_transition(
+                from_screen_id=structure_hash,
+                to_screen_id=None,  # Will be updated when we see the new screen
+                element_id=f"{structure_hash}_el_{element_idx}",
+                action_type="tap",
+                action_detail={"x": x, "y": y, "label": label}
             )
             
-            # Insert elements
+            # Mark as tapped
+            screen_info.tapped_elements.add(element_idx)
+            
+            # Execute tap
+            success = await self.mcp.tap(x, y)
+            if success:
+                self._actions_taken += 1
+                self._navigation_stack.append(structure_hash)
+                await asyncio.sleep(1.5)  # Wait for navigation
+            
+            return success
+        else:
+            # No more elements to tap on this screen - go back
+            logger.info(f"No more elements on {screen_info.name}, going back")
+            if self._navigation_stack:
+                self._navigation_stack.pop()
+                await self.mcp.press_back()
+                await asyncio.sleep(1.5)
+                return True
+            else:
+                logger.info("Nothing left to explore")
+                return False
+    
+    async def _save_screen_to_db(self, screen_id: str, name: str, screen_type: str,
+                                  elements: List[Dict], screenshot_path: str, 
+                                  content_hash: str):
+        """Save screen and elements to database."""
+        try:
+            # Save screen
+            await db.execute(
+                """INSERT INTO screens 
+                   (id, name, screen_type, screenshot_path,
+                    content_hash, element_count, first_seen, last_seen, fully_explored)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (screen_id, name, screen_type, screenshot_path,
+                 content_hash, len(elements), time.time(), time.time(), 0)
+            )
+            
+            # Save elements
             for i, el in enumerate(elements):
-                el_id = f"{screen_id}_el_{i}"
                 await db.execute(
-                    """INSERT INTO elements (id, screen_id, element_type, label, x, y, 
-                       width, height, confidence)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                    (el_id, screen_id, 
-                     el.get("type", "unknown"), 
-                     el.get("label", "")[:100],
-                     int(el.get("x", 0)), int(el.get("y", 0)),
-                     int(el.get("width", 0)), int(el.get("height", 0)),
-                     el.get("confidence", 1.0))
+                    """INSERT INTO elements 
+                       (id, screen_id, element_type, label, text_content,
+                        x, y, width, height, clickable)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (
+                        f"{screen_id}_el_{i}",
+                        screen_id,
+                        el.get('type', 'unknown'),
+                        el.get('label', '')[:100],
+                        el.get('text', '')[:200],
+                        el.get('x', 0),
+                        el.get('y', 0),
+                        el.get('width', 0),
+                        el.get('height', 0),
+                        1 if el.get('clickable', False) else 0
+                    )
                 )
             
             await db.commit()
-            
-            self.stats.screens_found += 1
-            self._notify("new_screen", {
-                "id": screen_id,
-                "name": screen_name,
-                "type": screen_type,
-                "screenshot": screenshot_path,
-                "elements": len(elements)
-            })
-        
-        self.current_screen_id = screen_id
-        
-        # Pick an action (BFS strategy)
-        await self._pick_action(screen_id, elements)
+        except Exception as e:
+            logger.error(f"Failed to save screen to DB: {e}")
     
-    async def _pick_action(self, screen_id: str, elements: List[Dict]):
-        """Choose and execute next action."""
-        # Find untapped elements
-        tapped = await db.fetchall(
-            "SELECT id FROM elements WHERE screen_id = ? AND interacted = 1",
-            (screen_id,)
-        )
-        tapped_ids = {e["id"] for e in tapped}
-        
-        # Get interactive elements
-        interactive = [e for e in elements if e.get("type") in ["button", "link", "input", "clickable"]]
-        
-        for el in interactive:
-            el_id = f"{screen_id}_el_{interactive.index(el)}"
-            if el_id not in tapped_ids:
-                # Execute tap
-                x = int(el.get("x", 0)) + int(el.get("width", 0)) // 2
-                y = int(el.get("y", 0)) + int(el.get("height", 0)) // 2
-                
-                success = await self.mcp.tap(x, y)
-                
-                if success:
-                    # Mark as tapped
-                    await db.execute(
-                        "UPDATE elements SET interacted = 1, interaction_result = ? WHERE id = ?",
-                        ("tapped", el_id)
-                    )
-                    
-                    # Log transition
-                    await db.execute(
-                        """INSERT INTO transitions (from_screen_id, element_id, action_type, 
-                           action_detail, timestamp) VALUES (?, ?, ?, ?, ?)""",
-                        (screen_id, el_id, "tap", json.dumps({"x": x, "y": y}), time.time())
-                    )
-                    await db.commit()
-                    
-                    self.stats.actions_taken += 1
-                    self._notify("action", {
-                        "type": "tap",
-                        "screen_id": screen_id,
-                        "element": el.get("label", "unnamed")
-                    })
-                return
-        
-        # No untapped elements - go back
-        await self.mcp.press_back()
-        self._notify("action", {"type": "back", "screen_id": screen_id})
-    
-    def _stats_dict(self) -> Dict:
+    def _get_stats(self) -> Dict:
+        vision_stats = self.vision.get_stats() if self.vision else {}
         return {
-            "screens_found": self.stats.screens_found,
-            "actions_taken": self.stats.actions_taken,
-            "duration_seconds": self.stats.duration_seconds,
-            "state": self.state.value
+            "screens_found": self._screens_found,
+            "actions_taken": self._actions_taken,
+            "duration_seconds": time.time() - self._start_time if self._start_time else 0,
+            "state": self.state.value,
+            "ai_api_calls": vision_stats.get('requests', 0),
         }
     
     async def get_status(self) -> Dict:
-        """Get current exploration status."""
         return {
             "state": self.state.value,
             "current_screen": self.current_screen_id,
-            **self._stats_dict()
+            **self._get_stats()
         }

@@ -1,6 +1,6 @@
 'use client';
 
-import { Play, Pause, Square, Activity, Image, BookOpen, Search } from 'lucide-react';
+import { Play, Pause, Square, Activity, Image, BookOpen, Search, Trash2 } from 'lucide-react';
 import type { ExplorationStatus, ViewType } from '@/types';
 
 interface HeaderProps {
@@ -11,15 +11,17 @@ interface HeaderProps {
   onPause: () => void;
   onResume: () => void;
   onStop: () => void;
+  onReset?: () => void;
 }
 
 const tabs: { id: ViewType; label: string; icon: typeof Activity }[] = [
   { id: 'graph', label: 'Graph', icon: Activity },
   { id: 'gallery', label: 'Gallery', icon: Image },
   { id: 'stories', label: 'Stories', icon: BookOpen },
+  { id: 'executions', label: 'Executions', icon: Activity },
 ];
 
-export function Header({ currentView, onViewChange, status, onStart, onPause, onResume, onStop }: HeaderProps) {
+export function Header({ currentView, onViewChange, status, onStart, onPause, onResume, onStop, onReset }: HeaderProps) {
   const isExploring = status.state === 'exploring';
   const isPaused = status.state === 'paused';
   const isIdle = status.state === 'idle' || status.state === 'complete';
@@ -106,6 +108,16 @@ export function Header({ currentView, onViewChange, status, onStart, onPause, on
             >
               <Square className="w-4 h-4" />
               Stop
+            </button>
+          )}
+          
+          {isIdle && onReset && (
+            <button
+              onClick={onReset}
+              className="flex items-center gap-2 px-3 py-2 bg-slate-700 hover:bg-red-600 text-white rounded-lg text-sm font-medium transition-colors"
+              title="Reset Database - Clears all exploration data"
+            >
+              <Trash2 className="w-4 h-4" />
             </button>
           )}
         </div>

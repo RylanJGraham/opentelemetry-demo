@@ -7,3 +7,13 @@ pydantic-settings>=2.0.0
 python-multipart>=0.0.6
 websockets>=12.0
 pyyaml>=6.0
+
+# Image processing and hashing
+pillow>=10.0.0
+imagehash>=4.3.1
+
+# HTTP client for AI APIs
+aiohttp>=3.9.0
+
+# Optional: for better performance
+ujson>=5.8.0

@@ -14,8 +14,13 @@ export default function Home() {
   const [status, setStatus] = useState<ExplorationStatus>({
     state: 'idle',
     screens_found: 0,
+    screens_from_cache: 0,
+    transitions_found: 0,
     actions_taken: 0,
     duration_seconds: 0,
+    ai_api_calls: 0,
+    ai_cache_hits: 0,
+    ai_cache_hit_rate: 0,
   });
   const [activities, setActivities] = useState<{type: string; message: string; time: string}[]>([]);
 
@@ -32,6 +37,9 @@ export default function Home() {
         case 'new_screen':
           setStatus(prev => ({ ...prev, screens_found: data.screens_found }));
           addActivity('screen', `Discovered: ${data.name}`);
+          break;
+        case 'screen_visited':
+          setStatus(prev => ({ ...prev, screens_from_cache: data.visit_count > 1 ? (prev.screens_from_cache || 0) + 1 : prev.screens_from_cache }));
           break;
         case 'action':
           setStatus(prev => ({ ...prev, actions_taken: data.actions_taken }));
@@ -76,6 +84,20 @@ export default function Home() {
     addActivity('system', 'Exploration stopped');
   };
 
+  const handleReset = async () => {
+    if (!confirm('⚠️ WARNING: This will delete ALL exploration data including screens, elements, and transitions.\n\nAre you sure?')) {
+      return;
+    }
+    try {
+      await api.resetDatabase();
+      addActivity('system', 'Database reset - all data cleared');
+      // Refresh the view
+      window.location.reload();
+    } catch (e) {
+      alert('Failed to reset database');
+    }
+  };
+
   return (
     <div className="h-screen flex flex-col bg-slate-900">
       <Header
@@ -86,6 +108,7 @@ export default function Home() {
         onPause={handlePause}
         onResume={handleResume}
         onStop={handleStop}
+        onReset={handleReset}
       />
       
       <div className="flex-1 flex overflow-hidden">
@@ -95,6 +118,7 @@ export default function Home() {
           {currentView === 'graph' && <GraphView />}
           {currentView === 'gallery' && <GalleryView />}
           {currentView === 'stories' && <StoriesView />}
+          {currentView === 'executions' && <StoriesView />}
         </main>
       </div>
     </div>

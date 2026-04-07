@@ -22,6 +22,11 @@ import { IProductCart, IProductCartItem, IProductCheckout } from "@/types/Cart";
 import request from "@/utils/Request";
 import SessionGateway from "./Session.gateway";
 import { context, propagation } from "@opentelemetry/api";
+import MockApiGateway from "./MockApi.gateway";
+
+// Check if we should use mock data (no backend required)
+const USE_MOCK = process.env.EXPO_PUBLIC_USE_MOCK_API === "true" || 
+                 process.env.EXPO_PUBLIC_USE_MOCK_API === "1";
 
 const basePath = "/api";
 
@@ -122,29 +127,29 @@ const Apis = () => ({
   },
 });
 
-/**
- * Extends all the API calls to set baggage automatically.
- */
-const ApiGateway = new Proxy(Apis(), {
-  get(target, prop, receiver) {
-    const originalFunction = Reflect.get(target, prop, receiver);
+// Export mock API if USE_MOCK is enabled, otherwise use real API
+const ApiGateway = USE_MOCK 
+  ? MockApiGateway 
+  : new Proxy(Apis(), {
+      get(target, prop, receiver) {
+        const originalFunction = Reflect.get(target, prop, receiver);
 
-    if (typeof originalFunction !== "function") {
-      return originalFunction;
-    }
+        if (typeof originalFunction !== "function") {
+          return originalFunction;
+        }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return async function (...args: any[]) {
-      const { userId } = await SessionGateway.getSession();
-      const baggage =
-        propagation.getActiveBaggage() || propagation.createBaggage();
-      const newBaggage = baggage.setEntry("session.id", { value: userId });
-      const newContext = propagation.setBaggage(context.active(), newBaggage);
-      return context.with(newContext, () => {
-        return Reflect.apply(originalFunction, undefined, args);
-      });
-    };
-  },
-});
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return async function (...args: any[]) {
+          const { userId } = await SessionGateway.getSession();
+          const baggage =
+            propagation.getActiveBaggage() || propagation.createBaggage();
+          const newBaggage = baggage.setEntry("session.id", { value: userId });
+          const newContext = propagation.setBaggage(context.active(), newBaggage);
+          return context.with(newContext, () => {
+            return Reflect.apply(originalFunction, undefined, args);
+          });
+        };
+      },
+    });
 
 export default ApiGateway;
