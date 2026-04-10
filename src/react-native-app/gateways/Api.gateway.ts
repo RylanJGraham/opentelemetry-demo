@@ -22,7 +22,7 @@ import { IProductCart, IProductCartItem, IProductCheckout } from "@/types/Cart";
 import request from "@/utils/Request";
 import SessionGateway from "./Session.gateway";
 import { context, propagation } from "@opentelemetry/api";
-import MockApiGateway from "./MockApi.gateway";
+import MockApiGateway, { MockOrder } from "./MockApi.gateway";
 
 // Check if we should use mock data (no backend required)
 const USE_MOCK = process.env.EXPO_PUBLIC_USE_MOCK_API === "true" || 
@@ -48,6 +48,24 @@ const Apis = () => ({
       body: { item, userId },
       queryParams: { currencyCode },
       method: "POST",
+    });
+  },
+  async updateCartItem(productId: string, quantity: number, currencyCode: string) {
+    const { userId } = await SessionGateway.getSession();
+    return request<IProductCart>({
+      url: `${basePath}/cart/${productId}`,
+      body: { userId, quantity },
+      queryParams: { currencyCode },
+      method: "PUT",
+    });
+  },
+  async removeCartItem(productId: string, currencyCode: string) {
+    const { userId } = await SessionGateway.getSession();
+    return request<IProductCart>({
+      url: `${basePath}/cart/${productId}`,
+      body: { userId },
+      queryParams: { currencyCode },
+      method: "DELETE",
     });
   },
   async emptyCart() {
@@ -123,6 +141,33 @@ const Apis = () => ({
       queryParams: {
         contextKeys,
       },
+    });
+  },
+  getCategories() {
+    return request<string[]>({
+      url: `${basePath}/categories`,
+    });
+  },
+  getProductsByCategory(category: string, currencyCode: string) {
+    return request<Product[]>({
+      url: `${basePath}/products/category/${category}`,
+      queryParams: { currencyCode },
+    });
+  },
+  getDeals(currencyCode: string) {
+    return request<Product[]>({
+      url: `${basePath}/deals`,
+      queryParams: { currencyCode },
+    });
+  },
+  getOrders() {
+    return request<MockOrder[]>({
+      url: `${basePath}/orders`,
+    });
+  },
+  getOrder(orderId: string) {
+    return request<MockOrder>({
+      url: `${basePath}/orders/${orderId}`,
     });
   },
 });

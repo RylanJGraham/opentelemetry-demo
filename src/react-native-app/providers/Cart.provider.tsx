@@ -12,15 +12,21 @@ import { IProductCart } from "@/types/Cart";
 interface IContext {
   cart: IProductCart;
   addItem(item: CartItem): void;
+  updateItem(productId: string, quantity: number): void;
+  removeItem(productId: string): void;
   emptyCart(): void;
   placeOrder(order: PlaceOrderRequest): Promise<OrderResult>;
+  isLoading: boolean;
 }
 
 export const Context = createContext<IContext>({
   cart: { userId: "", items: [] },
   addItem: () => {},
+  updateItem: () => {},
+  removeItem: () => {},
   emptyCart: () => {},
   placeOrder: () => Promise.resolve({} as OrderResult),
+  isLoading: false,
 });
 
 interface IProps {
@@ -42,15 +48,25 @@ const CartProvider = ({ children }: IProps) => {
     [queryClient],
   );
 
-  const { data: cart = { userId: "", items: [] } } = useQuery(
+  const { data: cart = { userId: "", items: [] }, isLoading } = useQuery(
     ["cart", selectedCurrency],
     () => ApiGateway.getCart(selectedCurrency),
   );
+  
   const addCartMutation = useMutation(ApiGateway.addCartItem, mutationOptions);
+  const updateCartMutation = useMutation(
+    ({ productId, quantity }: { productId: string; quantity: number }) =>
+      ApiGateway.updateCartItem(productId, quantity, selectedCurrency),
+    mutationOptions
+  );
+  const removeCartMutation = useMutation(
+    (productId: string) => ApiGateway.removeCartItem(productId, selectedCurrency),
+    mutationOptions
+  );
   const emptyCartMutation = useMutation(ApiGateway.emptyCart, mutationOptions);
   const placeOrderMutation = useMutation(
     ApiGateway.placeOrder,
-    mutationOptions,
+    mutationOptions
   );
 
   const addItem = useCallback(
@@ -58,10 +74,24 @@ const CartProvider = ({ children }: IProps) => {
       addCartMutation.mutateAsync({ ...item, currencyCode: selectedCurrency }),
     [addCartMutation, selectedCurrency],
   );
+
+  const updateItem = useCallback(
+    (productId: string, quantity: number) =>
+      updateCartMutation.mutateAsync({ productId, quantity }),
+    [updateCartMutation],
+  );
+
+  const removeItem = useCallback(
+    (productId: string) =>
+      removeCartMutation.mutateAsync(productId),
+    [removeCartMutation],
+  );
+
   const emptyCart = useCallback(
     () => emptyCartMutation.mutateAsync(),
     [emptyCartMutation],
   );
+
   const placeOrder = useCallback(
     (order: PlaceOrderRequest) =>
       placeOrderMutation.mutateAsync({
@@ -72,8 +102,16 @@ const CartProvider = ({ children }: IProps) => {
   );
 
   const value = useMemo(
-    () => ({ cart, addItem, emptyCart, placeOrder }),
-    [cart, addItem, emptyCart, placeOrder],
+    () => ({ 
+      cart, 
+      addItem, 
+      updateItem,
+      removeItem,
+      emptyCart, 
+      placeOrder,
+      isLoading 
+    }),
+    [cart, addItem, updateItem, removeItem, emptyCart, placeOrder, isLoading],
   );
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
