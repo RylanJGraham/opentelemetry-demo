@@ -68,6 +68,19 @@
       <div class="activity-header">
         <span>Live Activity</span>
       </div>
+      
+      <!-- Live Emulator Viewport -->
+      <div class="live-viewport" id="live-viewport">
+        <div class="live-viewport-header">
+          <span class="live-dot"></span>
+          <span>Emulator</span>
+        </div>
+        <div class="live-viewport-frame">
+          <img id="live-screenshot-img" class="live-screenshot" alt="Emulator" />
+          <div class="live-placeholder" id="live-placeholder">📱 Connect emulator to see live view</div>
+        </div>
+      </div>
+      
       <div class="feed-items" id="feed-items"></div>
     </aside>
 
@@ -111,14 +124,23 @@
             <p class="empty-state">No stories yet</p>
           </div>
           <button class="btn btn-primary" id="btn-new-story">+ New Story</button>
+          <button class="btn btn-outline" id="btn-auto-generate" title="Use AI to auto-generate stories from explored screens">🤖 Auto-Generate</button>
         </div>
         <div class="story-editor" id="story-editor">
           <div class="story-header">
             <input type="text" class="story-title-input" id="story-title" placeholder="Story name..." />
             <div class="story-actions">
               <button class="btn btn-outline" id="btn-save-story">💾 Save</button>
-              <button class="btn btn-outline" id="btn-export-story">📤 Export</button>
+              <button class="btn btn-outline" id="btn-export-story">📤 Export JSON</button>
             </div>
+          </div>
+          <!-- Export format buttons -->
+          <div class="export-bar" id="export-bar">
+            <span class="export-bar-label">Download as:</span>
+            <a class="btn btn-export" id="btn-dl-detox" href="/api/export/detox/download" download>🧪 Detox</a>
+            <a class="btn btn-export" id="btn-dl-maestro" href="/api/export/maestro/download" download>🎼 Maestro</a>
+            <a class="btn btn-export" id="btn-dl-appium" href="/api/export/appium/download" download>🔧 Appium</a>
+            <a class="btn btn-export" id="btn-dl-zip" href="/api/export/zip" download>📦 Full ZIP</a>
           </div>
           <div class="story-command-wrapper">
              <h4>Command Console</h4>

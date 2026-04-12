@@ -1,0 +1,44 @@
+2026-04-12 01:17:01,646 | INFO     | explorer.server | UI static files served from: C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\ui
+2026-04-12 01:17:01,648 | INFO     | explorer.server | API server running at http://127.0.0.1:5100
+2026-04-12 01:17:01,785 | INFO     | explorer.mcp | MCP: Starting connection...
+2026-04-12 01:17:02,154 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:02 +0200] "GET / HTTP/1.1" 200 341 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-12 01:17:02,174 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:02 +0200] "GET /favicon.ico HTTP/1.1" 404 172 "http://localhost:5100/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-12 01:17:03,287 | INFO     | explorer.server | 📡 WebSocket client connected (1 total)
+2026-04-12 01:17:05,420 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:05 +0200] "GET /api/graph HTTP/1.1" 200 27372 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-12 01:17:10,692 | INFO     | explorer.mcp | MCP: Tools discovered: mobile_list_elements_on_screen, mobile_long_press_on_screen_at_coordinates, mobile_install_app, mobile_get_screen_size, mobile_launch_app, mobile_click_on_screen_at_coordinates, mobile_open_url, mobile_terminate_app, mobile_press_button, mobile_list_available_devices, mobile_double_tap_on_screen, mobile_swipe_on_screen, mobile_type_keys, mobile_start_screen_recording, mobile_list_apps, mobile_uninstall_app, mobile_take_screenshot, mobile_set_orientation, mobile_save_screenshot, mobile_get_orientation, mobile_stop_screen_recording
+2026-04-12 01:17:11,851 | INFO     | explorer.mcp | 📱 Using device: emulator-5554
+2026-04-12 01:17:16,209 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:16 +0200] "GET /api/graph HTTP/1.1" 200 27372 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-12 01:17:24,729 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:24 +0200] "POST /api/agent/start HTTP/1.1" 200 389 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-12 01:17:25,418 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:25 +0200] "GET /api/graph HTTP/1.1" 200 27372 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-12 01:17:30,065 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:27 +0200] "GET /api/live-screenshot HTTP/1.1" 200 180365 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-12 01:17:31,248 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:30 +0200] "GET /api/live-screenshot HTTP/1.1" 200 180365 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-12 01:17:31,808 | INFO     | httpx | HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-12 01:17:34,212 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:33 +0200] "GET /api/live-screenshot HTTP/1.1" 200 180365 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-12 01:17:35,417 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:35 +0200] "GET /api/graph HTTP/1.1" 200 27372 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-12 01:17:37,243 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:36 +0200] "GET /api/live-screenshot HTTP/1.1" 200 180365 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-12 01:17:38,697 | INFO     | explorer.vision | [ai]🔍 Analyzed screen: Product List[/ai] (14 elements)
+2026-04-12 01:17:38,882 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:38 +0200] "GET /api/graph HTTP/1.1" 200 32604 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-04-12 01:17:39,038 | ERROR    | explorer | Exploration error: NOT NULL constraint failed: transitions.to_screen_id
+Traceback (most recent call last):
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 207, in start_managed
+    await self._exploration_loop_managed()
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 354, in _exploration_loop_managed
+    await self._exhaust_screen_elements(screen_id, screen_name)
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\explorer.py", line 445, in _exhaust_screen_elements
+    transition_id = await self.graph.add_transition(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\Documents\Github\opentelemetry-demo\src\react-native-explorer\agent\graph.py", line 477, in add_transition
+    cursor = await self._db.execute(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\AppData\Roaming\Python\Python311\site-packages\aiosqlite\core.py", line 223, in execute
+    cursor = await self._execute(self._conn.execute, sql, parameters)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rylan\AppData\Roaming\Python\Python311\site-packages\aiosqlite\core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\rylan\AppData\Roaming\Python\Python311\site-packages\aiosqlite\core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: transitions.to_screen_id
+2026-04-12 01:17:39,427 | INFO     | explorer.mcp | 🔌 Disconnected from Mobile MCP server
+2026-04-12 01:17:45,409 | INFO     | aiohttp.access | 127.0.0.1 [12/Apr/2026:01:17:45 +0200] "GET /api/graph HTTP/1.1" 200 320 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"

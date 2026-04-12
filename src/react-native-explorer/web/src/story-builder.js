@@ -14,10 +14,16 @@ export function initStoryBuilder() {
   document.getElementById('btn-save-story').addEventListener('click', saveCurrentStory);
   document.getElementById('btn-export-story').addEventListener('click', exportCurrentStory);
 
+  // Auto-generate stories with AI
+  const btnAutoGen = document.getElementById('btn-auto-generate');
+  if (btnAutoGen) {
+    btnAutoGen.addEventListener('click', autoGenerateStories);
+  }
+
   const commandInput = document.getElementById('story-command');
   if (commandInput) {
-    commandInput.addEventListener('input', handleCommandInput);
-    commandInput.addEventListener('keydown', handleCommandKeydown);
+    // commandInput.addEventListener('input', handleCommandInput);
+    // commandInput.addEventListener('keydown', handleCommandKeydown);
   }
 
   refreshStories();
@@ -61,8 +67,23 @@ async function saveCurrentStory() {
 
   currentStory.name = name;
 
+  // Transform steps to match API schema (screenId → screen_id)
+  const apiStory = {
+    name: currentStory.name,
+    description: currentStory.description || '',
+    tags: currentStory.tags || [],
+    priority: currentStory.priority || 'medium',
+    steps: (currentStory.steps || []).map((step, i) => ({
+      action_type: i === 0 ? 'start' : (step.action_type || 'navigate'),
+      screen_id: step.screenId || step.screen_id || '',
+      element_id: step.element_id || '',
+      assertion: step.assertion || '',
+      data: step.data || { screen_name: step.screenId || '' },
+    })),
+  };
+
   try {
-    await createStory(currentStory);
+    await createStory(apiStory);
     await refreshStories();
   } catch (e) {
     console.error('Failed to save story:', e);
@@ -150,8 +171,8 @@ function renderCanvas() {
 
   const stepsHtml = currentStory.steps
     .map((step, i) => {
-      const screen = availableScreens.find((s) => s.id === step.screenId);
-      const name = screen ? screen.name : step.screenId;
+      const screen = availableScreens.find((s) => s.id === (step.screenId || step.screen_id));
+      const name = screen ? screen.name : (step.screenId || step.screen_id);
       const imgSrc = screen && screen.screenshot_path
         ? getScreenshotUrl(screen.screenshot_path)
         : '';
@@ -197,11 +218,10 @@ function renderPicker() {
     .map(
       (screen) => `
     <div class="picker-card" data-screen-id="${screen.id}">
-      ${
-        screen.screenshot_path
+      ${screen.screenshot_path
           ? `<img class="picker-card-image" src="${getScreenshotUrl(screen.screenshot_path)}" alt="${screen.name}" loading="lazy" />`
           : `<div class="picker-card-image" style="display:flex;align-items:center;justify-content:center;">📱</div>`
-      }
+        }
       <div class="picker-card-name">${screen.name || 'Unknown'}</div>
     </div>
   `
@@ -213,7 +233,7 @@ function renderPicker() {
     card.addEventListener('click', () => {
       const screenId = card.dataset.screenId;
       if (!currentStory.steps) currentStory.steps = [];
-      currentStory.steps.push({ screenId, annotation: '' });
+      currentStory.steps.push({ screenId, screen_id: screenId, annotation: '' });
       renderCanvas();
     });
   });
@@ -231,16 +251,16 @@ function handleCommandInput(e) {
 
   if (lastAt !== -1 && !/\s/.test(text.slice(lastAt + 1, cursor))) {
     const query = text.slice(lastAt + 1, cursor).toLowerCase();
-    
+
     // Generate suggestions: screens + elements from last screen in story
-    const lastScreenId = currentStory.steps.length > 0 ? currentStory.steps[currentStory.steps.length-1].screenId : null;
+    const lastScreenId = currentStory.steps.length > 0 ? currentStory.steps[currentStory.steps.length - 1].screenId : null;
     let pool = availableScreens.map(s => ({ name: s.name, id: s.id, type: 'screen' }));
-    
+
     if (lastScreenId) {
-       const screen = availableScreens.find(s => s.id === lastScreenId);
-       if (screen && screen.elements) {
-         pool = [...pool, ...screen.elements.map(el => ({ name: el.label || el.type, id: el.id, type: 'element' }))];
-       }
+      const screen = availableScreens.find(s => s.id === lastScreenId);
+      if (screen && screen.elements) {
+        pool = [...pool, ...screen.elements.map(el => ({ name: el.label || el.type, id: el.id, type: 'element' }))];
+      }
     }
 
     filteredSuggestions = pool.filter(p => p.name.toLowerCase().includes(query)).slice(0, 8);
@@ -298,13 +318,13 @@ function applySuggestion(item) {
   const text = input.value;
   const cursor = input.selectionStart;
   const lastAt = text.lastIndexOf('@', cursor - 1);
-  
+
   const before = text.slice(0, lastAt);
   const after = text.slice(cursor);
   input.value = before + '@' + item.name + ' ' + after;
   input.focus();
   document.getElementById('suggestions').style.display = 'none';
-  
+
   // If it's a screen, add to story
   if (item.type === 'screen') {
     if (!currentStory.steps) currentStory.steps = [];
@@ -328,7 +348,7 @@ function parseCommand(cmd) {
   tokens.forEach(token => {
     if (token.startsWith('@')) {
       const name = token.slice(1).replace(/[,.;]$/, '');
-      
+
       // Check if it's a known screen
       const screen = availableScreens.find(s => s.name.toLowerCase() === name.toLowerCase());
       if (screen) {
@@ -349,5 +369,56 @@ function parseCommand(cmd) {
     if (!currentStory.steps) currentStory.steps = [];
     currentStory.steps.push(...steps);
     renderCanvas();
+  }
+}
+
+/** Auto-generate stories using AI analysis of the exploration graph. */
+async function autoGenerateStories() {
+  const btn = document.getElementById('btn-auto-generate');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ Generating...';
+  }
+
+  try {
+    const res = await fetch('/api/stories/auto-generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({}),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || 'Generation failed');
+    }
+
+    const result = await res.json();
+    await refreshStories();
+
+    // Show the generated story 
+    if (result.story) {
+      currentStory = {
+        name: result.story.name || 'AI Generated',
+        steps: (result.story.steps || []).map(s => ({
+          screenId: s.screen_id || '',
+          screen_id: s.screen_id || '',
+          annotation: s.description || '',
+          action_type: s.action_type || 'navigate',
+          assertion: s.assertion || '',
+        })),
+      };
+      document.getElementById('story-title').value = currentStory.name;
+      renderCanvas();
+    }
+
+    alert(`✅ Story "${result.story?.name}" generated successfully!`);
+  } catch (e) {
+    console.error('Auto-generate failed:', e);
+    alert(`❌ Auto-generate failed: ${e.message}`);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '🤖 Auto-Generate';
+    }
   }
 }

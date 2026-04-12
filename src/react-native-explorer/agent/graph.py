@@ -10,6 +10,9 @@ from pathlib import Path
 from typing import Any, Optional
 
 import aiosqlite
+import logging
+
+logger = logging.getLogger("explorer.graph")
 
 # Enhanced schema with screen clusters, element relationships, and stories
 SCHEMA = """
@@ -276,10 +279,50 @@ class ScreenGraph:
             return dict(row) if row else None
 
     async def get_screens_by_phash(self, phash: str, threshold: int = 5) -> list[dict]:
-        """Find screens with similar perceptual hashes."""
-        # For simplicity, exact phash match - in production would use Hamming distance
+        """Find screens with similar perceptual hashes using Hamming distance.
+        
+        Instead of exact string match, loads all screen phashes and compares
+        using bit-level Hamming distance. Threshold of 5 means ~10% bit
+        difference is tolerated (handles animation states, keyboards, etc).
+        """
+        if not self._db or not phash:
+            return []
+        
+        # First try exact match (fast path)
         async with self._db.execute(
             "SELECT * FROM screens WHERE phash = ?", (phash,)
+        ) as cursor:
+            rows = await cursor.fetchall()
+            if rows:
+                return [dict(r) for r in rows]
+        
+        # Fuzzy match: load all phashes and compare with Hamming distance
+        async with self._db.execute(
+            "SELECT id, phash FROM screens WHERE phash IS NOT NULL AND phash != ''"
+        ) as cursor:
+            candidates = await cursor.fetchall()
+        
+        matching_ids = []
+        for row in candidates:
+            try:
+                candidate_phash = row["phash"]
+                if len(candidate_phash) != len(phash):
+                    continue
+                # Compute Hamming distance
+                xor_val = int(phash, 16) ^ int(candidate_phash, 16)
+                dist = bin(xor_val).count('1')
+                if dist <= threshold:
+                    matching_ids.append(row["id"])
+            except (ValueError, TypeError):
+                continue
+        
+        if not matching_ids:
+            return []
+        
+        # Fetch full screen data for matches
+        placeholders = ",".join("?" for _ in matching_ids)
+        async with self._db.execute(
+            f"SELECT * FROM screens WHERE id IN ({placeholders})", matching_ids
         ) as cursor:
             rows = await cursor.fetchall()
             return [dict(r) for r in rows]
@@ -464,6 +507,16 @@ class ScreenGraph:
         async with self._db.execute("SELECT * FROM transitions ORDER BY timestamp") as cursor:
             rows = await cursor.fetchall()
             return [dict(r) for r in rows]
+
+    async def update_transition_target(self, transition_id: int, to_screen_id: str):
+        """Update a transition's target screen (fixes orphan transitions)."""
+        if not self._db:
+            return
+        await self._db.execute(
+            "UPDATE transitions SET to_screen_id = ? WHERE id = ? AND to_screen_id IS NULL",
+            (to_screen_id, transition_id),
+        )
+        await self._db.commit()
 
     async def get_shortest_path(self, from_screen_id: str, to_screen_id: str) -> list[str]:
         """Find shortest path between two screens using BFS."""

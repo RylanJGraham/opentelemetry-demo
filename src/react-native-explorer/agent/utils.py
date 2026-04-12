@@ -241,6 +241,41 @@ def compute_structure_hash(elements: list[dict]) -> str:
     return hashlib.sha256("|".join(structure).encode()).hexdigest()[:16]
 
 
+def fast_compare_screenshots(img1_bytes: bytes, img2_bytes: bytes, threshold: float = 0.98) -> bool:
+    """
+    Fast comparison of two screenshots to detect UI settling.
+    Returns True if images are similar enough (UI has settled).
+    Uses downsampled grayscale pixel comparison for speed.
+    
+    Args:
+        img1_bytes: First screenshot bytes
+        img2_bytes: Second screenshot bytes  
+        threshold: Similarity threshold (0.98 = 98% same pixels required)
+    
+    Returns:
+        True if screens are similar (settled), False if different (still changing)
+    """
+    try:
+        # Downsample to 64x64 grayscale for fast comparison
+        size = (64, 64)
+        img1 = Image.open(io.BytesIO(img1_bytes)).convert("L").resize(size, Image.NEAREST)
+        img2 = Image.open(io.BytesIO(img2_bytes)).convert("L").resize(size, Image.NEAREST)
+        
+        px1 = list(img1.getdata())
+        px2 = list(img2.getdata())
+        
+        if len(px1) != len(px2):
+            return False
+        
+        # Count pixels that are close enough (within 15 brightness levels)
+        close_pixels = sum(1 for a, b in zip(px1, px2) if abs(a - b) < 15)
+        similarity = close_pixels / len(px1)
+        
+        return similarity >= threshold
+    except Exception:
+        return False
+
+
 def ensure_adb_on_path() -> Optional[str]:
     """
     Ensure adb is available on the PATH.

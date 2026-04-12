@@ -427,3 +427,85 @@ class VisionAnalyzer:
     def stats(self) -> dict:
         """Return usage statistics including cost."""
         return self.cost_tracker.get_stats()
+
+    async def generate_story_from_screens(
+        self, screens: list[dict], transitions: list[dict]
+    ) -> dict:
+        """
+        Use the vision LLM to synthesize a Given/When/Then E2E test story
+        from a list of screens and the transitions between them.
+        
+        Args:
+            screens: List of screen dicts with {id, name, screen_type, description, elements}
+            transitions: List of transition dicts with {from_screen_id, to_screen_id, action_type, element_id, action_detail}
+        
+        Returns:
+            dict with story structure: {name, description, given, when, then, steps}
+        """
+        screens_text = json.dumps(
+            [{"id": s["id"], "name": s.get("name"), "type": s.get("screen_type"), 
+              "description": s.get("description"), "element_count": len(s.get("elements", []))} 
+             for s in screens], indent=2
+        )
+        transitions_text = json.dumps(
+            [{"from": t.get("from_screen_id"), "to": t.get("to_screen_id"), 
+              "action": t.get("action_type"), "detail": t.get("action_detail")}
+             for t in transitions], indent=2
+        )
+        
+        prompt = f"""You are an expert QA engineer. Given the following screen flow from a mobile app,
+generate a structured E2E test story in Given/When/Then format.
+
+**Screens in this flow:**
+{screens_text}
+
+**Transitions between screens:**
+{transitions_text}
+
+Generate a test story that:
+1. Has a clear, descriptive name
+2. Describes the user's goal
+3. Uses Given/When/Then structure for the scenario
+4. Produces concrete, actionable test steps with assertions
+
+Respond with ONLY valid JSON:
+{{
+  "name": "User can complete purchase",
+  "description": "Verifies the full purchase flow from browsing to checkout",
+  "scenario": {{
+    "given": "The user is on the Home screen",
+    "when": "The user navigates to a product and adds it to cart",
+    "then": "The user should see the item in their cart"
+  }},
+  "steps": [
+    {{
+      "step_number": 1,
+      "action_type": "navigate",
+      "screen_id": "screen_id",
+      "description": "User lands on the Home screen",
+      "assertion": "Home screen is visible with product list",
+      "assertion_type": "visible"
+    }}
+  ],
+  "priority": "high",
+  "tags": ["purchase", "checkout"]
+}}"""
+
+        messages = [
+            {"role": "user", "content": [{"type": "text", "text": prompt}]}
+        ]
+
+        try:
+            response_text = await self._chat_completion(messages, max_tokens=1500)
+            result = self._parse_json_response(response_text)
+            return result
+        except Exception as e:
+            logger.error(f"Story generation failed: {e}")
+            return {
+                "name": "Auto-generated flow",
+                "description": "Story generation failed, manual editing required",
+                "scenario": {"given": "", "when": "", "then": ""},
+                "steps": [],
+                "priority": "medium",
+                "tags": ["auto"],
+            }

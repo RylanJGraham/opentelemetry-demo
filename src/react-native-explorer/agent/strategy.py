@@ -173,6 +173,40 @@ class ExplorationStrategy:
         # 6. Fallback — try backtrack
         return self._try_backtrack("No actionable elements found")
 
+    def pick_next_element(self, unexplored_elements: list[dict]) -> Optional[dict]:
+        """
+        Pure element picker for the inner exploration loop.
+        
+        Given a list of unexplored elements on the current screen, returns
+        the best one to interact with next, or None if none are worth trying.
+        
+        The returned dict has:
+            - element: the element dict from the DB
+            - action: "tap" or "type"
+            - reason: human-readable explanation
+            - coordinates: (x, y) tuple
+        
+        This method has NO side-effects on stuck detection or screen tracking.
+        That is owned by the outer exploration loop.
+        """
+        if not unexplored_elements:
+            return None
+        
+        scored = self._score_elements(unexplored_elements)
+        if not scored:
+            return None
+        
+        best = scored[0]
+        element = best["element"]
+        action_type = self._element_to_action(element)
+        
+        return {
+            "element": element,
+            "action": action_type,
+            "reason": f"Exploring {element.get('type', 'unknown')}: {element.get('label', 'unnamed')} (score: {best['score']:.1f})",
+            "coordinates": (element.get("x", 0), element.get("y", 0)),
+        }
+
     def _score_elements(self, elements: list[dict]) -> list[dict]:
         """Score and sort elements by exploration priority."""
         scored = []

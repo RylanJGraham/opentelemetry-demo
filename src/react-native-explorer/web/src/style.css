@@ -270,6 +270,7 @@ body {
 
 .status-dot.connecting { background: var(--warning); animation: pulse 1.5s infinite; }
 .status-dot.exploring { background: var(--success); animation: pulse 1.5s infinite; }
+.status-dot.paused { background: var(--warning); }
 .status-dot.idle { background: var(--text-tertiary); }
 .status-dot.complete { background: var(--accent); }
 .status-dot.error { background: var(--error); }
@@ -1107,4 +1108,104 @@ body {
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Live Emulator Viewport ──────────────────────────────────────── */
+.live-viewport {
+  border-bottom: 1px solid var(--glass-border);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.live-viewport-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--error);
+  animation: pulse 2s infinite;
+}
+
+.live-viewport-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9/16;
+  max-height: 300px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-primary);
+  border: 1px solid var(--glass-border);
+}
+
+.live-screenshot {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: none;
+}
+
+.live-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  font-size: 0.8rem;
+  text-align: center;
+  padding: var(--space-md);
+}
+
+/* ── Export Bar ───────────────────────────────────────────────────── */
+.export-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  border-bottom: 1px solid var(--glass-border);
+  background: var(--bg-secondary);
+  flex-wrap: wrap;
+}
+
+.export-bar-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: var(--space-xs);
+}
+
+.btn-export {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.btn-export:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 8px var(--accent-glow);
 }

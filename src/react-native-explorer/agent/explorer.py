@@ -13,6 +13,14 @@ import time
 from pathlib import Path
 from typing import Optional, Dict, List
 
+# Force UTF-8 output on Windows to prevent emoji/unicode crashes
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 from .graph import ScreenGraph
 from .mcp_client import MobileMCPClient
 from .server import ExplorerServer
@@ -29,6 +37,7 @@ from .utils import (
     compute_content_hash,
     compute_phash,
     compute_structure_hash,
+    fast_compare_screenshots,
 )
 from .vision import VisionAnalyzer
 
@@ -59,6 +68,9 @@ class Explorer:
         # 🔧 Fix: Use injected graph if provided to avoid double-opening the DB file
         self.graph = graph or ScreenGraph(config.storage.get("database", "./storage/graph.db"))
         
+        print("[EXPLORER] Creating strategy...", flush=True)
+        self.strategy = ExplorationStrategy(config.exploration)
+        
         print("[EXPLORER] Creating server...", flush=True)
         self.server = ExplorerServer(config, self.graph)
         self.server.explorer = self  # Link back for API control
@@ -85,6 +97,7 @@ class Explorer:
         self.current_screenshot: Optional[bytes] = None
         self.current_elements: List[dict] = []
         self.total_actions = 0
+        self._last_transition_id: Optional[int] = None  # Track pending transition for to_screen_id update
 
         # Limits
         self.max_screens = config.exploration.get("max_screens", 50)
@@ -97,7 +110,7 @@ class Explorer:
 
     async def start(self):
         """Initialize all components and start exploring in background."""
-        console.print("[info]📡 Agent background task waiting for user...[/info]")
+        print("[EXPLORER] Agent ready — waiting for Play signal from UI...")
         
         # 🔧 Fix: Wait for the UI 'Play' command BEFORE doing heavy lifting
         await self.pause_event.wait()
@@ -112,6 +125,13 @@ class Explorer:
             console.print("[warning]Make sure an Android emulator is running (adb devices)[/warning]")
             await self.cleanup()
             return
+
+        # Auto-launch the target app if configured
+        package_name = self.config.app.get("package_name", "")
+        if package_name:
+            console.print(f"[info]🚀 Launching app: {package_name}[/info]")
+            await self.mcp.launch_app(package_name)
+            await asyncio.sleep(2)  # Wait for app to launch
 
         # Load resume state if applicable
         if self.resume:
@@ -162,6 +182,14 @@ class Explorer:
             await self.cleanup()
             return
         
+        # Auto-launch the target app if configured
+        package_name = self.config.app.get("package_name", "")
+        if package_name:
+            print(f"[EXPLORER] Launching app: {package_name}")
+            sys.stdout.flush()
+            await self.mcp.launch_app(package_name)
+            await asyncio.sleep(2)  # Wait for app to launch
+        
         # Load resume state if applicable
         if self.resume:
             state = load_exploration_state(self.state_file)
@@ -188,207 +216,370 @@ class Explorer:
             await self._finish_managed()
     
     async def _exploration_loop_managed(self):
-        """Main exploration loop for managed mode."""
+        """
+        Main managed-mode exploration loop — two-level architecture.
+        
+        OUTER LOOP: capture → identify screen (cache or AI) → patch transition
+        INNER LOOP: exhaust all interesting elements on the current screen,
+                    breaking back to the outer loop only when the screen changes.
+        """
+        # Outer-loop stuck detection: how many consecutive iterations
+        # identified the same screen with no new progress.
+        outer_same_screen_count = 0
+        outer_last_screen_id = None
+        outer_last_element_count = 0  # track progress within a screen
+        max_outer_stuck = 5  # after this many with no progress, back out
+        
         while self.running:
-            # Check pause state
+            # ── Pause gate ────────────────────────────────────────
             if not self.pause_event.is_set():
-                print("[EXPLORER] Paused")
+                print("[EXPLORER] Paused — waiting for resume...")
+                await self.server.update_status(state="paused", message="⏸ Paused")
                 await self.pause_event.wait()
                 if not self.running:
                     break
                 print("[EXPLORER] Resumed")
             
+            # ── Check limits ──────────────────────────────────────
             screen_count = await self.graph.get_screen_count()
-            
-            # Check screen limit
             if screen_count >= self.max_screens:
                 print(f"[EXPLORER] Reached screen limit ({self.max_screens})")
+                await self.server.update_status(
+                    state="complete",
+                    message=f"🎉 Reached screen limit ({self.max_screens})",
+                    total_screens=screen_count,
+                )
                 break
             
-            current_transition_count = await self.graph.get_transition_count()
-            
-            # 🔧 Fixed: Always update UI status at the start of the loop
+            transition_count = await self.graph.get_transition_count()
             await self.server.update_status(
                 state="exploring",
                 total_screens=screen_count,
-                total_transitions=current_transition_count,
+                total_transitions=transition_count,
                 total_actions=self.total_actions,
-                message=f"Exploring... ({screen_count}/{self.max_screens} screens)"
+                message=f"Exploring... ({screen_count}/{self.max_screens} screens)",
             )
             
-            print(f"[EXPLORER] Exploring... ({screen_count}/{self.max_screens} screens)")
-            
-            # 1. Capture current state
+            # ── STEP 1: Capture current state ─────────────────────
             screenshot = await self.mcp.take_screenshot()
             if not screenshot:
-                logger.warning("Failed to capture screenshot, retrying...")
-                await self.server.update_status(message="⚠️ Screenshot failed, retrying...")
+                print("[EXPLORER] Screenshot failed, retrying...")
                 await asyncio.sleep(2)
                 continue
             
             self.current_screenshot = screenshot
             
-            # 2. Get accessibility tree
+            # Get accessibility tree for structure hashing
             elements_raw = await self.mcp.list_elements()
-            self.current_elements = elements_raw if elements_raw else []
+            self.current_elements = elements_raw or []
             accessibility_text = json.dumps(elements_raw, sort_keys=True) if elements_raw else ""
             
-            # 3. Multi-level cache check
+            # ── STEP 2: Identify screen (cache or AI) ─────────────
+            screen_id = None
+            screen_name = "Unknown"
+            is_new_screen = False
+            
             cache_result = await self._check_cache(screenshot, self.current_elements)
             
             if cache_result["hit"]:
-                # Cache hit! No AI needed
+                # CACHE HIT — no AI needed
                 screen_id = cache_result["screen_id"]
                 match_type = cache_result["match_type"]
                 self.cache_hits[match_type] += 1
                 
                 screen_data = await self.graph.get_screen(screen_id)
-                if screen_data:
-                    print(f"[EXPLORER] Cache hit ({match_type}): Screen '{screen_data['name']}' already mapped")
-                    self.current_screen_id = screen_id
-                    await self._record_navigation_if_needed(screen_id, screen_data['name'])
-                    await self._execute_strategy_on_screen_managed(screen_id)
-                    continue
+                screen_name = screen_data["name"] if screen_data else "Cached"
+                
+                print(f"[EXPLORER] Cache hit ({match_type}): '{screen_name}'")
+            else:
+                # CACHE MISS — AI vision analysis
+                print("[EXPLORER] New screen — analyzing with AI...")
+                analysis = await self.vision.analyze_screen(screenshot, accessibility_text)
+                self.ai_calls += 1
+                
+                screen_name = analysis.get("screen_name", "Unknown")
+                screen_type = analysis.get("screen_type", "unknown")
+                description = analysis.get("description", "")
+                interactive_elements = analysis.get("interactive_elements", [])
+                features = analysis.get("features", {})
+                
+                screen_id = await self._create_screen(
+                    screenshot, screen_name, screen_type, description,
+                    interactive_elements, features,
+                )
+                is_new_screen = True
+                
+                print(f"[EXPLORER] New screen: '{screen_name}' ({screen_type}) — {len(interactive_elements)} elements")
+                
+                await self.server.update_status(
+                    current_screen=screen_name,
+                    total_screens=await self.graph.get_screen_count(),
+                    total_actions=self.total_actions,
+                    message=f"New screen: {screen_name}",
+                )
             
-            # 4. AI Vision Analysis (only for truly new screens)
-            print("[EXPLORER] Analyzing screen with AI...")
-            analysis = await self.vision.analyze_screen(screenshot, accessibility_text)
-            self.ai_calls += 1
+            # ── STEP 3: Patch the previous transition's target ────
+            if self._last_transition_id:
+                await self.graph.update_transition_target(self._last_transition_id, screen_id)
+                self._last_transition_id = None
             
-            screen_name = analysis.get("screen_name", "Unknown")
-            screen_type = analysis.get("screen_type", "unknown")
-            description = analysis.get("description", "")
-            interactive_elements = analysis.get("interactive_elements", [])
-            features = analysis.get("features", {})
-            
-            # 5. Create new screen entry
-            screen_id = await self._create_screen(
-                screenshot, screen_name, screen_type, description,
-                interactive_elements, features
-            )
             self.current_screen_id = screen_id
             
-            print(f"[EXPLORER] New screen discovered: {screen_name} ({screen_type})")
+            # ── STEP 4: Outer-loop stuck detection ────────────────
+            unexplored_now = await self.graph.get_unexplored_elements(screen_id)
             
-            # 🔧 Notify UI
+            if screen_id == outer_last_screen_id:
+                # Same screen as last outer-loop iteration
+                if len(unexplored_now) >= outer_last_element_count:
+                    # No progress since last time (same or more unexplored)
+                    outer_same_screen_count += 1
+                else:
+                    # We made progress (fewer unexplored elements)
+                    outer_same_screen_count = 0
+            else:
+                # Different screen — reset stuck counter
+                outer_same_screen_count = 0
+            
+            outer_last_screen_id = screen_id
+            outer_last_element_count = len(unexplored_now)
+            
+            if outer_same_screen_count >= max_outer_stuck:
+                print(f"[EXPLORER] Stuck on '{screen_name}' after {max_outer_stuck} outer iterations — backing out")
+                await self.graph.mark_screen_explored(screen_id)
+                await self._try_go_back()
+                outer_same_screen_count = 0
+                continue
+            
+            # ── STEP 5: INNER LOOP — exhaust elements on this screen ──
+            await self._exhaust_screen_elements(screen_id, screen_name)
+    
+    async def _exhaust_screen_elements(self, screen_id: str, screen_name: str):
+        """
+        Inner exploration loop: interact with all unexplored elements on
+        the current screen, one at a time. After each action:
+          - Wait for UI to settle
+          - Take a new screenshot and fast-compare to the pre-action screenshot
+          - If the screen changed → break (outer loop will identify the new screen)
+          - If the screen is the same → mark element interacted, continue
+          
+        When all elements are exhausted, mark the screen explored and go back.
+        """
+        max_actions_this_screen = self.config.exploration.get("max_actions_per_screen", 15)
+        actions_this_screen = 0
+        
+        while self.running and actions_this_screen < max_actions_this_screen:
+            # Check pause
+            if not self.pause_event.is_set():
+                return  # let outer loop handle pause
+            
+            # Get fresh list of unexplored elements
+            unexplored = await self.graph.get_unexplored_elements(screen_id)
+            
+            if not unexplored:
+                # All elements explored on this screen
+                print(f"[EXPLORER] Screen '{screen_name}' fully explored ({actions_this_screen} actions)")
+                await self.graph.mark_screen_explored(screen_id)
+                
+                # Check if there are any unexplored screens left
+                all_screens = await self.graph.get_all_screens()
+                unexplored_screens = [s for s in all_screens if not s.get("fully_explored")]
+                if not unexplored_screens:
+                    print("[EXPLORER] All reachable screens explored!")
+                    self.running = False
+                    return
+                
+                # Go back to try reaching other screens
+                await self._try_go_back()
+                return  # outer loop will capture the new screen
+            
+            # Pick the next element via strategy
+            pick = self.strategy.pick_next_element(unexplored)
+            if not pick:
+                # Strategy says nothing worth trying — mark explored and back
+                await self.graph.mark_screen_explored(screen_id)
+                await self._try_go_back()
+                return
+            
+            element = pick["element"]
+            action_type = pick["action"]
+            coords = pick["coordinates"]
+            reason = pick["reason"]
+            
+            print(f"[EXPLORER] → {action_type.upper()}: {reason}")
             await self.server.update_status(
                 current_screen=screen_name,
-                total_screens=await self.graph.get_screen_count(),
                 total_actions=self.total_actions,
-                message=f"New screen found: {screen_name}",
+                message=f"{action_type.upper()}: {element.get('label', 'unknown')}",
             )
             
-            # 6. Execute strategy on this screen
-            await self._execute_strategy_on_screen_managed(screen_id)
-    
-    async def _execute_strategy_on_screen_managed(self, screen_id: str):
-        """Execute exploration strategy on current screen for managed mode."""
-        strategy_name = self.config.exploration.get("strategy", "bfs")
-        
-        if strategy_name == "bfs":
-            await self._bfs_explore_managed()
-        elif strategy_name == "random":
-            await self._random_explore_managed()
-        else:
-            await self._bfs_explore_managed()
-    
-    async def _bfs_explore_managed(self):
-        """BFS exploration for managed mode."""
-        # Get untried elements on current screen
-        actions = await self.graph.get_untried_actions(self.current_screen_id)
-        
-        if not actions:
-            print("[EXPLORER] No untried actions on this screen, going back...")
-            await self._try_go_back()
-            return
-        
-        # Try first untried action
-        action = actions[0]
-        await self._execute_action_managed(action)
-    
-    async def _random_explore_managed(self):
-        """Random exploration for managed mode."""
-        # Get all interactive elements
-        elements = await self.graph.get_screen_elements(self.current_screen_id)
-        
-        if not elements:
-            print("[EXPLORER] No interactive elements, going back...")
-            await self._try_go_back()
-            return
-        
-        # Pick random element
-        import random
-        element = random.choice(elements)
-        
-        action = {
-            "element_id": element["id"],
-            "action_type": "tap",
-            "reason": "Random exploration",
-        }
-        await self._execute_action_managed(action)
-    
-    async def _execute_action_managed(self, action: dict):
-        """Execute a single action for managed mode."""
-        # Fix: DB uses 'id', but some code might expect 'element_id'
-        element_id = action.get("id") or action.get("element_id")
-        action_type = action.get("action_type", "tap")
-        
-        self.total_actions += 1
-        
-        print(f"[EXPLORER] Action #{self.total_actions}: {action_type} on element {element_id}")
-        
-        try:
-            # Mark action as tried (Fix: Alias takes element_id and result, screen_id not needed)
-            if element_id:
-                await self.graph.mark_action_tried(element_id)
+            # Snapshot before action (for change detection)
+            pre_action_screenshot = self.current_screenshot
             
-            # Execute via MCP
-            success = await self.mcp.execute_action(action)
+            # Execute the action
+            self.total_actions += 1
+            actions_this_screen += 1
             
-            if success:
-                # Record transition
-                action_detail = json.dumps(action) if isinstance(action, dict) else str(action)
-                await self.graph.add_transition(
-                    from_screen_id=self.current_screen_id,
-                    to_screen_id=None,  # Will be updated when we discover the new screen
-                    action_type=action_type,
-                    element_id=element_id,
-                    action_detail=action_detail,
-                )
+            action_detail = json.dumps({
+                "element_id": element.get("id", ""),
+                "label": element.get("label", ""),
+                "type": element.get("type", ""),
+                "x": int(coords[0]) if coords else 0,
+                "y": int(coords[1]) if coords else 0,
+            }, default=str)
+            
+            success = False
+            if action_type == "tap":
+                success = await self.mcp.tap(int(coords[0]), int(coords[1]))
+            elif action_type == "type":
+                # Tap to focus, then type
+                await self.mcp.tap(int(coords[0]), int(coords[1]))
+                await asyncio.sleep(0.3)
+                success = await self.mcp.type_text("test@example.com")
+            
+            if not success:
+                # Action failed — mark element as interacted (to skip next time) and continue
+                await self.graph.mark_element_interacted(element.get("id", ""), result="failed")
+                continue
+            
+            # Record transition (to_screen_id=None, will be patched by outer loop)
+            transition_id = await self.graph.add_transition(
+                from_screen_id=screen_id,
+                to_screen_id=None,
+                action_type=action_type,
+                element_id=element.get("id", ""),
+                action_detail=action_detail,
+            )
+            self._last_transition_id = transition_id
+            
+            # Log the action
+            await self.graph.log_action(
+                action_type=action_type,
+                screen_id=screen_id,
+                element_id=element.get("id", ""),
+                detail=reason,
+            )
+            
+            # Mark element as interacted
+            await self.graph.mark_element_interacted(
+                element.get("id", ""),
+                result=f"{action_type}ed at ({int(coords[0])},{int(coords[1])})",
+            )
+            
+            # Wait for screen to settle
+            await self._wait_for_screen_settle()
+            
+            # Take post-action screenshot and check if screen changed
+            post_screenshot = await self.mcp.take_screenshot()
+            if not post_screenshot:
+                continue
+            
+            self.current_screenshot = post_screenshot
+            
+            if not fast_compare_screenshots(pre_action_screenshot, post_screenshot, threshold=0.92):
+                # Screen changed! Break to outer loop to identify the new screen.
+                print(f"[EXPLORER] Screen changed after {action_type} → '{element.get('label', '')}'")
                 
-                # Wait for screen to settle
-                await asyncio.sleep(self.action_delay)
+                # Notify UI
+                await self.server.notify_action({
+                    "action": action_type,
+                    "screen": screen_name,
+                    "reason": f"Tapped {element.get('label', '')} — screen changed",
+                    "element": element,
+                    "timestamp": time.time(),
+                })
+                return  # outer loop will identify the new screen
             else:
-                print(f"[EXPLORER] Action failed")
+                # Same screen — the transition target is self (navigation didn't happen)
+                # Patch the transition to point back to the same screen
+                await self.graph.update_transition_target(transition_id, screen_id)
+                self._last_transition_id = None
                 
-        except Exception as e:
-            logger.error(f"Action execution error: {e}")
-            print(f"[ERROR] Action execution error: {e}")
+                # Notify UI
+                await self.server.notify_action({
+                    "action": action_type,
+                    "screen": screen_name,
+                    "reason": f"Tapped {element.get('label', '')} — same screen",
+                    "element": element,
+                    "timestamp": time.time(),
+                })
+        
+        # Max actions hit — mark explored and move on
+        if actions_this_screen >= max_actions_this_screen:
+            print(f"[EXPLORER] Max actions ({max_actions_this_screen}) on '{screen_name}' — moving on")
+            await self.graph.mark_screen_explored(screen_id)
+            await self._try_go_back()
     
     async def _try_go_back(self):
-        """Try to navigate back."""
+        """Navigate back, recording a 'back' transition in the graph."""
         try:
-            await self.mcp.press_back()
-            await asyncio.sleep(self.action_delay)
+            # Record the back-press transition (to_screen_id=None, patched by outer loop next iteration)
+            if self.current_screen_id:
+                transition_id = await self.graph.add_transition(
+                    from_screen_id=self.current_screen_id,
+                    to_screen_id=None,
+                    action_type="back",
+                    action_detail=json.dumps({"reason": "backtracking"}),
+                )
+                self._last_transition_id = transition_id
+            
+            success = await self.mcp.press_back()
+            if success:
+                self.total_actions += 1
+                await self._wait_for_screen_settle()
+            else:
+                print("[EXPLORER] Back press failed")
+                self._last_transition_id = None
         except Exception as e:
             print(f"[EXPLORER] Go back failed: {e}")
+            self._last_transition_id = None
     
+    async def _wait_for_screen_settle(self, max_polls: int = 5, poll_interval: float = 0.4):
+        """
+        Smart screen settling: poll screenshots until the UI stops changing.
+        
+        Instead of a fixed delay, this takes up to `max_polls` screenshots at
+        `poll_interval` intervals and compares consecutive ones. Once two
+        consecutive screenshots are similar (>97%), the screen is considered settled.
+        
+        Worst-case time: max_polls * poll_interval = 2.0s
+        """
+        prev_screenshot = None
+        for i in range(max_polls):
+            await asyncio.sleep(poll_interval)
+            try:
+                current = await self.mcp.take_screenshot()
+                if current and prev_screenshot:
+                    if fast_compare_screenshots(prev_screenshot, current, threshold=0.97):
+                        return  # UI has settled
+                prev_screenshot = current
+            except Exception:
+                await asyncio.sleep(self.action_delay)
+                return
+        # Max polls reached — proceed anyway
+
     async def _finish_managed(self):
         """Cleanup for managed mode."""
         duration = time.time() - (self.exploration_start_time or time.time())
         try:
             screen_count = await self.graph.get_screen_count() if self.graph else 0
-            print(f"[EXPLORER] Exploration complete! {screen_count} screens found in {duration:.1f}s")
+            transition_count = await self.graph.get_transition_count() if self.graph else 0
+            print(f"[EXPLORER] Exploration complete! {screen_count} screens, {transition_count} transitions in {duration:.1f}s")
+            print(f"[EXPLORER] Cache hits: exact={self.cache_hits['exact']}, similar={self.cache_hits['similar']}, AI calls={self.ai_calls}")
             
             if self.server:
                 await self.server.update_status(
                     state="idle",
-                    message=f"🏁 Exploration complete: {screen_count} screens found",
-                    total_screens=screen_count
+                    message=f"🏁 Complete: {screen_count} screens, {transition_count} transitions",
+                    total_screens=screen_count,
+                    total_transitions=transition_count,
+                    total_actions=self.total_actions,
                 )
-        except Exception:
-            # Silently ignore errors during shutdown counters
-            pass
+            
+            # Auto-cluster screens at the end
+            if self.graph:
+                await self.graph.auto_cluster_screens()
+        except Exception as e:
+            print(f"[EXPLORER] Shutdown stats error (non-fatal): {e}")
             
         # Ensure MCP is disconnected
         try:
@@ -396,8 +587,17 @@ class Explorer:
                 await self.mcp.disconnect()
         except Exception:
             pass
-        await self.graph.close()
-        await self.screen_cache.close()
+        
+        try:
+            await self.graph.close()
+        except Exception:
+            pass
+        
+        # ScreenCache is synchronous, no await needed
+        try:
+            self.screen_cache._save_index()
+        except Exception:
+            pass
 
     async def _exploration_loop(self):
         """Main exploration loop with smart caching."""
@@ -557,14 +757,8 @@ class Explorer:
                 confidence=el.get("confidence", 1.0),
             )
 
-        # Record transition from previous screen
+        # Notify UI about the transition (the actual DB transition is handled by the outer loop)
         if self.current_screen_id and self.current_screen_id != screen_id:
-            await self.graph.add_transition(
-                from_screen_id=self.current_screen_id,
-                to_screen_id=screen_id,
-                action_type="navigate",
-                action_detail=f"Discovered: {name}",
-            )
             await self.server.notify_new_transition({
                 "from": self.current_screen_id,
                 "to": screen_id,

@@ -81,6 +81,22 @@ export async function agentStop() {
   return postJSON('/agent/stop', {});
 }
 
+export async function getLiveScreenshot() {
+  return fetchJSON('/live-screenshot');
+}
+
+export async function exportStory(storyId, format) {
+  return postJSON(`/stories/${storyId}/export/${format}`, {});
+}
+
+export function getExportDownloadUrl(format) {
+  return `${API_BASE}/export/${format}/download`;
+}
+
+export async function getGraphStats() {
+  return fetchJSON('/graph/stats');
+}
+
 // ── WebSocket ────────────────────────────────────────────────────────
 
 export function connectWebSocket(onMessage) {

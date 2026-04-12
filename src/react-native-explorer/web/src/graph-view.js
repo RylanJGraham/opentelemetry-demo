@@ -81,6 +81,16 @@ export async function refreshGraph() {
            n.y = (h/2) + (Math.random() - 0.5) * h * 0.8;
        }
     });
+
+    // 🔧 Fix: Normalize edge source/target to string IDs (D3 mutates them to objects after rendering)
+    data.edges = (data.edges || [])
+      .filter(e => e.source && e.target)  // Remove orphan transitions (null targets)
+      .map(e => ({
+        ...e,
+        source: typeof e.source === 'object' ? e.source.id : e.source,
+        target: typeof e.target === 'object' ? e.target.id : e.target,
+      }));
+
     currentData = data;
     renderGraph(data);
   } catch (e) {
@@ -114,13 +124,18 @@ function renderGraph(data) {
   const width = container.clientWidth;
   const height = container.clientHeight;
 
+  const validIds = new Set(nodes.map((n) => n.id));
+  const validEdges = edges
+    .filter((e) => validIds.has(e.source) && validIds.has(e.target))
+    .map((e) => ({ ...e })); // Map to new objects so D3 can mutate them safely
+
   // Clear previous
   graphGroup.selectAll('*').remove();
 
   // Links
   const link = graphGroup.append('g')
     .selectAll('line')
-    .data(edges)
+    .data(validEdges)
     .join('line')
     .attr('class', 'edge-line')
     .attr('marker-end', 'url(#arrow)');
@@ -128,7 +143,7 @@ function renderGraph(data) {
   // Edge labels
   const edgeLabels = graphGroup.append('g')
     .selectAll('text')
-    .data(edges)
+    .data(validEdges)
     .join('text')
     .attr('class', 'edge-label')
     .text((d) => d.action_type || '');
@@ -204,28 +219,30 @@ function renderGraph(data) {
     .text((d) => d.element_count ? `${d.element_count} el` : '');
 
   // Update simulation
-  const validIds = new Set(nodes.map(n => n.id));
-  const validEdges = edges.filter(e => validIds.has(e.source) && validIds.has(e.target));
-
   simulation.nodes(nodes);
-  simulation.force('link').links(validEdges.map((e) => ({
-    source: e.source,
-    target: e.target,
-  })));
+  simulation.force('link').links(validEdges);
   simulation.alpha(0.8).restart();
 
   simulation.on('tick', () => {
     link
-      .attr('x1', (d) => d.source.x)
-      .attr('y1', (d) => d.source.y)
-      .attr('x2', (d) => d.target.x)
-      .attr('y2', (d) => d.target.y);
+      .attr('x1', (d) => (d.source && d.source.x) ? d.source.x : 0)
+      .attr('y1', (d) => (d.source && d.source.y) ? d.source.y : 0)
+      .attr('x2', (d) => (d.target && d.target.x) ? d.target.x : 0)
+      .attr('y2', (d) => (d.target && d.target.y) ? d.target.y : 0);
 
     edgeLabels
-      .attr('x', (d) => (d.source.x + d.target.x) / 2)
-      .attr('y', (d) => (d.source.y + d.target.y) / 2);
+      .attr('x', (d) => {
+        const sx = (d.source && d.source.x) ? d.source.x : 0;
+        const tx = (d.target && d.target.x) ? d.target.x : 0;
+        return (sx + tx) / 2;
+      })
+      .attr('y', (d) => {
+        const sy = (d.source && d.source.y) ? d.source.y : 0;
+        const ty = (d.target && d.target.y) ? d.target.y : 0;
+        return (sy + ty) / 2;
+      });
 
-    node.attr('transform', (d) => `translate(${d.x},${d.y})`);
+    node.attr('transform', (d) => `translate(${d.x || 0},${d.y || 0})`);
   });
 }
 

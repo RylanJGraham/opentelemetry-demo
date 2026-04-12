@@ -87,12 +87,21 @@ class ExplorerServer:
             ("POST", "/api/stories/{story_id}/steps", self._handle_add_story_step),
             ("POST", "/api/stories/{story_id}/export/{format}", self._handle_export_story),
             ("POST", "/api/stories/generate-from-path", self._handle_generate_story_from_path),
+            ("POST", "/api/stories/auto-generate", self._handle_auto_generate_stories),
             
-            # Exports
+            # Exports (JSON-wrapped)
             ("GET", "/api/export/detox", self._handle_export_detox),
             ("GET", "/api/export/maestro", self._handle_export_maestro),
             ("GET", "/api/export/appium", self._handle_export_appium),
             ("GET", "/api/export/full", self._handle_export_full),
+            
+            # Exports (Direct file download)
+            ("GET", "/api/export/detox/download", self._handle_download_detox),
+            ("GET", "/api/export/maestro/download", self._handle_download_maestro),
+            ("GET", "/api/export/appium/download", self._handle_download_appium),
+            
+            # Live emulator screenshot
+            ("GET", "/api/live-screenshot", self._handle_live_screenshot),
             
             # Storage Management
             ("DELETE", "/api/storage", self._handle_clear_storage),
@@ -443,6 +452,64 @@ class ExplorerServer:
             logger.exception("Failed to generate story")
             return web.json_response({"error": str(e)}, status=400)
 
+    async def _handle_auto_generate_stories(self, request: web.Request) -> web.Response:
+        """POST /api/stories/auto-generate — Use AI to auto-generate Given/When/Then stories from the graph."""
+        if not self.explorer or not self.explorer.vision:
+            return web.json_response({"error": "Explorer/vision not available"}, status=503)
+        
+        try:
+            # Get all screens and transitions from the graph
+            all_screens = await self.graph.get_all_screens()
+            if len(all_screens) < 2:
+                return web.json_response({"error": "Need at least 2 screens to generate stories"}, status=400)
+            
+            # Collect transitions
+            all_transitions = []
+            for screen in all_screens:
+                transitions = await self.graph.get_transitions_from(screen["id"])
+                all_transitions.extend(transitions)
+            
+            # Use AI to generate stories
+            story_data = await self.explorer.vision.generate_story_from_screens(
+                all_screens, all_transitions
+            )
+            
+            if not story_data or not story_data.get("name"):
+                return web.json_response({"error": "Story generation returned empty result"}, status=500)
+            
+            # Save to database
+            from .utils import generate_story_id
+            story_id = generate_story_id()
+            
+            await self.graph.create_story(
+                story_id=story_id,
+                name=story_data.get("name", "Auto-generated Story"),
+                description=story_data.get("description", ""),
+                tags=story_data.get("tags", ["auto", "ai-generated"]),
+            )
+            
+            # Add steps
+            for step in story_data.get("steps", []):
+                await self.graph.add_story_step(
+                    story_id=story_id,
+                    step_number=step.get("step_number", 0),
+                    action_type=step.get("action_type", "navigate"),
+                    screen_id=step.get("screen_id", ""),
+                    element_id=step.get("element_id", ""),
+                    assertion=step.get("assertion", ""),
+                    data=step,
+                )
+            
+            return web.json_response({
+                "id": story_id,
+                "story": story_data,
+                "status": "created",
+            }, status=201)
+            
+        except Exception as e:
+            logger.exception("Auto story generation failed")
+            return web.json_response({"error": str(e)}, status=500)
+
     # ── Export handlers ──────────────────────────────────────────────
 
     async def _handle_export_story(self, request: web.Request) -> web.Response:
@@ -507,6 +574,58 @@ class ExplorerServer:
         """GET /api/export/full — Export complete exploration data."""
         data = await self.graph.export_for_e2e()
         return web.json_response(data)
+
+    async def _handle_download_detox(self, request: web.Request) -> web.Response:
+        """GET /api/export/detox/download — Download Detox test file."""
+        stories = await self.graph.get_stories()
+        from .exporters import export_to_detox
+        content = export_to_detox(stories)
+        return web.Response(
+            text=content,
+            content_type='application/javascript',
+            headers={'Content-Disposition': 'attachment; filename="e2e.test.js"'},
+        )
+
+    async def _handle_download_maestro(self, request: web.Request) -> web.Response:
+        """GET /api/export/maestro/download — Download Maestro flow file."""
+        stories = await self.graph.get_stories()
+        from .exporters import export_to_maestro
+        flows = export_to_maestro(stories)
+        # Concatenate all flows into one YAML
+        import yaml
+        content = ''
+        for name, flow_yaml in flows.items():
+            content += f"# === Flow: {name} ===\n{flow_yaml}\n\n"
+        return web.Response(
+            text=content,
+            content_type='application/x-yaml',
+            headers={'Content-Disposition': 'attachment; filename="flows.yaml"'},
+        )
+
+    async def _handle_download_appium(self, request: web.Request) -> web.Response:
+        """GET /api/export/appium/download — Download Appium test file."""
+        stories = await self.graph.get_stories()
+        from .exporters import export_to_appium
+        content = export_to_appium(stories)
+        return web.Response(
+            text=content,
+            content_type='text/x-python',
+            headers={'Content-Disposition': 'attachment; filename="test_appium.py"'},
+        )
+
+    async def _handle_live_screenshot(self, request: web.Request) -> web.Response:
+        """GET /api/live-screenshot — Get a live screenshot from the emulator."""
+        if not self.explorer or not self.explorer.mcp or not self.explorer.mcp.is_connected:
+            return web.json_response({"error": "Emulator not connected"}, status=503)
+        try:
+            screenshot = await self.explorer.mcp.take_screenshot()
+            if screenshot:
+                import base64
+                b64 = base64.b64encode(screenshot).decode('utf-8')
+                return web.json_response({"image": f"data:image/png;base64,{b64}"})
+            return web.json_response({"error": "Screenshot failed"}, status=500)
+        except Exception as e:
+            return web.json_response({"error": str(e)}, status=500)
 
     async def _handle_export_zip(self, request: web.Request) -> web.Response:
         """GET /api/export/zip — Export all data as ZIP."""

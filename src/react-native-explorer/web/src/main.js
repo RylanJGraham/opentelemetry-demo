@@ -2,7 +2,7 @@
  * Main entry point — App initialization, view routing, WebSocket handling.
  */
 
-import { connectWebSocket, getStatus, clearStorage, agentStart, agentPause, agentStop } from './api.js';
+import { connectWebSocket, getStatus, clearStorage, agentStart, agentPause, agentStop, getLiveScreenshot } from './api.js';
 import { initGraphView, refreshGraph, addNode, addEdge } from './graph-view.js';
 import { initGalleryView, refreshGallery, addScreenToGallery } from './gallery-view.js';
 import { initStoryBuilder, refreshStories, refreshPickerScreens } from './story-builder.js';
@@ -58,6 +58,13 @@ function updateStatusUI(status) {
   if (btnStart) btnStart.classList.toggle('active', state === 'exploring');
   if (btnPause) btnPause.classList.toggle('active', state === 'paused');
   if (btnStop) btnStop.disabled = (state === 'idle');
+
+  // Control live screenshot polling based on agent state
+  if (state === 'exploring' || state === 'connecting') {
+    startLiveScreenshot();
+  } else if (state === 'idle' || state === 'complete') {
+    stopLiveScreenshot();
+  }
 
   // Update stats
   if (status.total_screens !== undefined) {
@@ -246,6 +253,37 @@ function init() {
   }, 10000);
 
   console.log('🔍 React Native Explorer UI initialized');
+}
+
+// ── Live Screenshot Polling ──────────────────────────────────────────
+
+let liveScreenshotInterval = null;
+
+function startLiveScreenshot() {
+  if (liveScreenshotInterval) return;
+  liveScreenshotInterval = setInterval(async () => {
+    try {
+      const result = await getLiveScreenshot();
+      if (result && result.image) {
+        const img = document.getElementById('live-screenshot-img');
+        const placeholder = document.getElementById('live-placeholder');
+        if (img) {
+          img.src = result.image;
+          img.style.display = 'block';
+        }
+        if (placeholder) placeholder.style.display = 'none';
+      }
+    } catch {
+      // Emulator not connected yet — keep placeholder
+    }
+  }, 3000);
+}
+
+function stopLiveScreenshot() {
+  if (liveScreenshotInterval) {
+    clearInterval(liveScreenshotInterval);
+    liveScreenshotInterval = null;
+  }
 }
 
 // Start
