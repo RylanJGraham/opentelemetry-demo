@@ -19,6 +19,23 @@ const MOCK_REVIEWS = [
   { id: 3, user: "Lisa T.", rating: 5, date: "2026-02-10", text: "Bought as a gift and they loved it! Will buy again.", verified: true },
 ];
 
+const SAMPLE_IMAGES = [
+  "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1628126235206-5260b9ea6441?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1610296669228-602fa827fc1f?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1635322966219-b75ed372fba1?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?q=80&w=800&auto=format&fit=crop"
+];
+
+function getAwesomeImage(id: string | undefined) {
+  if (!id) return SAMPLE_IMAGES[0];
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) hash += id.charCodeAt(i);
+  return SAMPLE_IMAGES[hash % SAMPLE_IMAGES.length];
+}
+
 export default function ProductDetails() {
   const { id } = useLocalSearchParams();
   const productId = Array.isArray(id) ? id[0] : id;
@@ -90,7 +107,7 @@ export default function ProductDetails() {
         {/* Product Image */}
         <View style={styles.imageContainer}>
           <Image 
-            source={{ uri: product.picture }} 
+            source={{ uri: getAwesomeImage(product.id) }} 
             style={styles.image}
             resizeMode="cover"
           />

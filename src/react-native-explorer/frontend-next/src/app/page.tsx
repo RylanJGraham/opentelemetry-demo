@@ -6,6 +6,7 @@ import { LayoutDashboard, Image as ImageIcon, BookOpen, Activity } from 'lucide-
 import GraphView from '@/components/views/GraphView';
 import GalleryView from '@/components/views/GalleryView';
 import Sidebar from '@/components/views/Sidebar';
+import StoryBuilder from '@/components/views/StoryBuilder';
 import NodeInspector from '@/components/views/NodeInspector';
 
 export default function Dashboard() {
@@ -69,7 +70,7 @@ export default function Dashboard() {
         <main className="flex-1 p-6 overflow-hidden relative">
           {activeTab === 'graph' && <GraphView data={graph} onNodeSelect={setSelectedNodeId} />}
           {activeTab === 'gallery' && <GalleryView data={graph} onNodeSelect={setSelectedNodeId} />}
-          {activeTab === 'stories' && <div className="flex items-center justify-center h-full text-slate-500">Story builder porting in next phase...</div>}
+          {activeTab === 'stories' && <StoryBuilder data={graph} />}
         </main>
       </div>
 

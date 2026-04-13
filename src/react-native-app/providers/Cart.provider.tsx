@@ -48,26 +48,32 @@ const CartProvider = ({ children }: IProps) => {
     [queryClient],
   );
 
-  const { data: cart = { userId: "", items: [] }, isLoading } = useQuery(
-    ["cart", selectedCurrency],
-    () => ApiGateway.getCart(selectedCurrency),
-  );
+  const { data: cart = { userId: "", items: [] }, isLoading } = useQuery({
+    queryKey: ["cart", selectedCurrency],
+    queryFn: () => ApiGateway.getCart(selectedCurrency),
+  });
   
-  const addCartMutation = useMutation(ApiGateway.addCartItem, mutationOptions);
-  const updateCartMutation = useMutation(
-    ({ productId, quantity }: { productId: string; quantity: number }) =>
+  const addCartMutation = useMutation({
+    mutationFn: ApiGateway.addCartItem, 
+    ...mutationOptions
+  });
+  const updateCartMutation = useMutation({
+    mutationFn: ({ productId, quantity }: { productId: string; quantity: number }) =>
       ApiGateway.updateCartItem(productId, quantity, selectedCurrency),
-    mutationOptions
-  );
-  const removeCartMutation = useMutation(
-    (productId: string) => ApiGateway.removeCartItem(productId, selectedCurrency),
-    mutationOptions
-  );
-  const emptyCartMutation = useMutation(ApiGateway.emptyCart, mutationOptions);
-  const placeOrderMutation = useMutation(
-    ApiGateway.placeOrder,
-    mutationOptions
-  );
+    ...mutationOptions
+  });
+  const removeCartMutation = useMutation({
+    mutationFn: (productId: string) => ApiGateway.removeCartItem(productId, selectedCurrency),
+    ...mutationOptions
+  });
+  const emptyCartMutation = useMutation({
+    mutationFn: ApiGateway.emptyCart, 
+    ...mutationOptions
+  });
+  const placeOrderMutation = useMutation({
+    mutationFn: ApiGateway.placeOrder,
+    ...mutationOptions
+  });
 
   const addItem = useCallback(
     (item: CartItem) =>

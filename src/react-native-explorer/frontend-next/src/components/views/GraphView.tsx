@@ -33,9 +33,9 @@ export default function GraphView({ data, onNodeSelect }: { data: GraphData, onN
     });
 
     if (graphRef.current) {
-      // Adjusted node spacing
-      graphRef.current.d3Force('charge').strength(-1000);
-      graphRef.current.d3Force('link').distance(250);
+      // Clustered node spacing (less repulsion, shorter links)
+      graphRef.current.d3Force('charge').strength(-150);
+      graphRef.current.d3Force('link').distance(80);
       graphRef.current.d3ReheatSimulation();
     }
   }, [data]);
@@ -160,7 +160,6 @@ export default function GraphView({ data, onNodeSelect }: { data: GraphData, onN
           linkWidth={4}
           linkDirectionalArrowLength={12}
           linkDirectionalArrowRelPos={1}
-          dagLevelDistance={200}
           cooldownTicks={100}
         />
       )}
